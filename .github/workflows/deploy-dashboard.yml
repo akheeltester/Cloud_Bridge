@@ -21,8 +21,6 @@ jobs:
   build:
     name: Build Dashboard
     runs-on: ubuntu-latest
-    # Only run when dashboard directory exists and has a package.json
-    if: ${{ hashFiles('dashboard/package.json') != '' }}
     defaults:
       run:
         working-directory: dashboard
