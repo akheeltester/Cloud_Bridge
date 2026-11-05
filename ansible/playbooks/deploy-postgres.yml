@@ -1,0 +1,99 @@
+---
+# CloudBridge — PostgreSQL deployment playbook
+# Target: customer-a-database (192.168.56.31)
+#
+# Usage:
+#   ansible-playbook -i inventory/customer-a.ini playbooks/deploy-postgres.yml \
+#     --ask-vault-pass
+#
+# Requires: ansible-vault encrypted vars for db password
+# Create vault: ansible-vault create group_vars/customer_a_all/vault.yml
+
+- name: Deploy and configure PostgreSQL
+  hosts: customer_a_databases
+  become: true
+  gather_facts: true
+
+  vars:
+    postgresql_version: "14"
+    postgresql_port: 5432
+    postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
+    postgresql_log_dir: "/var/log/postgresql"
+
+  tasks:
+    - name: Install PostgreSQL {{ postgresql_version }}
+      ansible.builtin.apt:
+        name:
+          - "postgresql-{{ postgresql_version }}"
+          - "postgresql-client-{{ postgresql_version }}"
+          - python3-psycopg2
+        state: present
+        update_cache: true
+      tags: [install]
+
+    - name: Ensure PostgreSQL is running
+      ansible.builtin.service:
+        name: postgresql
+        state: started
+        enabled: true
+      tags: [service]
+
+    - name: Configure PostgreSQL to listen on localhost only
+      ansible.builtin.lineinfile:
+        path: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+        regexp: "^#?listen_addresses"
+        line: "listen_addresses = '127.0.0.1'"
+        backup: true
+      notify: Restart PostgreSQL
+      tags: [config]
+
+    - name: Configure PostgreSQL logging
+      ansible.builtin.blockinfile:
+        path: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+        marker: "# {mark} CLOUDBRIDGE LOGGING CONFIG"
+        block: |
+          log_connections = on
+          log_disconnections = on
+          log_duration = off
+          log_line_prefix = '%m [%p] %q%u@%d '
+          log_statement = 'ddl'
+      notify: Restart PostgreSQL
+      tags: [config, logging]
+
+    - name: Create application database
+      community.postgresql.postgresql_db:
+        name: "{{ postgresql_db_name }}"
+        state: present
+      become_user: postgres
+      tags: [database]
+
+    - name: Create application user
+      community.postgresql.postgresql_user:
+        name: "{{ postgresql_db_user }}"
+        # password: "{{ vault_postgresql_db_password }}"  # loaded from vault
+        db: "{{ postgresql_db_name }}"
+        priv: "ALL"
+        state: present
+      become_user: postgres
+      tags: [database]
+
+    - name: Configure UFW — allow PostgreSQL from app server
+      community.general.ufw:
+        rule: allow
+        src: "192.168.56.30"
+        port: "{{ postgresql_port }}"
+        proto: tcp
+        comment: "PostgreSQL from app server"
+      tags: [firewall]
+
+    - name: Verify PostgreSQL is accepting connections
+      community.postgresql.postgresql_ping:
+        db: postgres
+      become_user: postgres
+      tags: [verify]
+
+  handlers:
+    - name: Restart PostgreSQL
+      ansible.builtin.service:
+        name: postgresql
+        state: restarted

@@ -1,0 +1,29 @@
+---
+# CloudBridge — Customer A group variables
+# Do NOT store secrets here. Use ansible-vault for sensitive values.
+
+# Customer metadata
+customer_name: "ACME Technologies"
+customer_id: "customer-a"
+environment: "lab"
+
+# PostgreSQL (customer-a-database)
+postgresql_version: "14"
+postgresql_port: 5432
+# Database name and user — NOT passwords (vault only)
+postgresql_db_name: "acme_app"
+postgresql_db_user: "acme_user"
+# postgresql_db_password: stored in vault — never in plaintext
+
+# Application server
+app_port: 8080
+app_name: "acme-app"
+
+# Samba file share
+samba_share_name: "acme_files"
+samba_share_path: "/srv/shares/acme"
+
+# SSH hardening
+ssh_port: 22
+ssh_permit_root_login: "no"
+ssh_password_auth: "no"

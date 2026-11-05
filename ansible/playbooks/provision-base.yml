@@ -1,0 +1,136 @@
+---
+# CloudBridge — Base provisioning playbook
+# Applies to all customer VMs
+#
+# Usage: ansible-playbook -i inventory/customer-a.ini playbooks/provision-base.yml
+#
+# What this does:
+#   - Updates system packages
+#   - Configures basic SSH hardening
+#   - Installs common utilities
+#   - Configures NTP
+#   - Configures firewall (UFW)
+#   - Creates cloudbridge admin user
+
+- name: Provision base OS configuration
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars:
+    admin_user: "cloudbridge"
+    # admin_ssh_pub_key: loaded from vault or passed as --extra-vars
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+      tags: [packages]
+
+    - name: Upgrade all packages
+      ansible.builtin.apt:
+        upgrade: safe
+      tags: [packages]
+
+    - name: Install common utilities
+      ansible.builtin.apt:
+        name:
+          - curl
+          - wget
+          - git
+          - htop
+          - net-tools
+          - nmap
+          - tcpdump
+          - unzip
+          - jq
+          - python3
+          - python3-pip
+          - ufw
+          - fail2ban
+          - auditd
+        state: present
+      tags: [packages]
+
+    - name: Configure UFW — default deny inbound
+      community.general.ufw:
+        state: enabled
+        policy: deny
+        direction: incoming
+      tags: [firewall]
+
+    - name: Configure UFW — allow SSH
+      community.general.ufw:
+        rule: allow
+        port: "22"
+        proto: tcp
+        comment: "SSH management"
+      tags: [firewall]
+
+    - name: Configure UFW — allow outbound
+      community.general.ufw:
+        state: enabled
+        policy: allow
+        direction: outgoing
+      tags: [firewall]
+
+    - name: Harden SSH — disable root login
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PermitRootLogin'
+        line: 'PermitRootLogin no'
+        backup: true
+      notify: Restart SSH
+      tags: [ssh]
+
+    - name: Harden SSH — disable password authentication
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PasswordAuthentication'
+        line: 'PasswordAuthentication no'
+      notify: Restart SSH
+      tags: [ssh]
+
+    - name: Harden SSH — set login grace time
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?LoginGraceTime'
+        line: 'LoginGraceTime 30'
+      notify: Restart SSH
+      tags: [ssh]
+
+    - name: Configure fail2ban
+      ansible.builtin.service:
+        name: fail2ban
+        state: started
+        enabled: true
+      tags: [security]
+
+    - name: Enable auditd
+      ansible.builtin.service:
+        name: auditd
+        state: started
+        enabled: true
+      tags: [security]
+
+    - name: Create CloudBridge admin user
+      ansible.builtin.user:
+        name: "{{ admin_user }}"
+        shell: /bin/bash
+        groups: sudo
+        append: true
+        create_home: true
+        comment: "CloudBridge lab admin"
+      tags: [users]
+
+    - name: Set hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+      tags: [system]
+
+  handlers:
+    - name: Restart SSH
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
