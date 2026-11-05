@@ -21,9 +21,9 @@ Clear description of the problem.
 
 ## Steps to Reproduce
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Expected Behaviour
 
@@ -35,9 +35,9 @@ What actually happens. Include error messages or command output.
 
 ## Environment
 
-- Phase: 
-- OS: 
-- Tool version: 
+- Phase:
+- OS:
+- Tool version:
 
 ## Security Note
 
