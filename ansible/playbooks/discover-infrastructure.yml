@@ -1,0 +1,83 @@
+---
+# CloudBridge — Infrastructure Discovery Playbook
+# Phase 4: Collect asset facts from all customer hosts
+#
+# Usage:
+#   ansible-playbook -i inventory/customer-a.ini playbooks/discover-infrastructure.yml
+#
+# Output: JSON fact files written to migration/discovery/customer-a/
+
+- name: Discover and inventory infrastructure
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars:
+    discovery_output_dir: "{{ playbook_dir }}/../migration/discovery/{{ customer_id }}"
+    discovery_timestamp: "{{ ansible_date_time.iso8601 }}"
+
+  tasks:
+    - name: Ensure discovery output directory exists (local)
+      ansible.builtin.file:
+        path: "{{ discovery_output_dir }}"
+        state: directory
+        mode: '0755'
+      delegate_to: localhost
+      run_once: false
+      tags: [always]
+
+    - name: Collect running services
+      ansible.builtin.service_facts:
+      tags: [services]
+
+    - name: Collect open ports
+      ansible.builtin.shell:
+        cmd: "ss -tlnp | tail -n +2"
+      register: open_ports
+      changed_when: false
+      tags: [network]
+
+    - name: Collect disk usage
+      ansible.builtin.shell:
+        cmd: "df -h --output=source,fstype,size,used,avail,pcent,target | tail -n +2"
+      register: disk_usage
+      changed_when: false
+      tags: [storage]
+
+    - name: Collect installed packages (top 50 by name)
+      ansible.builtin.shell:
+        cmd: "dpkg-query -W -f='${Package} ${Version}\n' | head -50"
+      register: installed_packages
+      changed_when: false
+      tags: [packages]
+
+    - name: Write asset discovery JSON
+      ansible.builtin.copy:
+        dest: "{{ discovery_output_dir }}/{{ inventory_hostname }}-discovery.json"
+        content: |
+          {
+            "hostname": "{{ inventory_hostname }}",
+            "ip": "{{ ansible_default_ipv4.address | default(ansible_host) }}",
+            "collected_at": "{{ discovery_timestamp }}",
+            "os": {
+              "family": "{{ ansible_os_family }}",
+              "distribution": "{{ ansible_distribution }}",
+              "version": "{{ ansible_distribution_version }}",
+              "kernel": "{{ ansible_kernel }}"
+            },
+            "hardware": {
+              "cpu_cores": {{ ansible_processor_vcpus | default(1) }},
+              "memory_mb": {{ ansible_memtotal_mb | default(0) }},
+              "architecture": "{{ ansible_architecture }}"
+            },
+            "customer": "{{ customer_id }}",
+            "environment": "{{ environment }}"
+          }
+        mode: '0644'
+      delegate_to: localhost
+      tags: [output]
+
+  post_tasks:
+    - name: Discovery complete
+      ansible.builtin.debug:
+        msg: "Discovery complete for {{ inventory_hostname }} — output in {{ discovery_output_dir }}"
