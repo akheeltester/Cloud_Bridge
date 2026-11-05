@@ -1,0 +1,143 @@
+# =============================================================================
+# CloudBridge — .gitignore
+# CRITICAL: This is a public repository. Review before every commit.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Terraform — NEVER commit state or variable overrides with secrets
+# ---------------------------------------------------------------------------
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+*.auto.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+crash.log
+crash.*.log
+
+# ---------------------------------------------------------------------------
+# Credentials and secrets — absolute hard block
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+credentials
+*.pem
+*.key
+*.p12
+*.pfx
+*.pkcs12
+*_rsa
+*_rsa.pub
+*_dsa
+*_dsa.pub
+*_ecdsa
+*_ecdsa.pub
+*_ed25519
+*_ed25519.pub
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*.crt
+*.cert
+
+# ---------------------------------------------------------------------------
+# AWS-specific
+# ---------------------------------------------------------------------------
+.aws/credentials
+aws-exports.js
+amplify/
+
+# ---------------------------------------------------------------------------
+# Ansible sensitive files
+# ---------------------------------------------------------------------------
+ansible/vault_password
+ansible/*.vault
+*vault*.yml
+group_vars/*/vault.yml
+host_vars/*/vault.yml
+
+# ---------------------------------------------------------------------------
+# Logs and scan outputs that may contain sensitive data
+# ---------------------------------------------------------------------------
+*.log
+logs/
+prowler-output/
+*.prowler
+checkov-output/
+trivy-output/
+scan-results/
+*.sarif
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# ---------------------------------------------------------------------------
+# Node.js / Dashboard
+# ---------------------------------------------------------------------------
+node_modules/
+dist/
+.cache/
+*.local
+
+# ---------------------------------------------------------------------------
+# OS artifacts
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/settings.json
+.vscode/*.code-workspace
+
+# ---------------------------------------------------------------------------
+# Database dumps
+# ---------------------------------------------------------------------------
+*.sql.gz
+*.dump
+*.bak
+
+# ---------------------------------------------------------------------------
+# Wazuh / Splunk outputs that may contain event data
+# ---------------------------------------------------------------------------
+soc/wazuh/logs/
+soc/splunk/data/
+
+# ---------------------------------------------------------------------------
+# Migration reports may contain internal IP / hostnames — sanitize first
+# ---------------------------------------------------------------------------
+migration/reports/*.raw
+migration/discovery/*.raw
+
+# ---------------------------------------------------------------------------
+# Temporary files
+# ---------------------------------------------------------------------------
+tmp/
+temp/
+*.tmp
+*.temp
