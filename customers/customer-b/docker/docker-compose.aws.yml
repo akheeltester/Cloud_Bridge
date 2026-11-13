@@ -1,0 +1,9 @@
+services:
+  app:
+    environment:
+      S3_ENDPOINT_URL: ""
+      S3_BUCKET_NAME: ${S3_BUCKET_NAME:?err_s3_bucket_name_required}
+      S3_REGION: ${AWS_REGION:?err_aws_region_required}
+      S3_ACCESS_KEY: ""
+      S3_SECRET_KEY: ""
+      S3_AUTO_CREATE_BUCKET: "false"

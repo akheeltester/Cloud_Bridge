@@ -52,7 +52,7 @@ class ApiTests(unittest.TestCase):
             {
                 "api": "healthy",
                 "postgresql": "healthy",
-                "minio": "healthy",
+                "object_storage": "healthy",
             },
         )
 
@@ -73,7 +73,9 @@ class ApiTests(unittest.TestCase):
             database_response.json()["components"]["postgresql"], "unavailable"
         )
         self.assertEqual(storage_response.status_code, 503)
-        self.assertEqual(storage_response.json()["components"]["minio"], "unavailable")
+        self.assertEqual(
+            storage_response.json()["components"]["object_storage"], "unavailable"
+        )
 
     def test_product_and_order_endpoints_return_database_rows(self):
         connection = MagicMock()
