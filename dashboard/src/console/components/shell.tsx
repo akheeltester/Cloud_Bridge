@@ -180,9 +180,13 @@ export function Shell({ children }: { children: ReactNode }) {
             {navOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
           <Link to="/" className="flex min-w-0 items-center gap-2" onClick={() => setNavOpen(false)}>
-            <span className="grid size-7 place-items-center rounded-chip bg-spruce text-sheet" aria-hidden="true">
-              <Shield className="size-4" />
-            </span>
+            <img
+              src={`${import.meta.env.BASE_URL}favicon.svg`}
+              alt=""
+              className="size-8 rounded-chip"
+              width="32"
+              height="32"
+            />
             <span className="truncate text-sm font-semibold">CloudBridge</span>
           </Link>
           <div className="order-last w-full lg:order-none lg:mx-auto lg:max-w-xl lg:flex-1">{searchBox}</div>
