@@ -91,6 +91,31 @@ export function OverviewPage() {
       </div>
 
       <Panel className="mb-3">
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+          <img
+            src={`${import.meta.env.BASE_URL}cloud-bridge-logo.svg`}
+            alt="Cloud-Bridge logo"
+            className="w-24 shrink-0 rounded-panel"
+            width="300"
+            height="300"
+          />
+          <div>
+            <h2 className="text-base font-semibold">About CloudBridge</h2>
+            <p className="mt-1 font-semibold text-spruce-ink">
+              Bridging infrastructure to the cloud, securely and confidently.
+            </p>
+            <p className="mt-2 max-w-4xl text-sm leading-relaxed text-ink-soft">
+              CloudBridge is a cloud engineering project exploring how organizations can plan and modernize
+              infrastructure for the cloud. It brings together migration roadmaps, infrastructure automation,
+              security practices, and hands-on AWS deployments—with a foundation for expanding into multi-cloud.
+              Through practical labs and clearly documented demonstrations, CloudBridge makes each step easier to
+              understand, validate, and improve.
+            </p>
+          </div>
+        </div>
+      </Panel>
+
+      <Panel className="mb-3">
         <div className="mb-3 flex items-baseline justify-between gap-3">
           <h2 className="text-base font-semibold">Incidents</h2>
           <Link to="/security" className="text-sm font-semibold text-spruce">
