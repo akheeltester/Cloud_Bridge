@@ -138,7 +138,7 @@
           <p class="health-detail" id="database-health-detail">Waiting for health check</p>
         </article>
         <article class="card health-card">
-          <div class="health-name">MinIO object storage</div>
+          <div class="health-name">Private object storage</div>
           <div class="health-value" id="storage-health" data-state="checking" role="status" aria-live="polite">
             <span class="health-dot" aria-hidden="true"></span><span class="health-text">Checking</span>
           </div>
@@ -183,7 +183,7 @@
       <div class="section-heading">
         <div>
           <h2 id="uploads-heading">Private file uploads</h2>
-          <p class="section-hint">Files are stored in the local MinIO simulation.</p>
+          <p class="section-hint">Files are stored in private object storage.</p>
         </div>
       </div>
       <div class="upload-body">
@@ -206,8 +206,8 @@
       <div class="info-grid">
         <div class="info-item"><span class="info-label">Customer</span><span class="info-value">BluePeak Solutions</span></div>
         <div class="info-item"><span class="info-label">Migration</span><span class="info-value">AWS → Azure</span></div>
-        <div class="info-item"><span class="info-label">Environment</span><span class="info-value">Local Docker simulation</span></div>
-        <div class="info-item"><span class="info-label">Deployment status</span><span class="info-value">Not deployed to cloud</span></div>
+        <div class="info-item"><span class="info-label">Environment</span><span class="info-value">BluePeak lab</span></div>
+        <div class="info-item"><span class="info-label">Deployment status</span><span class="info-value">Demo only — not production</span></div>
       </div>
     </section>
 
@@ -268,7 +268,7 @@
     async function loadHealth() {
       setHealth("api-health", "checking", "Checking application and dependencies");
       setHealth("database-health", "checking", "Checking PostgreSQL");
-      setHealth("storage-health", "checking", "Checking MinIO");
+      setHealth("storage-health", "checking", "Checking object storage");
       try {
         const result = await fetchJson("/api/health");
         const components = result.components || {};
@@ -281,15 +281,15 @@
         );
         setHealth(
           "storage-health",
-          components.minio === "healthy" ? "healthy" : "unavailable",
-          components.minio === "healthy" ? "Object storage reachable" : "Object storage unavailable",
+          components.object_storage === "healthy" ? "healthy" : "unavailable",
+          components.object_storage === "healthy" ? "Object storage reachable" : "Object storage unavailable",
         );
       } catch (error) {
         const components = error.payload && error.payload.components;
         setHealth("api-health", components ? "degraded" : "unavailable", error.message);
         for (const [component, id, label] of [
           ["postgresql", "database-health", "Database"],
-          ["minio", "storage-health", "Object storage"],
+          ["object_storage", "storage-health", "Object storage"],
         ]) {
           const state = components && components[component] === "healthy" ? "healthy" : "unavailable";
           setHealth(id, state, state === "healthy" ? `${label} reachable` : `${label} unavailable`);

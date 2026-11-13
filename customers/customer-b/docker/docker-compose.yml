@@ -9,10 +9,14 @@
 #   - PostgreSQL 14 (simulates EC2 self-managed database)
 #   - MinIO (simulates S3 bucket for application uploads)
 #
-# Usage:
+# Local simulation (requires an available MinIO image):
 #   cd customers/customer-b/docker
-#   docker compose up -d
-#   docker compose down
+#   docker compose --profile local-simulation up -d
+#   docker compose --profile local-simulation down
+#
+# EC2 with Amazon S3:
+#   docker compose --env-file .env.aws -f docker-compose.yml \
+#     -f docker-compose.aws.yml up -d --build
 #
 # Credentials: see .env.example — copy to .env and fill in values
 # .env is gitignored — never commit it
@@ -83,6 +87,7 @@ services:
       S3_ENDPOINT_URL: ${S3_ENDPOINT_URL:-http://minio:9000}
       S3_BUCKET_NAME: ${S3_BUCKET_NAME:-bluepeak-uploads}
       S3_REGION: ${S3_REGION:-us-east-1}
+      S3_AUTO_CREATE_BUCKET: ${S3_AUTO_CREATE_BUCKET:-true}
       S3_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
       S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:?err_minio_password_required}
     networks:
@@ -101,6 +106,8 @@ services:
   # ── MinIO (simulates S3 bucket) ─────────────────────────────────────────
   minio:
     image: minio/minio:latest
+    profiles:
+      - local-simulation
     container_name: customer-b-minio
     restart: unless-stopped
     command: server /data --console-address ":9001"

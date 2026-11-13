@@ -58,6 +58,11 @@ host-published port. The four BluePeak services were started for local
 validation on 2026-11-11 and were healthy at the time of the checks. This is
 not an AWS deployment.
 
+The local simulation profile still references the legacy `minio/minio:latest`
+image. The upstream community project no longer publishes prebuilt community
+images; use the AWS S3 deployment mode below on EC2 rather than trying Docker
+Hub login for that image.
+
 The API also provides `/api/health`, `/api/uploads`, and `POST /api/uploads`.
 Uploads are limited to 10 MiB and accepted only for PDF, PNG, JPEG, TXT, and CSV
 files whose extension, content type, and basic file signature agree. Objects are
@@ -74,6 +79,60 @@ The static frontend displays service health, product and order tables, and
 uploaded-object metadata. It calls the API through Nginx using same-origin
 `/api/` paths, validates file selection for user feedback, and uses text-only DOM
 updates for API-provided content. Server-side validation remains authoritative.
+
+### EC2 deployment with Amazon S3
+
+For EC2, use [`docker-compose.aws.yml`](./docker/docker-compose.aws.yml) with a
+pre-created private S3 bucket instead of starting the local MinIO service. The
+application uses the EC2 instance role through boto3's default credential
+provider chain. Do not put AWS access keys in `.env`, Compose files, or Git.
+
+1. Create a general-purpose S3 bucket in the EC2 Region. Keep S3 Block Public
+   Access enabled, ACLs disabled, and default encryption enabled.
+2. Attach an EC2 instance role with a policy limited to that bucket: `s3:ListBucket`
+   on the bucket ARN restricted to the `uploads/` prefix, and `s3:PutObject` on
+   its `uploads/*` object ARN. The app does not need bucket-creation permission;
+   create the bucket before deployment.
+3. Ensure the role is available to the container through EC2 instance metadata.
+   For Docker bridge networking with IMDSv2 required, set the instance metadata
+   `HttpPutResponseHopLimit` to `2`.
+4. On EC2, copy `docker/aws.env.example` to `.env.aws`, set the actual bucket
+   name and region, then run:
+
+   ```sh
+   cd customers/customer-b/docker
+   cp aws.env.example .env.aws
+   chmod 600 .env.aws
+   # Edit .env.aws and set S3_BUCKET_NAME to the bucket created above.
+   docker compose --env-file .env.aws \
+     -f docker-compose.yml -f docker-compose.aws.yml \
+     config -q
+   docker compose --env-file .env.aws \
+     -f docker-compose.yml -f docker-compose.aws.yml \
+     up -d --build
+   ```
+
+5. Check the deployment and health endpoint:
+
+   ```sh
+   docker compose --env-file .env.aws \
+     -f docker-compose.yml -f docker-compose.aws.yml ps
+   docker compose --env-file .env.aws \
+     -f docker-compose.yml -f docker-compose.aws.yml logs --tail=100
+   curl -fsS http://127.0.0.1:8081/api/health
+   ```
+
+   Keep the database and app ports private; expose the site only through a
+   TLS-terminating reverse proxy.
+
+S3 charges can include stored bytes, API requests, data transfer, and enabled
+monitoring features. Enable CloudTrail S3 data events and CloudWatch request
+metrics for auditing and operations, and configure server access logging to a
+separate protected destination bucket. S3 server access log delivery supports
+SSE-S3 on an S3 destination; use CloudWatch Logs if log encryption with KMS is
+required. Review the
+[Amazon S3 pricing page](https://aws.amazon.com/s3/pricing/) before using
+non-test data. These controls are not substitutes for backups or restore tests.
 
 Run the local automated tests from `customers/customer-b/docker` with:
 

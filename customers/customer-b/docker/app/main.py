@@ -144,14 +144,14 @@ async def database_health():
 
 @app.get("/api/health", tags=["Health"])
 def application_health():
-    """Report the API process and its PostgreSQL and MinIO dependencies."""
+    """Report the API process and its PostgreSQL and object-storage dependencies."""
     database_healthy = _database_is_healthy()
     try:
         check_storage()
         storage_healthy = True
     except (BotoCoreError, ClientError, RuntimeError, ValueError) as error:
         logger.error(
-            "event=minio_health_check_failed error_code=%s",
+            "event=object_storage_health_check_failed error_code=%s",
             _storage_error_code(error),
         )
         storage_healthy = False
@@ -159,7 +159,7 @@ def application_health():
     components = {
         "api": "healthy",
         "postgresql": "healthy" if database_healthy else "unavailable",
-        "minio": "healthy" if storage_healthy else "unavailable",
+        "object_storage": "healthy" if storage_healthy else "unavailable",
     }
     is_healthy = database_healthy and storage_healthy
     result = {

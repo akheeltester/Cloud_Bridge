@@ -34,6 +34,22 @@ class StaticConfigurationTests(unittest.TestCase):
         self.assertIn("127.0.0.1:8081:80", config)
         self.assertIn("127.0.0.1:19000:9000", config)
         self.assertIn("127.0.0.1:19001:9001", config)
+        self.assertIn("local-simulation", config)
+
+    def test_aws_compose_uses_role_credentials_and_precreated_bucket(self):
+        config = (DOCKER_DIR / "docker-compose.aws.yml").read_text()
+
+        self.assertIn("S3_ENDPOINT_URL: \"\"", config)
+        self.assertIn("S3_AUTO_CREATE_BUCKET: \"false\"", config)
+        self.assertIn("S3_ACCESS_KEY: \"\"", config)
+        self.assertIn("S3_SECRET_KEY: \"\"", config)
+
+    def test_frontend_uses_generic_object_storage_health_key(self):
+        frontend = (DOCKER_DIR / "web" / "index.html").read_text()
+
+        self.assertIn("components.object_storage", frontend)
+        self.assertIn('["object_storage", "storage-health"', frontend)
+        self.assertNotIn("components.minio", frontend)
 
 
 if __name__ == "__main__":
