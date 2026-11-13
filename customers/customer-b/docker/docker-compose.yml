@@ -5,6 +5,7 @@
 #
 # Simulated services:
 #   - Nginx web server (simulates EC2 web application)
+#   - FastAPI application (simulates Python backend on EC2)
 #   - PostgreSQL 14 (simulates EC2 self-managed database)
 #   - MinIO (simulates S3 bucket for application uploads)
 #
@@ -23,13 +24,13 @@ services:
     container_name: customer-b-webserver
     restart: unless-stopped
     ports:
-      - "8081:80"    # Mapped to 8081 to avoid conflicts
+      - "127.0.0.1:8081:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./web:/usr/share/nginx/html:ro
     networks:
       customer-b:
-        ipv4_address: 172.20.0.10
+        ipv4_address: 10.203.20.10
     labels:
       com.cloudbridge.customer: "customer-b"
       com.cloudbridge.service: "webserver"
@@ -52,7 +53,7 @@ services:
       - "5432"
     networks:
       customer-b:
-        ipv4_address: 172.20.0.11
+        ipv4_address: 10.203.20.11
     labels:
       com.cloudbridge.customer: "customer-b"
       com.cloudbridge.service: "database"
@@ -60,6 +61,40 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bluepeak_user} -d ${POSTGRES_DB:-bluepeak_app}"]
       interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Application API (simulates Python backend on EC2) ──────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: customer-b-app
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      DATABASE_HOST: database
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${POSTGRES_DB:-bluepeak_app}
+      DATABASE_USER: ${POSTGRES_USER:-bluepeak_user}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:?err_db_password_required}
+      S3_ENDPOINT_URL: ${S3_ENDPOINT_URL:-http://minio:9000}
+      S3_BUCKET_NAME: ${S3_BUCKET_NAME:-bluepeak-uploads}
+      S3_REGION: ${S3_REGION:-us-east-1}
+      S3_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:?err_minio_password_required}
+    networks:
+      customer-b:
+        ipv4_address: 10.203.20.13
+    labels:
+      com.cloudbridge.customer: "customer-b"
+      com.cloudbridge.service: "app"
+      com.cloudbridge.simulation: "true"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/live').read()"]
+      interval: 15s
       timeout: 5s
       retries: 5
 
@@ -75,11 +110,11 @@ services:
     volumes:
       - customer-b-miniodata:/data
     ports:
-      - "9000:9000"   # S3 API
-      - "9001:9001"   # Console UI
+      - "127.0.0.1:19000:9000"   # S3 API
+      - "127.0.0.1:19001:9001"   # Console UI
     networks:
       customer-b:
-        ipv4_address: 172.20.0.12
+        ipv4_address: 10.203.20.12
     labels:
       com.cloudbridge.customer: "customer-b"
       com.cloudbridge.service: "object-storage"
@@ -95,7 +130,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.0.0/24
+        - subnet: 10.203.20.0/24
     labels:
       com.cloudbridge.customer: "customer-b"
       com.cloudbridge.simulation: "true"

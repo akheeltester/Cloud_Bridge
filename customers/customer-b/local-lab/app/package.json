@@ -1,0 +1,13 @@
+{
+  "name": "acme-technologies-local-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fictional ACME Technologies migration simulation",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "pg": "8.16.3"
+  }
+}
