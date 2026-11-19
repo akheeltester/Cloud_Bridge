@@ -113,6 +113,8 @@ resource "google_compute_instance" "this" {
         iptables -I INPUT -p tcp --dport 443 -j ACCEPT
       %{endif}
       docker-credential-gcr configure-docker --registries=${var.registry_host}
+      # Always pull :latest — docker run alone reuses a stale cached image.
+      docker pull ${var.container_image}
       docker network create cloudbridge >/dev/null 2>&1 || true
       docker rm -f ${var.instance_name} caddy >/dev/null 2>&1 || true
       %{if var.tls_domain != ""}
