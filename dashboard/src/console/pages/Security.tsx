@@ -1,4 +1,4 @@
-import { findings, includesQuery, scanners, type Severity } from "../lib/cloudbridge/data";
+import { findings, includesQuery, scanStats, scanners, type Severity } from "../lib/cloudbridge/data";
 import { useConsole } from "../lib/cloudbridge/store";
 import { EmptyNote, PageIntro, Panel, SeverityPill, StatusPill } from "../components/bits";
 import { cn } from "../lib/cn";
@@ -24,8 +24,34 @@ export function SecurityPage() {
       <PageIntro
         index="05  ·  Security"
         title="Security center"
-        lede="Cloud security posture — Prowler, Checkov, and Trivy. The findings below are labelled examples. They are not the output of a completed scan."
+        lede="Cloud security posture from real scans: Checkov (IaC), Trivy (images + config), and Prowler (live GCP posture). Every finding below is scan output with a disposition — fixed, accepted-risk, or deferred with rationale. Raw reports live in docs/security-reports/phase-5."
       />
+
+      <Panel className="mb-4">
+        <h2 className="mb-3 text-base font-semibold">Scan summary · 2026-11-19</h2>
+        <div className="grid gap-3 sm:grid-cols-4">
+          <div className="rounded-chip border border-line bg-paper p-3">
+            <p className="text-xs text-muted">Checkov IaC</p>
+            <p className="mt-1 font-display text-2xl tabular-nums">{scanStats.checkov.before} → {scanStats.checkov.after}</p>
+            <p className="text-xs text-faint">findings after remediation</p>
+          </div>
+          <div className="rounded-chip border border-line bg-paper p-3">
+            <p className="text-xs text-muted">Trivy image criticals</p>
+            <p className="mt-1 font-display text-2xl tabular-nums">{scanStats.imageCriticals.before} → {scanStats.imageCriticals.after}</p>
+            <p className="text-xs text-faint">base images rebuilt + redeployed</p>
+          </div>
+          <div className="rounded-chip border border-line bg-paper p-3">
+            <p className="text-xs text-muted">Trivy IaC/config</p>
+            <p className="mt-1 font-display text-2xl tabular-nums">{scanStats.trivyIac}</p>
+            <p className="text-xs text-faint">misconfigurations triaged</p>
+          </div>
+          <div className="rounded-chip border border-line bg-paper p-3">
+            <p className="text-xs text-muted">Prowler GCP</p>
+            <p className="mt-1 font-display text-2xl tabular-nums">{scanStats.prowler.checks}</p>
+            <p className="text-xs text-faint">checks · {scanStats.prowler.criticalsFixed}/{scanStats.prowler.criticals} criticals fixed</p>
+          </div>
+        </div>
+      </Panel>
 
       <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Count label="Critical" value={counts.critical} />
@@ -58,7 +84,7 @@ export function SecurityPage() {
 
       <Panel>
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-          <h2 className="font-display text-2xl tracking-tight">Example findings</h2>
+          <h2 className="font-display text-2xl tracking-tight">Findings register</h2>
           <div className="flex flex-wrap gap-1" role="tablist" aria-label="Severity">
             {filters.map((item) => (
               <button

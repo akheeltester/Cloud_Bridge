@@ -1,4 +1,4 @@
-import { catalogs, includesQuery, workflows } from "../lib/cloudbridge/data";
+import { catalogs, cicdPipeline, includesQuery, toolchain, workflows } from "../lib/cloudbridge/data";
 import { useConsole } from "../lib/cloudbridge/store";
 import { EmptyNote, PageIntro, Panel, StatusPill } from "../components/bits";
 import { cn } from "../lib/cn";
@@ -19,7 +19,7 @@ export function AutomationPage() {
       <PageIntro
         index="07  ·  Automation"
         title="Automation"
-        lede="Terraform modules, Ansible playbooks, Python scripts, and the GitHub Actions workflows already running on main."
+        lede="How changes ship: the CI/CD pipeline that gates every push, the security toolchain with real scan evidence, and the Terraform/Ansible/script catalog."
       />
 
       <Panel className="mb-4">
@@ -74,6 +74,60 @@ export function AutomationPage() {
             ) : null}
           </div>
         )}
+      </Panel>
+
+      {/* ── CI/CD pipeline flow ── */}
+      <Panel className="mb-4">
+        <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="font-display text-2xl tracking-tight">CI/CD pipeline</h2>
+            <p className="text-sm text-muted">Every push to main passes these gates before anything ships</p>
+          </div>
+          <StatusPill status="implemented" />
+        </div>
+        <ol className="grid gap-2 sm:grid-cols-3 xl:grid-cols-6">
+          {cicdPipeline.map((stage, i) => (
+            <li key={stage.step} className="relative rounded-chip border border-line bg-paper p-3">
+              <span className="font-mono text-[10px] text-faint">{String(i + 1).padStart(2, "0")}</span>
+              <p className="mt-1 text-xs font-semibold">{stage.step}</p>
+              <p className="mt-1 text-[11px] leading-snug text-muted">{stage.detail}</p>
+              {i < cicdPipeline.length - 1 ? (
+                <span className="absolute -right-2 top-1/2 hidden -translate-y-1/2 text-faint xl:inline" aria-hidden="true">→</span>
+              ) : null}
+            </li>
+          ))}
+        </ol>
+        <p className="mt-3 text-xs text-faint">
+          Secret scanning runs first and gates the rest — a verified secret blocks the entire pipeline. Dashboard changes additionally
+          trigger the Pages deploy workflow, which is how this site updates itself.
+        </p>
+      </Panel>
+
+      {/* ── Toolchain: how each tool is used ── */}
+      <Panel className="mb-4">
+        <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="font-display text-2xl tracking-tight">Toolchain in practice</h2>
+            <p className="text-sm text-muted">What each tool does here, with the actual results it produced</p>
+          </div>
+        </div>
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {toolchain
+            .filter((t) => includesQuery(query, [t.tool, t.role, t.how, t.evidence]))
+            .map((t) => (
+              <article key={t.tool} className="rounded-chip border border-line bg-paper p-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <h3 className="text-sm font-semibold">{t.tool}</h3>
+                    <p className="text-xs text-muted">{t.role}</p>
+                  </div>
+                  <StatusPill status={t.status} />
+                </div>
+                <p className="mt-2 text-xs leading-relaxed text-ink-soft">{t.how}</p>
+                <p className="mt-2 rounded-chip bg-sheet px-2 py-1 text-[11px] font-medium text-spruce-ink">{t.evidence}</p>
+              </article>
+            ))}
+        </div>
       </Panel>
 
       <div className="mb-3 flex flex-wrap gap-1" aria-label="Language">

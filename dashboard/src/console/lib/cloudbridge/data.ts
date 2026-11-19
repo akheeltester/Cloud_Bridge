@@ -45,9 +45,9 @@ export const phases = [
   {
     number: 4,
     name: "Migration Engineering",
-    status: "in-progress" as WorkStatus,
-    description: "The BluePeak demo deployment and health, upload, and list smoke tests are complete. This validates a portfolio scenario, not a real customer data migration.",
-    deliverables: ["Migration workflow defined", "Container deployment rehearsal", "Health validation", "S3 upload/list validation", "Production migration runbooks planned"],
+    status: "implemented" as WorkStatus,
+    description: "Three workload migrations rehearsed end-to-end: BluePeak to AWS EC2+S3, Jigsaw to GCP Cloud Run, NovaTrail to a GCP VM — each deployed, health-checked and DB-write-verified. Runbooks document every step.",
+    deliverables: ["Migration workflow defined", "3 container deployments executed", "Health + data-write validation", "Runbooks per deployment", "Rollback procedures documented"],
   },
   {
     number: 5,
@@ -417,30 +417,125 @@ export const labHosts = [
 ];
 
 export const futureClouds = [
-  { cloud: "Microsoft Azure", region: "australiaeast", phase: "Phase 7" },
-  { cloud: "Google Cloud Platform", region: "australia-southeast1", phase: "Phase 7" },
+  { cloud: "Microsoft Azure", region: "australiaeast", phase: "Deferred — App Service F1 IaC validated, awaiting account (card required)" },
 ];
 
 export const workflows = [
   {
     name: "ci.yml",
-    triggers: "Push / PR to main",
-    jobs: ["TruffleHog secret scan", "Terraform fmt + validate", "Checkov IaC scan", "Markdown lint"],
-    status: "in-progress" as WorkStatus,
-  },
-  {
-    name: "security-scan.yml",
-    triggers: "Scheduled (Monday 06:00 UTC)",
-    jobs: ["Full repo secret scan", "Checkov full scan (SARIF)"],
-    status: "in-progress" as WorkStatus,
+    triggers: "Push / PR to main + manual dispatch",
+    jobs: ["TruffleHog secret scan (verified-only, incremental on push)", "Terraform fmt + init + validate (per-stack matrix)", "Checkov IaC security scan", "Markdown lint"],
+    status: "implemented" as WorkStatus,
   },
   {
     name: "deploy-dashboard.yml",
-    triggers: "Push to main (dashboard/ changed)",
-    jobs: ["npm ci + build", "Upload Pages artifact", "Deploy to GitHub Pages"],
-    status: "in-progress" as WorkStatus,
+    triggers: "Push to main (dashboard/** changed) + manual dispatch",
+    jobs: ["npm ci + TypeScript/Vite build", "Upload Pages artifact", "Deploy to GitHub Pages (this site)"],
+    status: "implemented" as WorkStatus,
   },
 ];
+
+export const cicdPipeline = [
+  { step: "Push / PR", detail: "Every change to main enters the pipeline" },
+  { step: "Secret scan", detail: "TruffleHog — verified secrets only, incremental diff" },
+  { step: "Terraform validate", detail: "fmt -check + init + validate per stack" },
+  { step: "Checkov IaC scan", detail: "Policy checks on all Terraform code" },
+  { step: "Build dashboard", detail: "npm ci + tsc + vite (dashboard changes only)" },
+  { step: "GitHub Pages", detail: "This dashboard auto-deploys on merge" },
+];
+
+export const deployments = [
+  {
+    customer: "BluePeak Solutions",
+    brand: "BluePeak Service Portal",
+    cloud: "AWS",
+    region: "ap-southeast-2 (Sydney)",
+    url: LIVE_DEMO_URL,
+    stack: ["EC2 · Amazon Linux 2023", "Docker Compose · Nginx + FastAPI + PostgreSQL", "Private S3 · instance role", "Caddy · automatic HTTPS"],
+    verified: "2026-11-19",
+    cost: "Free-tier EC2 + S3",
+    checks: "Health, upload, list, HTTPS — all passed",
+  },
+  {
+    customer: "ACME Technologies",
+    brand: "Jigsaw Workplace Portal",
+    cloud: "GCP",
+    region: "australia-southeast1 (Sydney)",
+    url: JIGSAW_DEMO_URL,
+    stack: ["Cloud Run · scale-to-zero", "Node 24 · TanStack Start", "Artifact Registry", "512Mi · 1 instance cap"],
+    verified: "2026-11-19",
+    cost: "Cloud Run free tier",
+    checks: "Pages 200, auth sign-up (DB write) verified",
+  },
+  {
+    customer: "NovaRetail",
+    brand: "NovaTrail Trail-Running Store",
+    cloud: "GCP",
+    region: "us-central1 (Iowa)",
+    url: NOVARETAIL_DEMO_URL,
+    stack: ["Compute Engine e2-micro · free grant", "Container-Optimized OS + Docker", "Caddy sidecar · Let's Encrypt", "Shielded VM · IAP-only SSH"],
+    verified: "2026-11-19",
+    cost: "~$3.60/mo static IPv4 (credits) — rest free",
+    checks: "Health, catalogue, order write over HTTPS verified",
+  },
+];
+
+export const cloudActions = [
+  { cloud: "GCP", date: "Nov 19", action: "Jigsaw deployed to Cloud Run", detail: "APIs enabled, image pushed to Artifact Registry, Terraform plan→apply, scale-to-zero free-tier posture" },
+  { cloud: "GCP", date: "Nov 19", action: "Image + auth fixes", detail: "Restored PGlite runtime assets dropped by the bundler; set BETTER_AUTH_URL so sign-up trusts the Cloud Run origin" },
+  { cloud: "GCP", date: "Nov 19", action: "NovaTrail VM provisioned", detail: "Terraform e2-micro (COS) in us-central1; app container + Caddy sidecar; DuckDNS + Let's Encrypt HTTPS; static IP" },
+  { cloud: "GCP", date: "Nov 19", action: "Security hardening applied", detail: "Shielded VM, project-wide SSH keys blocked, deletion protection, IAP-only SSH; default-allow-ssh/rdp firewall rules deleted" },
+  { cloud: "GCP", date: "Nov 19", action: "Prowler posture scan", detail: "86 checks · 67 findings · both criticals remediated and verified; report in docs/security-reports/phase-5" },
+  { cloud: "AWS", date: "Nov 13", action: "BluePeak deployed to EC2 + S3", detail: "Docker Compose stack, private S3 uploads via instance role (no static keys), Caddy HTTPS on DuckDNS" },
+  { cloud: "AWS", date: "Nov 19", action: "Enterprise UI + patched image", detail: "New portal UI rolled out over SSH; app image rebuilt from refreshed base — 0 critical CVEs on re-scan" },
+  { cloud: "AWS", date: "Next", action: "Prowler AWS + CloudTrail → SOC", detail: "Awaiting CLI re-auth; CloudTrail ingestion planned for Phase 6" },
+];
+
+export const toolchain = [
+  { tool: "Terraform", role: "Infrastructure as Code", how: "Reusable modules + per-customer environments for GCP Cloud Run, GCP Compute VM, and Azure App Service. Plan-first workflow; apply only with explicit approval; local state (gitignored).", evidence: "3 stacks validated; 2 applied live", status: "implemented" as WorkStatus },
+  { tool: "Checkov", role: "IaC security scanning", how: "Scans every Terraform stack and Dockerfile in CI and locally. Findings triaged into fixed / accepted-risk / deferred with written rationale.", evidence: "22 → 16 findings; 6 remediated (HEALTHCHECKs, Shielded VM, SSH keys, FTPS/HTTP2)", status: "implemented" as WorkStatus },
+  { tool: "Trivy", role: "Image + config scanning", how: "Vulnerability scans of all three customer images plus an IaC/config scan of the repo. Criticals with available fixes remediated by rebuilding from refreshed base images.", evidence: "Image criticals 7 → 1 (remaining: no vendor fix yet); 23 IaC findings", status: "implemented" as WorkStatus },
+  { tool: "Prowler", role: "Cloud posture (CSPM)", how: "Live assessment of the GCP project using CLI credentials. Critical firewall findings remediated the same day; AWS scan queued behind re-auth.", evidence: "86 checks · 2 criticals fixed (internet-wide SSH/RDP removed)", status: "in-progress" as WorkStatus },
+  { tool: "TruffleHog", role: "Secret scanning in CI", how: "Runs first in ci.yml on every push/PR — verified-only, incremental over the push diff so credentials never reach the public repo.", evidence: "Gate for all downstream CI jobs", status: "implemented" as WorkStatus },
+  { tool: "Docker", role: "Workload packaging", how: "All three apps containerized: non-root users, explicit ports, HEALTHCHECK instructions, multi-stage build for Jigsaw.", evidence: "3 images built, scanned, deployed", status: "implemented" as WorkStatus },
+  { tool: "Caddy", role: "Automatic HTTPS", how: "TLS termination + Let's Encrypt on both AWS (EC2) and GCP (sidecar container), with HTTP→HTTPS redirect and auto-renewal.", evidence: "2 public HTTPS endpoints, certs auto-renew", status: "implemented" as WorkStatus },
+  { tool: "GitHub Actions", role: "CI/CD", how: "ci.yml gates every change (secrets → Terraform → Checkov → lint); deploy-dashboard.yml publishes this dashboard to GitHub Pages on merge.", evidence: "2 active workflows", status: "implemented" as WorkStatus },
+  { tool: "Wazuh", role: "SOC / SIEM (Phase 6)", how: "Manager already running in VirtualBox; agents enroll on the cloud VMs next, feeding alerts into this dashboard's SOC page.", evidence: "Server ready · agent rollout scheduled", status: "planned" as WorkStatus },
+];
+
+export const scanStats = {
+  checkov: { before: 22, after: 16 },
+  imageCriticals: { before: 7, after: 1 },
+  prowler: { checks: 86, fail: 67, criticals: 2, criticalsFixed: 2 },
+  trivyIac: 23,
+};
+
+export const milestones = [
+  { date: "Nov 5", title: "Engineering foundation", detail: "Repo, architecture docs, CI scaffolding, customer profiles", phase: "0–1", done: true },
+  { date: "Nov 6", title: "Dashboard + CI/CD live", detail: "React console published to GitHub Pages via Actions", phase: "1", done: true },
+  { date: "Nov 11", title: "BluePeak simulation validated", detail: "19 unit/static tests + Compose health, upload and proxy flows", phase: "2", done: true },
+  { date: "Nov 13", title: "First cloud deployment (AWS)", detail: "BluePeak on EC2 + private S3 + Caddy HTTPS", phase: "3–4", done: true },
+  { date: "Nov 19", title: "GCP Cloud Run (Jigsaw)", detail: "Serverless deployment, free-tier posture, auth verified", phase: "7", done: true },
+  { date: "Nov 19", title: "GCP VM + HTTPS (NovaTrail)", detail: "Free-tier e2-micro, Caddy + Let's Encrypt, enterprise rebrand", phase: "7", done: true },
+  { date: "Nov 19", title: "Security scans + remediation", detail: "Checkov / Trivy / Prowler; criticals fixed and re-verified", phase: "5", done: true },
+  { date: "Nov 20", title: "SOC & monitoring", detail: "Wazuh agents on cloud VMs, detection rules, live alerts", phase: "6", done: false },
+];
+
+export function phaseProgress(status: WorkStatus): number {
+  switch (status) {
+    case "implemented":
+    case "deployed":
+      return 100;
+    case "tested-locally":
+      return 75;
+    case "in-progress":
+      return 55;
+    case "demo-data":
+      return 50;
+    default:
+      return 10;
+  }
+}
 
 export const catalogs = [
   {

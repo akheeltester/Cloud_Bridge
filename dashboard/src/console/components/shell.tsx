@@ -240,9 +240,10 @@ export function Shell({ children }: { children: ReactNode }) {
               <span className="w-1 shrink-0 bg-warn" aria-hidden="true" />
               <p className="max-w-4xl leading-relaxed">
                 <span className="font-semibold">Portfolio demonstration. </span>
-                The BluePeak web demo is deployed on AWS EC2 with S3 and HTTPS. Customer profiles, security findings,
-                alerts, and charts are synthetic examples—not real customer data, live cloud telemetry, or a production
-                migration. Status labels distinguish deployed work from planned work.
+                Three fictional customers run as real deployments on AWS and GCP (HTTPS, health-checked).
+                Security findings are genuine Checkov/Trivy/Prowler scan output; SOC alerts remain examples
+                until Phase 6. No real customer data is used, and status labels distinguish deployed work
+                from planned work.
               </p>
               <button type="button" onClick={dismissBanner} className="ml-auto h-8 shrink-0 px-2 text-sm font-semibold text-spruce-ink">
                 Dismiss

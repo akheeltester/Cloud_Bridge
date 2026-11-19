@@ -11,7 +11,14 @@ export function CustomersPage() {
     includesQuery(query, [item.name, item.industry, item.scenario, item.sourceCloud, item.targetCloud, item.summary]),
   );
   const selected = visible.find((item) => item.id === customerId) ?? visible[0];
-  const stageIndex = Math.max(0, migrationStages.findIndex((stage) => stage.id === selected?.status));
+  const stageForStatus: Record<string, string> = {
+    deployed: "complete",
+    validation: "validation",
+    prepared: "execution",
+    onboarding: "onboarding",
+  };
+  const stageId = stageForStatus[selected?.status ?? ""] ?? selected?.status ?? "onboarding";
+  const stageIndex = Math.max(0, migrationStages.findIndex((stage) => stage.id === stageId));
   const stagePct = Math.round((stageIndex / (migrationStages.length - 1)) * 100);
 
   return (
@@ -62,7 +69,7 @@ export function CustomersPage() {
               </dl>
               <div className="mt-5">
                 <div className="mb-2 flex justify-between text-xs text-muted">
-                  <span>Migration stage: {selected.status}</span>
+                  <span>Migration stage: {migrationStages[stageIndex]?.label ?? stageId}</span>
                   <span className="tabular-nums">{stagePct}%</span>
                 </div>
                 <Meter value={stagePct} />

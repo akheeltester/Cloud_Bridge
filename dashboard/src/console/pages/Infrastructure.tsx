@@ -1,4 +1,4 @@
-import { awsModules, futureClouds, includesQuery, labHosts, LIVE_DEMO_URL, vpcLines } from "../lib/cloudbridge/data";
+import { awsModules, cloudActions, deployments, futureClouds, includesQuery, labHosts, LIVE_DEMO_URL, vpcLines } from "../lib/cloudbridge/data";
 import { useConsole } from "../lib/cloudbridge/store";
 import { EmptyNote, PageIntro, Panel, StatusPill } from "../components/bits";
 import { cn } from "../lib/cn";
@@ -10,13 +10,15 @@ export function InfrastructurePage() {
   const hosts = labHosts.filter((host) => includesQuery(query, [host.name, host.type, host.ip, host.customer, host.status]));
   const modules = awsModules.filter((item) => includesQuery(query, [item.title, item.desc, item.path]));
   const selected = hosts.find((host) => host.name === hostName) ?? hosts[0];
+  const gcpDeployments = deployments.filter((d) => d.cloud === "GCP");
+  const actions = cloudActions.filter((a) => includesQuery(query, [a.cloud, a.action, a.detail]));
 
   return (
     <div>
       <PageIntro
         index="02  ·  Infrastructure"
         title="Cloud infrastructure"
-        lede="See the deployed BluePeak demo, the local simulation hosts, and the separate Terraform architecture work still planned."
+        lede="One AWS deployment and two GCP deployments — all live and verified. Below: what was provisioned, the full action log for each cloud, costs, and the Terraform landing-zone backlog."
       />
 
       <Panel className="mb-4 border-l-4 border-l-ok">
@@ -41,6 +43,85 @@ export function InfrastructurePage() {
           >
             Open live HTTPS demo
           </a>
+        </div>
+      </Panel>
+
+      {/* ── GCP deployments ── */}
+      <div className="mb-4 grid gap-4 md:grid-cols-2">
+        {gcpDeployments.map((d) => (
+          <Panel key={d.url} className="border-l-4 border-l-ok">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h2 className="font-display text-xl tracking-tight">{d.brand}</h2>
+              <StatusPill status="deployed" />
+            </div>
+            <p className="mt-1 font-mono text-xs text-muted">GCP · {d.region}</p>
+            <ul className="mt-3 flex flex-col gap-1">
+              {d.stack.map((s) => (
+                <li key={s} className="text-xs text-ink-soft">· {s}</li>
+              ))}
+            </ul>
+            <p className="mt-2 text-xs text-faint">{d.checks} · verified {d.verified}</p>
+            <p className="mt-1 text-xs text-faint">Cost: {d.cost}</p>
+            <a
+              href={d.url}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-3 inline-flex min-h-9 items-center rounded-chip bg-spruce px-3 text-xs font-semibold text-sheet hover:bg-spruce-ink"
+            >
+              Open live demo ↗
+            </a>
+          </Panel>
+        ))}
+      </div>
+
+      {/* ── Cloud action log ── */}
+      <Panel className="mb-4">
+        <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="font-display text-2xl tracking-tight">Cloud action log</h2>
+            <p className="text-sm text-muted">Every provisioning, fix, and hardening action taken on GCP and AWS</p>
+          </div>
+          <StatusPill status="implemented" />
+        </div>
+        {actions.length === 0 ? (
+          <EmptyNote query={query} />
+        ) : (
+          <div className="grid gap-4 lg:grid-cols-2">
+            {(["GCP", "AWS"] as const).map((cloud) => (
+              <div key={cloud} className="rounded-chip border border-line bg-paper p-3">
+                <p className="mb-2 text-sm font-semibold">{cloud === "GCP" ? "Google Cloud Platform" : "Amazon Web Services"}</p>
+                <ol className="relative ml-1 flex flex-col gap-3 border-l border-line pl-4">
+                  {actions.filter((a) => a.cloud === cloud).map((a) => (
+                    <li key={a.action} className="relative">
+                      <span className={cn("absolute -left-[1.32rem] top-1 size-2 rounded-full", a.date === "Next" ? "bg-line-strong" : "bg-spruce")} aria-hidden="true" />
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-chip bg-sheet px-1.5 py-0.5 font-mono text-[10px] text-muted">{a.date}</span>
+                        <p className="text-xs font-semibold">{a.action}</p>
+                      </div>
+                      <p className="mt-0.5 text-xs text-muted">{a.detail}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="mt-4 grid gap-2 sm:grid-cols-3">
+          <div className="rounded-chip border border-line bg-paper p-3">
+            <p className="text-xs text-muted">Running cost</p>
+            <p className="mt-1 text-sm font-semibold">≈ $3.60 / month</p>
+            <p className="text-xs text-faint">GCP static IPv4 only (from credits). Everything else sits in free tiers/grants.</p>
+          </div>
+          <div className="rounded-chip border border-line bg-paper p-3">
+            <p className="text-xs text-muted">Free-tier resources</p>
+            <p className="mt-1 text-sm font-semibold">Cloud Run · e2-micro · 30GB disk</p>
+            <p className="text-xs text-faint">Scale-to-zero serverless + always-free VM grant + 200GB/mo egress.</p>
+          </div>
+          <div className="rounded-chip border border-line bg-paper p-3">
+            <p className="text-xs text-muted">Access model</p>
+            <p className="mt-1 text-sm font-semibold">No static keys anywhere</p>
+            <p className="text-xs text-faint">EC2 instance role · GCP service accounts + ADC · IAP-only SSH.</p>
+          </div>
         </div>
       </Panel>
 
