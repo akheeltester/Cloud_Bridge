@@ -11,7 +11,7 @@ export type Severity = "critical" | "high" | "medium" | "low" | "info";
 export const GITHUB = "https://github.com/akheeltester/Cloud_Bridge";
 export const LIVE_DEMO_URL = "https://cloudbridge-bluepeak.duckdns.org";
 export const JIGSAW_DEMO_URL = "https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app";
-export const NOVARETAIL_DEMO_URL = "http://35.209.137.226";
+export const NOVARETAIL_DEMO_URL = "https://novatrail.duckdns.org";
 
 export const phases = [
   {
@@ -156,10 +156,10 @@ export const customers = [
     assets: [
       { name: "Retail API", spec: "FastAPI · /api/health, products, orders", ip: "container :8000 → host :80", role: "E-commerce backend" },
       { name: "Database", spec: "SQLite on stateful VM disk", ip: "/var/lib/cloudbridge-novaretail", role: "Catalogue + orders (persistent)" },
-      { name: "VM", spec: "e2-micro · Container-Optimized OS · free grant", ip: NOVARETAIL_DEMO_URL.replace("http://", ""), role: "Live compute host" },
+      { name: "VM", spec: "e2-micro · Container-Optimized OS · free grant", ip: NOVARETAIL_DEMO_URL.replace("https://", ""), role: "Live compute host" },
       { name: "Image registry", spec: "Artifact Registry cloudbridge-us (us-central1)", ip: "VM service-account pull", role: "Deployed artifact" },
     ],
-    network: "Public HTTP via VPC firewall + guest iptables (tcp:80). Approved cost: public IPv4 ~$3.60/mo; VM + 30GB disk free.",
+    network: "Public HTTPS via Caddy + Let's Encrypt (novatrail.duckdns.org); HTTP auto-redirects. Approved cost: public IPv4 ~$3.60/mo; VM + 30GB disk free.",
   },
 ];
 

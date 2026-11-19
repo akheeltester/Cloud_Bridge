@@ -5,7 +5,7 @@ signup). Deploys the NovaRetail retail API to a free-tier-eligible Compute
 Engine VM in `us-central1`.
 
 > Status: DEPLOYED and live-verified (2026-11-19).
-> Live URL: http://35.209.137.226 (ephemeral IP — changes if the VM is recreated)
+> Live URL: https://novatrail.duckdns.org (static IP 35.209.137.226; Let's Encrypt cert via Caddy)
 > Project: iconic-being-431804-c2 · Zone: us-central1-a · e2-micro free grant
 > Verified externally: /api/health healthy (api+database), /api/products 200,
 > POST /api/orders created an order (DB write), storefront 200.
@@ -61,7 +61,7 @@ ephemeral IP, which is released on destroy).
 ## TLS (Caddy sidecar)
 
 The module supports automatic HTTPS via a Caddy sidecar container
-(`tls_domain` variable, default `cloudbridge-novaretail.duckdns.org`):
+(`tls_domain` variable, set to `novatrail.duckdns.org`):
 
 - App container becomes internal-only on the `cloudbridge` docker network.
 - Caddy binds 80/443, reverse-proxies to the app, and obtains/renews Let's
@@ -69,9 +69,9 @@ The module supports automatic HTTPS via a Caddy sidecar container
 - Requirement: the domain's DNS A record must point at the VM's public IP.
   Until then Caddy logs NXDOMAIN ACME errors and retries (up to 30 days) —
   the certificate issues itself within ~1 minute once DNS resolves.
-- DuckDNS update: `https://www.duckdns.org/update?domains=cloudbridge-novaretail&token=<TOKEN>&ip=<VM_IP>`
-- While DNS is pending the app is NOT reachable via the bare IP (Caddy only
-  serves the configured domain).
+- DuckDNS update: `https://www.duckdns.org/update?domains=novatrail&token=<TOKEN>&ip=<VM_IP>`
+- DONE: DNS points at the static IP; Let's Encrypt certificate issued and
+  auto-renews (Caddy). Verified: health, storefront, and order write over HTTPS.
 
 ## Operations
 

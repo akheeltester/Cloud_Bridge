@@ -42,5 +42,5 @@ variable "image_tag" {
 variable "tls_domain" {
   description = "Public domain for Caddy automatic HTTPS (DuckDNS). Empty = plain HTTP."
   type        = string
-  default     = "notrail.duckdns.org"
+  default     = "novatrail.duckdns.org"
 }
