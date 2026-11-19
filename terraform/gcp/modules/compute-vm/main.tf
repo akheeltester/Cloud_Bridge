@@ -66,6 +66,13 @@ resource "google_compute_instance" "this" {
     }
   }
 
+  # Checkov CKV_GCP_39: Shielded VM (free, supported by COS).
+  shielded_instance_config {
+    enable_secure_boot          = true
+    enable_vtpm                 = true
+    enable_integrity_monitoring = true
+  }
+
   service_account {
     email = google_service_account.vm.email
     scopes = [
@@ -76,7 +83,10 @@ resource "google_compute_instance" "this" {
   }
 
   metadata = {
-    startup-script = <<-EOT
+    # Checkov CKV_GCP_32: block project-wide SSH keys (instance-level keys via
+    # gcloud compute ssh still work).
+    block-project-ssh-keys = "TRUE"
+    startup-script         = <<-EOT
       #!/bin/bash
       set -euo pipefail
       # Container-Optimized OS: root FS is read-only — put the docker credential

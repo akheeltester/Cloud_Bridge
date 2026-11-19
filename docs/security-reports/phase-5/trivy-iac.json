@@ -1,0 +1,2089 @@
+{
+  "SchemaVersion": 2,
+  "Trivy": {
+    "Version": "0.76.2"
+  },
+  "ReportID": "01a1f316-9114-7134-97d3-869e1bb56eba",
+  "CreatedAt": "2026-11-19T14:45:04.852081289+05:30",
+  "ArtifactID": "sha256:116253e10f8f1559107e7441efad2e21dd21262e4c726c64083a3cf2c0ffd942",
+  "ArtifactName": ".",
+  "ArtifactType": "repository",
+  "Metadata": {
+    "RepoURL": "git@github-akheeltester:akheeltester/Cloud_Bridge.git",
+    "Branch": "main",
+    "Commit": "2fb1e22329ee9125dcba799fe775ec292d1e37cf",
+    "CommitMsg": "[PHASE-7] Enterprise UI redesigns + NovaRetail TLS via Caddy sidecar\n\n- NovaRetail: enterprise ops console (KPIs, stock pills, order modal, toasts,\n  auto-refresh) — verified in browser incl. order flow\n- BluePeak: matching enterprise portal (health cards, status pills, drag-drop\n  uploads, toasts) — verified locally incl. upload flow\n- compute-vm module: optional tls_domain -\u003e Caddy sidecar with automatic\n  Let's Encrypt HTTPS; app internal-only; firewall 80/443\n- Deployed to VM; cert issuance pending DuckDNS A record (NXDOMAIN retries)",
+    "Author": "CloudBridge \u003ccloudbridge@portfolio.local\u003e",
+    "Committer": "CloudBridge \u003ccloudbridge@portfolio.local\u003e"
+  },
+  "Results": [
+    {
+      "Target": ".",
+      "Class": "config",
+      "Type": "terraformplan-snapshot",
+      "MisconfSummary": {
+        "Successes": 63,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "../../modules/compute-vm/main.tf",
+      "Class": "config",
+      "Type": "terraformplan-snapshot",
+      "MisconfSummary": {
+        "Successes": 0,
+        "Failures": 8
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "GCP-0030",
+          "Title": "Disable project-wide SSH keys for all instances",
+          "Description": "Use of project-wide SSH keys means that a compromise of any one of these key pairs can result in all instances being compromised. It is recommended to use instance-level keys.\n",
+          "Message": "Instance allows use of project-level SSH keys.",
+          "Namespace": "builtin.google.compute.google0030",
+          "Query": "data.builtin.google.compute.google0030.deny",
+          "Resolution": "Disable project-wide SSH keys",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0030",
+          "References": [
+            "https://avd.aquasec.com/misconfig/gcp-0030"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 64,
+            "EndLine": 79,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 30,
+                  "Content": "resource \"google_compute_instance\" \"this\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 31,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 64,
+                  "Content": "  metadata = {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mmetadata\u001b[0m = {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 65,
+                  "Content": "    startup-script = \u003c\u003c-EOT",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "    startup\u001b[38;5;245m-\u001b[0m\u001b[38;5;245mscript\u001b[0m = \u001b[38;5;245m\u003c\u003c-EOT\u001b[0m",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 66,
+                  "Content": "      #!/bin/bash",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;37m      #!/bin/bash",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 67,
+                  "Content": "      set -euo pipefail",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      set -euo pipefail",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 68,
+                  "Content": "      # Container-Optimized OS: configure the AR credential helper, then run",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      # Container-Optimized OS: configure the AR credential helper, then run",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 69,
+                  "Content": "      # the app with a restart policy. /var/lib is stateful across reboots.",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      # the app with a restart policy. /var/lib is stateful across reboots.",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 70,
+                  "Content": "      docker-credential-gcr configure-docker --registries=${var.registry_host} || true",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      docker-credential-gcr configure-docker --registries=${var.registry_host} || true",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 71,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "google_compute_instance.this",
+                "Filename": "../../modules/compute-vm/main.tf",
+                "Location": {
+                  "StartLine": 30,
+                  "EndLine": 85
+                }
+              },
+              {
+                "Resource": "module.novaretail",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 58
+                }
+              }
+            ],
+            "RenderedCause": {
+              "Raw": "resource \"google_compute_instance\" \"this\" {\n  metadata = {\n    startup-script = \"#!/bin/bash\\nset -euo pipefail\\n# Container-Optimized OS: configure the AR credential helper, then run\\n# the app with a restart policy. /var/lib is stateful across reboots.\\ndocker-credential-gcr configure-docker --registries=us-central1-docker.pkg.dev || true\\nmkdir -p /var/lib/cloudbridge-novaretail\\ndocker rm -f cloudbridge-novaretail \u003e/dev/null 2\u003e\u00261 || true\\ndocker run -d --name cloudbridge-novaretail --restart always \\\\\\n  -p 80:8000 \\\\\\n  -e NOVA_DB_PATH=/app/data/nova.db \\\\\\n  -v /var/lib/cloudbridge-novaretail:/app/data \\\\\\n  us-central1-docker.pkg.dev/iconic-being-431804-c2/cloudbridge-us/novaretail:latest\\n\"\n  }\n}",
+              "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {\n  \u001b[38;5;245mmetadata\u001b[0m = {\n    startup\u001b[38;5;245m-\u001b[0m\u001b[38;5;245mscript\u001b[0m = \u001b[38;5;37m\"#!/bin/bash\u001b[0m\\\u001b[38;5;37mnset -euo pipefail\u001b[0m\\\u001b[38;5;37mn# Container-Optimized OS: configure the AR credential helper, then run\u001b[0m\\\u001b[38;5;37mn# the app with a restart policy. /var/lib is stateful across reboots.\u001b[0m\\\u001b[38;5;37mndocker-credential-gcr configure-docker --registries=us-central1-docker.pkg.dev || true\u001b[0m\\\u001b[38;5;37mnmkdir -p /var/lib/cloudbridge-novaretail\u001b[0m\\\u001b[38;5;37mndocker rm -f cloudbridge-novaretail \u003e/dev/null 2\u003e\u00261 || true\u001b[0m\\\u001b[38;5;37mndocker run -d --name cloudbridge-novaretail --restart always \\\\\u001b[0m\\\u001b[38;5;37mn  -p 80:8000 \\\\\u001b[0m\\\u001b[38;5;37mn  -e NOVA_DB_PATH=/app/data/nova.db \\\\\u001b[0m\\\u001b[38;5;37mn  -v /var/lib/cloudbridge-novaretail:/app/data \\\\\u001b[0m\\\u001b[38;5;37mn  us-central1-docker.pkg.dev/iconic-being-431804-c2/cloudbridge-us/novaretail:latest\u001b[0m\\\u001b[38;5;37mn\"\n\u001b[0m  }\n}"
+            }
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "GCP-0031",
+          "Title": "Instances should not have public IP addresses",
+          "Description": "Instances should not be publicly exposed to the internet\n",
+          "Message": "Instance has a public IP allocated.",
+          "Namespace": "builtin.google.compute.google0031",
+          "Query": "data.builtin.google.compute.google0031.deny",
+          "Resolution": "Remove public IP",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0031",
+          "References": [
+            "https://cloud.google.com/compute/docs/ip-addresses#externaladdresses",
+            "https://avd.aquasec.com/misconfig/gcp-0031"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 50,
+            "EndLine": 52,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 30,
+                  "Content": "resource \"google_compute_instance\" \"this\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 31,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 50,
+                  "Content": "    access_config {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m    access_config {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 51,
+                  "Content": "      network_tier = \"STANDARD\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245mnetwork_tier\u001b[0m = \u001b[38;5;37m\"STANDARD\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 52,
+                  "Content": "    }",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m    }",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 84,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 85,
+                  "Content": "}",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "network_interface",
+                "Filename": "../../modules/compute-vm/main.tf",
+                "Location": {
+                  "StartLine": 46,
+                  "EndLine": 53
+                }
+              },
+              {
+                "Resource": "google_compute_instance.this",
+                "Filename": "../../modules/compute-vm/main.tf",
+                "Location": {
+                  "StartLine": 30,
+                  "EndLine": 85
+                }
+              },
+              {
+                "Resource": "module.novaretail",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 58
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "GCP-0033",
+          "Title": "VM disks should be encrypted with Customer Supplied Encryption Keys",
+          "Description": "Using unmanaged keys makes rotation and general management difficult.\n",
+          "Message": "Instance disk encryption does not use a customer managed key.",
+          "Namespace": "builtin.google.compute.google0033",
+          "Query": "data.builtin.google.compute.google0033.deny",
+          "Resolution": "Use managed keys",
+          "Severity": "LOW",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0033",
+          "References": [
+            "https://avd.aquasec.com/misconfig/gcp-0033"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 38,
+            "EndLine": 44,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 30,
+                  "Content": "resource \"google_compute_instance\" \"this\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 31,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 38,
+                  "Content": "  boot_disk {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  boot_disk {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 39,
+                  "Content": "    initialize_params {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "    initialize_params {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 40,
+                  "Content": "      image = var.boot_image",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245mimage\u001b[0m = \u001b[38;5;33mvar\u001b[0m.boot_image",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 41,
+                  "Content": "      size  = var.disk_size_gb",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245msize\u001b[0m  = \u001b[38;5;33mvar\u001b[0m.disk_size_gb",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 42,
+                  "Content": "      type  = var.disk_type",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245mtype\u001b[0m  = \u001b[38;5;33mvar\u001b[0m.disk_type",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 43,
+                  "Content": "    }",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "    }",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 44,
+                  "Content": "  }",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  }",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 84,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "google_compute_instance.this",
+                "Filename": "../../modules/compute-vm/main.tf",
+                "Location": {
+                  "StartLine": 30,
+                  "EndLine": 85
+                }
+              },
+              {
+                "Resource": "module.novaretail",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 58
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "GCP-0036",
+          "Title": "Instances should not override the project setting for OS Login",
+          "Description": "OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.\n",
+          "Message": "Instance has OS Login disabled.",
+          "Namespace": "builtin.google.compute.google0036",
+          "Query": "data.builtin.google.compute.google0036.deny",
+          "Resolution": "Enable OS Login at project level and remove instance-level overrides",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0036",
+          "References": [
+            "https://avd.aquasec.com/misconfig/gcp-0036"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 64,
+            "EndLine": 79,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 30,
+                  "Content": "resource \"google_compute_instance\" \"this\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 31,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 64,
+                  "Content": "  metadata = {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mmetadata\u001b[0m = {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 65,
+                  "Content": "    startup-script = \u003c\u003c-EOT",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "    startup\u001b[38;5;245m-\u001b[0m\u001b[38;5;245mscript\u001b[0m = \u001b[38;5;245m\u003c\u003c-EOT\u001b[0m",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 66,
+                  "Content": "      #!/bin/bash",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;37m      #!/bin/bash",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 67,
+                  "Content": "      set -euo pipefail",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      set -euo pipefail",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 68,
+                  "Content": "      # Container-Optimized OS: configure the AR credential helper, then run",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      # Container-Optimized OS: configure the AR credential helper, then run",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 69,
+                  "Content": "      # the app with a restart policy. /var/lib is stateful across reboots.",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      # the app with a restart policy. /var/lib is stateful across reboots.",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 70,
+                  "Content": "      docker-credential-gcr configure-docker --registries=${var.registry_host} || true",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      docker-credential-gcr configure-docker --registries=${var.registry_host} || true",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 71,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "google_compute_instance.this",
+                "Filename": "../../modules/compute-vm/main.tf",
+                "Location": {
+                  "StartLine": 30,
+                  "EndLine": 85
+                }
+              },
+              {
+                "Resource": "module.novaretail",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 58
+                }
+              }
+            ],
+            "RenderedCause": {
+              "Raw": "resource \"google_compute_instance\" \"this\" {\n  metadata = {\n    startup-script = \"#!/bin/bash\\nset -euo pipefail\\n# Container-Optimized OS: configure the AR credential helper, then run\\n# the app with a restart policy. /var/lib is stateful across reboots.\\ndocker-credential-gcr configure-docker --registries=us-central1-docker.pkg.dev || true\\nmkdir -p /var/lib/cloudbridge-novaretail\\ndocker rm -f cloudbridge-novaretail \u003e/dev/null 2\u003e\u00261 || true\\ndocker run -d --name cloudbridge-novaretail --restart always \\\\\\n  -p 80:8000 \\\\\\n  -e NOVA_DB_PATH=/app/data/nova.db \\\\\\n  -v /var/lib/cloudbridge-novaretail:/app/data \\\\\\n  us-central1-docker.pkg.dev/iconic-being-431804-c2/cloudbridge-us/novaretail:latest\\n\"\n  }\n}",
+              "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {\n  \u001b[38;5;245mmetadata\u001b[0m = {\n    startup\u001b[38;5;245m-\u001b[0m\u001b[38;5;245mscript\u001b[0m = \u001b[38;5;37m\"#!/bin/bash\u001b[0m\\\u001b[38;5;37mnset -euo pipefail\u001b[0m\\\u001b[38;5;37mn# Container-Optimized OS: configure the AR credential helper, then run\u001b[0m\\\u001b[38;5;37mn# the app with a restart policy. /var/lib is stateful across reboots.\u001b[0m\\\u001b[38;5;37mndocker-credential-gcr configure-docker --registries=us-central1-docker.pkg.dev || true\u001b[0m\\\u001b[38;5;37mnmkdir -p /var/lib/cloudbridge-novaretail\u001b[0m\\\u001b[38;5;37mndocker rm -f cloudbridge-novaretail \u003e/dev/null 2\u003e\u00261 || true\u001b[0m\\\u001b[38;5;37mndocker run -d --name cloudbridge-novaretail --restart always \\\\\u001b[0m\\\u001b[38;5;37mn  -p 80:8000 \\\\\u001b[0m\\\u001b[38;5;37mn  -e NOVA_DB_PATH=/app/data/nova.db \\\\\u001b[0m\\\u001b[38;5;37mn  -v /var/lib/cloudbridge-novaretail:/app/data \\\\\u001b[0m\\\u001b[38;5;37mn  us-central1-docker.pkg.dev/iconic-being-431804-c2/cloudbridge-us/novaretail:latest\u001b[0m\\\u001b[38;5;37mn\"\n\u001b[0m  }\n}"
+            }
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "GCP-0041",
+          "Title": "Instances should have Shielded VM VTPM enabled",
+          "Description": "The virtual TPM provides numerous security measures to your VM.\n",
+          "Message": "Instance does not have VTPM for shielded VMs enabled.",
+          "Namespace": "builtin.google.compute.google0041",
+          "Query": "data.builtin.google.compute.google0041.deny",
+          "Resolution": "Enable Shielded VM VTPM",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0041",
+          "References": [
+            "https://cloud.google.com/blog/products/identity-security/virtual-trusted-platform-module-for-shielded-vms-security-in-plaintext",
+            "https://avd.aquasec.com/misconfig/gcp-0041"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 30,
+            "EndLine": 85,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 30,
+                  "Content": "resource \"google_compute_instance\" \"this\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 31,
+                  "Content": "  project      = var.project_id",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mproject\u001b[0m      = \u001b[38;5;33mvar\u001b[0m.project_id",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 32,
+                  "Content": "  name         = var.instance_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m         = \u001b[38;5;33mvar\u001b[0m.instance_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 33,
+                  "Content": "  machine_type = var.machine_type",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mmachine_type\u001b[0m = \u001b[38;5;33mvar\u001b[0m.machine_type",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 34,
+                  "Content": "  zone         = var.zone",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mzone\u001b[0m         = \u001b[38;5;33mvar\u001b[0m.zone",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 35,
+                  "Content": "",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 36,
+                  "Content": "  tags = [\"${var.instance_name}-http\"]",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mtags\u001b[0m = [\u001b[38;5;37m\"\u001b[0m\u001b[38;5;37m${\u001b[0m\u001b[38;5;33mvar\u001b[0m.instance_name\u001b[38;5;37m}\u001b[0m\u001b[38;5;37m-http\"\u001b[0m]",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 37,
+                  "Content": "",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 38,
+                  "Content": "  boot_disk {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  boot_disk {",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 39,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.novaretail",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 58
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "GCP-0045",
+          "Title": "Instances should have Shielded VM integrity monitoring enabled",
+          "Description": "Integrity monitoring helps you understand and make decisions about the state of your VM instances.\n",
+          "Message": "Instance does not have shielded VM integrity monitoring enabled.",
+          "Namespace": "builtin.google.compute.google0045",
+          "Query": "data.builtin.google.compute.google0045.deny",
+          "Resolution": "Enable Shielded VM Integrity Monitoring",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0045",
+          "References": [
+            "https://cloud.google.com/security/shielded-cloud/shielded-vm#integrity-monitoring",
+            "https://avd.aquasec.com/misconfig/gcp-0045"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 30,
+            "EndLine": 85,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 30,
+                  "Content": "resource \"google_compute_instance\" \"this\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 31,
+                  "Content": "  project      = var.project_id",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mproject\u001b[0m      = \u001b[38;5;33mvar\u001b[0m.project_id",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 32,
+                  "Content": "  name         = var.instance_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m         = \u001b[38;5;33mvar\u001b[0m.instance_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 33,
+                  "Content": "  machine_type = var.machine_type",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mmachine_type\u001b[0m = \u001b[38;5;33mvar\u001b[0m.machine_type",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 34,
+                  "Content": "  zone         = var.zone",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mzone\u001b[0m         = \u001b[38;5;33mvar\u001b[0m.zone",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 35,
+                  "Content": "",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 36,
+                  "Content": "  tags = [\"${var.instance_name}-http\"]",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mtags\u001b[0m = [\u001b[38;5;37m\"\u001b[0m\u001b[38;5;37m${\u001b[0m\u001b[38;5;33mvar\u001b[0m.instance_name\u001b[38;5;37m}\u001b[0m\u001b[38;5;37m-http\"\u001b[0m]",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 37,
+                  "Content": "",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 38,
+                  "Content": "  boot_disk {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  boot_disk {",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 39,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.novaretail",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 58
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "GCP-0067",
+          "Title": "Instances should have Shielded VM secure boot enabled",
+          "Description": "Secure boot helps ensure that the system only runs authentic software.\n",
+          "Message": "Instance does not have shielded VM secure boot enabled.",
+          "Namespace": "builtin.google.compute.google0067",
+          "Query": "data.builtin.google.compute.google0067.deny",
+          "Resolution": "Enable Shielded VM secure boot",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0067",
+          "References": [
+            "https://cloud.google.com/security/shielded-cloud/shielded-vm#secure-boot",
+            "https://avd.aquasec.com/misconfig/gcp-0067"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 30,
+            "EndLine": 85,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 30,
+                  "Content": "resource \"google_compute_instance\" \"this\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 31,
+                  "Content": "  project      = var.project_id",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mproject\u001b[0m      = \u001b[38;5;33mvar\u001b[0m.project_id",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 32,
+                  "Content": "  name         = var.instance_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m         = \u001b[38;5;33mvar\u001b[0m.instance_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 33,
+                  "Content": "  machine_type = var.machine_type",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mmachine_type\u001b[0m = \u001b[38;5;33mvar\u001b[0m.machine_type",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 34,
+                  "Content": "  zone         = var.zone",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mzone\u001b[0m         = \u001b[38;5;33mvar\u001b[0m.zone",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 35,
+                  "Content": "",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 36,
+                  "Content": "  tags = [\"${var.instance_name}-http\"]",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mtags\u001b[0m = [\u001b[38;5;37m\"\u001b[0m\u001b[38;5;37m${\u001b[0m\u001b[38;5;33mvar\u001b[0m.instance_name\u001b[38;5;37m}\u001b[0m\u001b[38;5;37m-http\"\u001b[0m]",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 37,
+                  "Content": "",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 38,
+                  "Content": "  boot_disk {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  boot_disk {",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 39,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.novaretail",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 58
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "GCP-0073",
+          "Title": "Disable Default Firewall Rules",
+          "Description": "Ensures that Google Cloud's default firewall rules are disabled, as they may be overly permissive and pose security risks.\nThe default network comes with pre-populated firewall rules that allow broad access and should be replaced with more restrictive custom rules.\n",
+          "Message": "Default firewall rule should be disabled and replaced with more restrictive rules.",
+          "Namespace": "builtin.google.compute.google0073",
+          "Query": "data.builtin.google.compute.google0073.deny",
+          "Resolution": "Replace default firewall rules with custom, more restrictive rules appropriate for your security requirements",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0073",
+          "References": [
+            "https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall",
+            "https://cloud.google.com/firewall/docs/firewalls#more_rules_default_vpc",
+            "https://avd.aquasec.com/misconfig/gcp-0073"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 87,
+            "EndLine": 99,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 87,
+                  "Content": "resource \"google_compute_firewall\" \"http\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_firewall\"\u001b[0m \u001b[38;5;37m\"http\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 88,
+                  "Content": "  project       = var.project_id",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mproject\u001b[0m       = \u001b[38;5;33mvar\u001b[0m.project_id",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 89,
+                  "Content": "  name          = \"${var.instance_name}-allow-http\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m          = \u001b[38;5;37m\"\u001b[0m\u001b[38;5;37m${\u001b[0m\u001b[38;5;33mvar\u001b[0m.instance_name\u001b[38;5;37m}\u001b[0m\u001b[38;5;37m-allow-http\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 90,
+                  "Content": "  network       = var.network",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245mnetwork\u001b[0m       = \u001b[38;5;33mvar\u001b[0m.network",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 91,
+                  "Content": "  direction     = \"INGRESS\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mdirection\u001b[0m     = \u001b[38;5;37m\"INGRESS\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 92,
+                  "Content": "  source_ranges = [\"0.0.0.0/0\"]",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245msource_ranges\u001b[0m = [\u001b[38;5;37m\"0.0.0.0/0\"\u001b[0m]",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 93,
+                  "Content": "  target_tags   = [\"${var.instance_name}-http\"]",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mtarget_tags\u001b[0m   = [\u001b[38;5;37m\"\u001b[0m\u001b[38;5;37m${\u001b[0m\u001b[38;5;33mvar\u001b[0m.instance_name\u001b[38;5;37m}\u001b[0m\u001b[38;5;37m-http\"\u001b[0m]",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 94,
+                  "Content": "",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 95,
+                  "Content": "  allow {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  allow {",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 96,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.novaretail",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 58
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Target": "customers/customer-a/Dockerfile",
+      "Class": "config",
+      "Type": "dockerfile",
+      "MisconfSummary": {
+        "Successes": 27,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "customers/customer-b/docker/Dockerfile",
+      "Class": "config",
+      "Type": "dockerfile",
+      "MisconfSummary": {
+        "Successes": 27,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "customers/customer-b/local-lab/app/Dockerfile",
+      "Class": "config",
+      "Type": "dockerfile",
+      "MisconfSummary": {
+        "Successes": 26,
+        "Failures": 1
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Dockerfile Security Check",
+          "ID": "DS-0026",
+          "Title": "No HEALTHCHECK defined",
+          "Description": "You should add HEALTHCHECK instruction in your docker container images to perform the health check on running containers.",
+          "Message": "Add HEALTHCHECK instruction in your Dockerfile",
+          "Namespace": "builtin.dockerfile.DS026",
+          "Query": "data.builtin.dockerfile.DS026.deny",
+          "Resolution": "Add HEALTHCHECK instruction in Dockerfile",
+          "Severity": "LOW",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/ds-0026",
+          "References": [
+            "https://blog.aquasec.com/docker-security-best-practices",
+            "https://avd.aquasec.com/misconfig/ds-0026"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Provider": "Dockerfile",
+            "Service": "general"
+          }
+        }
+      ]
+    },
+    {
+      "Target": "customers/customer-c/Dockerfile",
+      "Class": "config",
+      "Type": "dockerfile",
+      "MisconfSummary": {
+        "Successes": 27,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "terraform/aws/environments/lab",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 51,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "terraform/aws/modules/network",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 51,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "terraform/azure/environments/customer-c",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 59,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "terraform/azure/modules/appservice/main.tf",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 0,
+        "Failures": 2
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Terraform Security Check",
+          "ID": "AZU-0001",
+          "Title": "Web App accepts incoming client certificate",
+          "Description": "The TLS mutual authentication technique in enterprise environments ensures the authenticity of clients to the server. If incoming client certificates are enabled only an authenticated client with valid certificates can access the app.\n",
+          "Message": "App service does not have client certificates enabled.",
+          "Namespace": "builtin.azure.appservice.azure0001",
+          "Query": "data.builtin.azure.appservice.azure0001.deny",
+          "Resolution": "Enable incoming certificates for clients",
+          "Severity": "LOW",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/azu-0001",
+          "References": [
+            "https://avd.aquasec.com/misconfig/azu-0001"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Azure",
+            "Service": "appservice",
+            "StartLine": 23,
+            "EndLine": 50,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 23,
+                  "Content": "resource \"azurerm_linux_web_app\" \"this\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_linux_web_app\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 24,
+                  "Content": "  name                = var.app_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m                = \u001b[38;5;33mvar\u001b[0m.app_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 25,
+                  "Content": "  resource_group_name = var.resource_group_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mresource_group_name\u001b[0m = \u001b[38;5;33mvar\u001b[0m.resource_group_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 26,
+                  "Content": "  location            = var.location",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mlocation\u001b[0m            = \u001b[38;5;33mvar\u001b[0m.location",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 27,
+                  "Content": "  service_plan_id     = azurerm_service_plan.this.id",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mservice_plan_id\u001b[0m     = azurerm_service_plan.this.id",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 28,
+                  "Content": "  https_only          = true",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mhttps_only\u001b[0m          = \u001b[38;5;166mtrue",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 29,
+                  "Content": "",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 30,
+                  "Content": "  site_config {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  site_config {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 31,
+                  "Content": "    always_on         = false # F1 does not support always-on.",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "    \u001b[38;5;245malways_on\u001b[0m         = \u001b[38;5;166mfalse\u001b[0m\u001b[38;5;239m # F1 does not support always-on.",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 32,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.novaretail",
+                "Filename": "terraform/azure/environments/customer-c/main.tf",
+                "Location": {
+                  "StartLine": 39,
+                  "EndLine": 50
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Security Check",
+          "ID": "AZU-0003",
+          "Title": "App Service authentication is activated",
+          "Description": "Enabling authentication ensures that all communications in the application are authenticated. The auth_settings block needs to be filled out with the appropriate auth backend settings\n",
+          "Message": "App service does not have authentication enabled.",
+          "Namespace": "builtin.azure.appservice.azure0003",
+          "Query": "data.builtin.azure.appservice.azure0003.deny",
+          "Resolution": "Enable authentication to prevent anonymous request being accepted",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/azu-0003",
+          "References": [
+            "https://avd.aquasec.com/misconfig/azu-0003"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Azure",
+            "Service": "appservice",
+            "StartLine": 23,
+            "EndLine": 50,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 23,
+                  "Content": "resource \"azurerm_linux_web_app\" \"this\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_linux_web_app\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 24,
+                  "Content": "  name                = var.app_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m                = \u001b[38;5;33mvar\u001b[0m.app_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 25,
+                  "Content": "  resource_group_name = var.resource_group_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mresource_group_name\u001b[0m = \u001b[38;5;33mvar\u001b[0m.resource_group_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 26,
+                  "Content": "  location            = var.location",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mlocation\u001b[0m            = \u001b[38;5;33mvar\u001b[0m.location",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 27,
+                  "Content": "  service_plan_id     = azurerm_service_plan.this.id",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mservice_plan_id\u001b[0m     = azurerm_service_plan.this.id",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 28,
+                  "Content": "  https_only          = true",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mhttps_only\u001b[0m          = \u001b[38;5;166mtrue",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 29,
+                  "Content": "",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 30,
+                  "Content": "  site_config {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  site_config {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 31,
+                  "Content": "    always_on         = false # F1 does not support always-on.",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "    \u001b[38;5;245malways_on\u001b[0m         = \u001b[38;5;166mfalse\u001b[0m\u001b[38;5;239m # F1 does not support always-on.",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 32,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.novaretail",
+                "Filename": "terraform/azure/environments/customer-c/main.tf",
+                "Location": {
+                  "StartLine": 39,
+                  "EndLine": 50
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Target": "terraform/gcp/environments/customer-a",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 51,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "terraform/gcp/environments/customer-c",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 59,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "terraform/gcp/modules/compute-vm/main.tf",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 0,
+        "Failures": 4
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Terraform Security Check",
+          "ID": "GCP-0031",
+          "Title": "Instances should not have public IP addresses",
+          "Description": "Instances should not be publicly exposed to the internet\n",
+          "Message": "Instance has a public IP allocated.",
+          "Namespace": "builtin.google.compute.google0031",
+          "Query": "data.builtin.google.compute.google0031.deny",
+          "Resolution": "Remove public IP",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0031",
+          "References": [
+            "https://cloud.google.com/compute/docs/ip-addresses#externaladdresses",
+            "https://avd.aquasec.com/misconfig/gcp-0031"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 64,
+            "EndLine": 66,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 44,
+                  "Content": "resource \"google_compute_instance\" \"this\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 45,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 64,
+                  "Content": "    access_config {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m    access_config {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 65,
+                  "Content": "      network_tier = \"STANDARD\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245mnetwork_tier\u001b[0m = \u001b[38;5;37m\"STANDARD\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 66,
+                  "Content": "    }",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m    }",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 142,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 143,
+                  "Content": "}",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "network_interface",
+                "Filename": "terraform/gcp/modules/compute-vm/main.tf",
+                "Location": {
+                  "StartLine": 60,
+                  "EndLine": 67
+                }
+              },
+              {
+                "Resource": "google_compute_instance.this",
+                "Filename": "terraform/gcp/modules/compute-vm/main.tf",
+                "Location": {
+                  "StartLine": 44,
+                  "EndLine": 143
+                }
+              },
+              {
+                "Resource": "module.novaretail",
+                "Filename": "terraform/gcp/environments/customer-c/main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 59
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Security Check",
+          "ID": "GCP-0033",
+          "Title": "VM disks should be encrypted with Customer Supplied Encryption Keys",
+          "Description": "Using unmanaged keys makes rotation and general management difficult.\n",
+          "Message": "Instance disk encryption does not use a customer managed key.",
+          "Namespace": "builtin.google.compute.google0033",
+          "Query": "data.builtin.google.compute.google0033.deny",
+          "Resolution": "Use managed keys",
+          "Severity": "LOW",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0033",
+          "References": [
+            "https://avd.aquasec.com/misconfig/gcp-0033"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 52,
+            "EndLine": 58,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 44,
+                  "Content": "resource \"google_compute_instance\" \"this\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 45,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 52,
+                  "Content": "  boot_disk {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  boot_disk {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 53,
+                  "Content": "    initialize_params {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "    initialize_params {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 54,
+                  "Content": "      image = var.boot_image",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245mimage\u001b[0m = \u001b[38;5;33mvar\u001b[0m.boot_image",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 55,
+                  "Content": "      size  = var.disk_size_gb",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245msize\u001b[0m  = \u001b[38;5;33mvar\u001b[0m.disk_size_gb",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 56,
+                  "Content": "      type  = var.disk_type",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245mtype\u001b[0m  = \u001b[38;5;33mvar\u001b[0m.disk_type",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 57,
+                  "Content": "    }",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "    }",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 58,
+                  "Content": "  }",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  }",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 142,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "google_compute_instance.this",
+                "Filename": "terraform/gcp/modules/compute-vm/main.tf",
+                "Location": {
+                  "StartLine": 44,
+                  "EndLine": 143
+                }
+              },
+              {
+                "Resource": "module.novaretail",
+                "Filename": "terraform/gcp/environments/customer-c/main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 59
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Security Check",
+          "ID": "GCP-0036",
+          "Title": "Instances should not override the project setting for OS Login",
+          "Description": "OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.\n",
+          "Message": "Instance has OS Login disabled.",
+          "Namespace": "builtin.google.compute.google0036",
+          "Query": "data.builtin.google.compute.google0036.deny",
+          "Resolution": "Enable OS Login at project level and remove instance-level overrides",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0036",
+          "References": [
+            "https://avd.aquasec.com/misconfig/gcp-0036"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 85,
+            "EndLine": 137,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 44,
+                  "Content": "resource \"google_compute_instance\" \"this\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 45,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 85,
+                  "Content": "  metadata = {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mmetadata\u001b[0m = {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 86,
+                  "Content": "    # Checkov CKV_GCP_32: block project-wide SSH keys (instance-level keys via",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;239m    # Checkov CKV_GCP_32: block project-wide SSH keys (instance-level keys via",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 87,
+                  "Content": "    # gcloud compute ssh still work).",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "    # gcloud compute ssh still work).",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 88,
+                  "Content": "    block-project-ssh-keys = \"TRUE\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m    block\u001b[38;5;245m-\u001b[0mproject\u001b[38;5;245m-\u001b[0mssh\u001b[38;5;33m-keys\u001b[0m \u001b[38;5;245m=\u001b[0m \u001b[38;5;37m\"TRUE\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 89,
+                  "Content": "    startup-script         = \u003c\u003c-EOT",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m    startup\u001b[38;5;245m-\u001b[0m\u001b[38;5;245mscript\u001b[0m         = \u001b[38;5;245m\u003c\u003c-EOT\u001b[0m",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 90,
+                  "Content": "      #!/bin/bash",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;37m      #!/bin/bash",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 91,
+                  "Content": "      set -euo pipefail",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      set -euo pipefail",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 92,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "google_compute_instance.this",
+                "Filename": "terraform/gcp/modules/compute-vm/main.tf",
+                "Location": {
+                  "StartLine": 44,
+                  "EndLine": 143
+                }
+              },
+              {
+                "Resource": "module.novaretail",
+                "Filename": "terraform/gcp/environments/customer-c/main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 59
+                }
+              }
+            ],
+            "RenderedCause": {
+              "Raw": "resource \"google_compute_instance\" \"this\" {\n  metadata = {\n    block-project-ssh-keys = \"TRUE\"\n    startup-script         = \"#!/bin/bash\\nset -euo pipefail\\n# Container-Optimized OS: root FS is read-only — put the docker credential\\n# config on the writable stateful partition or AR auth fails.\\nexport DOCKER_CONFIG=/var/lib/cloudbridge-novaretail/docker-config\\nmkdir -p \\\"$DOCKER_CONFIG\\\" /var/lib/cloudbridge-novaretail\\n# The container runs as a non-root user; the bind-mounted data dir must\\n# be writable by it (host dirs are root-owned by default).\\nchmod 0777 /var/lib/cloudbridge-novaretail\\n# COS guest firewall defaults to INPUT DROP (only SSH/lo/icmp). Open the\\n# app ports in the guest chain too — the VPC firewall alone is not enough.\\niptables -C INPUT -p tcp --dport 80 -j ACCEPT 2\u003e/dev/null || \\\\\\n  iptables -I INPUT -p tcp --dport 80 -j ACCEPT\\n\\niptables -C INPUT -p tcp --dport 443 -j ACCEPT 2\u003e/dev/null || \\\\\\n  iptables -I INPUT -p tcp --dport 443 -j ACCEPT\\n\\ndocker-credential-gcr configure-docker --registries=us-central1-docker.pkg.dev\\ndocker network create cloudbridge \u003e/dev/null 2\u003e\u00261 || true\\ndocker rm -f cloudbridge-novaretail caddy \u003e/dev/null 2\u003e\u00261 || true\\n\"\n  }\n}",
+              "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_instance\"\u001b[0m \u001b[38;5;37m\"this\"\u001b[0m {\n  \u001b[38;5;245mmetadata\u001b[0m = {\n    block\u001b[38;5;245m-\u001b[0mproject\u001b[38;5;245m-\u001b[0mssh\u001b[38;5;33m-keys\u001b[0m \u001b[38;5;245m=\u001b[0m \u001b[38;5;37m\"TRUE\"\n\u001b[0m    startup\u001b[38;5;245m-\u001b[0m\u001b[38;5;245mscript\u001b[0m         = \u001b[38;5;37m\"#!/bin/bash\u001b[0m\\\u001b[38;5;37mnset -euo pipefail\u001b[0m\\\u001b[38;5;37mn# Container-Optimized OS: root FS is read-only — put the docker credential\u001b[0m\\\u001b[38;5;37mn# config on the writable stateful partition or AR auth fails.\u001b[0m\\\u001b[38;5;37mnexport DOCKER_CONFIG=/var/lib/cloudbridge-novaretail/docker-config\u001b[0m\\\u001b[38;5;37mnmkdir -p \u001b[0m\\\u001b[38;5;37m\"\u001b[0m$DOCKER_CONFIG\\\u001b[38;5;37m\" /var/lib/cloudbridge-novaretail\u001b[0m\\\u001b[38;5;37mn# The container runs as a non-root user; the bind-mounted data dir must\u001b[0m\\\u001b[38;5;37mn# be writable by it (host dirs are root-owned by default).\u001b[0m\\\u001b[38;5;37mnchmod 0777 /var/lib/cloudbridge-novaretail\u001b[0m\\\u001b[38;5;37mn# COS guest firewall defaults to INPUT DROP (only SSH/lo/icmp). Open the\u001b[0m\\\u001b[38;5;37mn# app ports in the guest chain too — the VPC firewall alone is not enough.\u001b[0m\\\u001b[38;5;37mniptables -C INPUT -p tcp --dport 80 -j ACCEPT 2\u003e/dev/null || \\\\\u001b[0m\\\u001b[38;5;37mn  iptables -I INPUT -p tcp --dport 80 -j ACCEPT\u001b[0m\\\u001b[38;5;37mn\u001b[0m\\\u001b[38;5;37mniptables -C INPUT -p tcp --dport 443 -j ACCEPT 2\u003e/dev/null || \\\\\u001b[0m\\\u001b[38;5;37mn  iptables -I INPUT -p tcp --dport 443 -j ACCEPT\u001b[0m\\\u001b[38;5;37mn\u001b[0m\\\u001b[38;5;37mndocker-credential-gcr configure-docker --registries=us-central1-docker.pkg.dev\u001b[0m\\\u001b[38;5;37mndocker network create cloudbridge \u003e/dev/null 2\u003e\u00261 || true\u001b[0m\\\u001b[38;5;37mndocker rm -f cloudbridge-novaretail caddy \u003e/dev/null 2\u003e\u00261 || true\u001b[0m\\\u001b[38;5;37mn\"\n\u001b[0m  }\n}"
+            }
+          }
+        },
+        {
+          "Type": "Terraform Security Check",
+          "ID": "GCP-0073",
+          "Title": "Disable Default Firewall Rules",
+          "Description": "Ensures that Google Cloud's default firewall rules are disabled, as they may be overly permissive and pose security risks.\nThe default network comes with pre-populated firewall rules that allow broad access and should be replaced with more restrictive custom rules.\n",
+          "Message": "Default firewall rule should be disabled and replaced with more restrictive rules.",
+          "Namespace": "builtin.google.compute.google0073",
+          "Query": "data.builtin.google.compute.google0073.deny",
+          "Resolution": "Replace default firewall rules with custom, more restrictive rules appropriate for your security requirements",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/gcp-0073",
+          "References": [
+            "https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall",
+            "https://cloud.google.com/firewall/docs/firewalls#more_rules_default_vpc",
+            "https://avd.aquasec.com/misconfig/gcp-0073"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.novaretail",
+            "Provider": "Google",
+            "Service": "compute",
+            "StartLine": 145,
+            "EndLine": 157,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 145,
+                  "Content": "resource \"google_compute_firewall\" \"http\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"google_compute_firewall\"\u001b[0m \u001b[38;5;37m\"http\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 146,
+                  "Content": "  project       = var.project_id",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mproject\u001b[0m       = \u001b[38;5;33mvar\u001b[0m.project_id",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 147,
+                  "Content": "  name          = \"${var.instance_name}-allow-http\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m          = \u001b[38;5;37m\"\u001b[0m\u001b[38;5;37m${\u001b[0m\u001b[38;5;33mvar\u001b[0m.instance_name\u001b[38;5;37m}\u001b[0m\u001b[38;5;37m-allow-http\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 148,
+                  "Content": "  network       = var.network",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245mnetwork\u001b[0m       = \u001b[38;5;33mvar\u001b[0m.network",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 149,
+                  "Content": "  direction     = \"INGRESS\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mdirection\u001b[0m     = \u001b[38;5;37m\"INGRESS\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 150,
+                  "Content": "  source_ranges = [\"0.0.0.0/0\"]",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245msource_ranges\u001b[0m = [\u001b[38;5;37m\"0.0.0.0/0\"\u001b[0m]",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 151,
+                  "Content": "  target_tags   = [\"${var.instance_name}-http\"]",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mtarget_tags\u001b[0m   = [\u001b[38;5;37m\"\u001b[0m\u001b[38;5;37m${\u001b[0m\u001b[38;5;33mvar\u001b[0m.instance_name\u001b[38;5;37m}\u001b[0m\u001b[38;5;37m-http\"\u001b[0m]",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 152,
+                  "Content": "",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 153,
+                  "Content": "  allow {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  allow {",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 154,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.novaretail",
+                "Filename": "terraform/gcp/environments/customer-c/main.tf",
+                "Location": {
+                  "StartLine": 42,
+                  "EndLine": 59
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

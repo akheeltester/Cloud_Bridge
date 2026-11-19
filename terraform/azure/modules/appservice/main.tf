@@ -30,6 +30,8 @@ resource "azurerm_linux_web_app" "this" {
   site_config {
     always_on         = false # F1 does not support always-on.
     health_check_path = var.health_check_path
+    ftps_state        = "Disabled" # Checkov CKV_AZURE_78 (FTP/FTPS deployments off)
+    http2_enabled     = true       # Checkov CKV_AZURE_18
     application_stack {
       docker_image_name   = var.image
       docker_registry_url = var.docker_registry_url
