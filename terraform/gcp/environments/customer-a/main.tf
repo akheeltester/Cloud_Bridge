@@ -52,10 +52,13 @@ module "jigsaw" {
   memory                = "512Mi"
   allow_unauthenticated = var.allow_unauthenticated
 
+  # PORT is reserved by Cloud Run (auto-set to container_port); do not set it here.
+  # BETTER_AUTH_URL must match the public origin or better-auth rejects sign-in/sign-up.
+  # Cloud Run service URLs are stable; update this if the service is ever recreated.
   env_vars = {
-    NODE_ENV = "production"
-    HOST     = "0.0.0.0"
-    PORT     = "8080"
+    NODE_ENV        = "production"
+    HOST            = "0.0.0.0"
+    BETTER_AUTH_URL = "https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app"
   }
 
   depends_on = [google_artifact_registry_repository.jigsaw]

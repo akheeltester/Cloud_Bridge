@@ -4,8 +4,11 @@ Phase 7 multi-cloud expansion. Deploys the ACME/Jigsaw Node application to GCP
 Cloud Run in `australia-southeast1`. Free-tier posture: scale-to-zero, one
 instance cap, 512Mi memory, request-based CPU billing.
 
-> Status: prepared and validated locally (`terraform validate` passed). Actual
-> deployment requires a billing-enabled GCP project and explicit cost approval.
+> Status: DEPLOYED and live-verified (2026-11-19).
+> Live URL: https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app
+> Project: iconic-being-431804-c2 · Region: australia-southeast1
+> Verified: `/`, `/login`, `/portal` HTTP 200; auth sign-up HTTP 200 (real
+> embedded-DB write). Free-tier posture: scale-to-zero, 1 instance, 512Mi.
 
 ## Prerequisites
 
@@ -56,6 +59,22 @@ instance cap, 512Mi memory, request-based CPU billing.
   cost and must be approved separately.
 - To require authentication instead of public access, set
   `allow_unauthenticated = false` in `terraform.tfvars`.
+
+## Pitfalls encountered (fixed in this repo)
+
+- **PGlite runtime assets**: nitro drops `pglite.data`, `pglite.wasm`, and
+  `initdb.wasm` from the bundle. The Dockerfile copies all three into
+  `.output/server/_libs/`. Without them, pages serve 200 but the DB is dead.
+- **Reserved env var**: Cloud Run rejects a manual `PORT` env var (it sets it
+  automatically). Do not include `PORT` in `env_vars`.
+- **Registry pre-created by the script**: the deploy script creates the
+  Artifact Registry repo before `terraform apply` so the image push works; it
+  then `terraform import`s the repo into state to avoid a 409 conflict.
+- **Auth origin**: better-auth rejects sign-in/sign-up with "Invalid origin"
+  unless `BETTER_AUTH_URL` equals the public Cloud Run URL. It is set in the
+  environment's `env_vars`; update it if the service URL ever changes.
+- **Billing**: the project's original billing account was closed; deployment
+  required linking an open billing account (`gcloud billing projects link`).
 
 ## Rollback
 

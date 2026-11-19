@@ -10,6 +10,7 @@ export type Severity = "critical" | "high" | "medium" | "low" | "info";
 
 export const GITHUB = "https://github.com/akheeltester/Cloud_Bridge";
 export const LIVE_DEMO_URL = "https://cloudbridge-bluepeak.duckdns.org";
+export const JIGSAW_DEMO_URL = "https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app";
 
 export const phases = [
   {
@@ -65,8 +66,8 @@ export const phases = [
     number: 7,
     name: "Multi-Cloud Expansion",
     status: "in-progress" as WorkStatus,
-    description: "GCP Cloud Run (customer-a) and Azure App Service F1 (customer-c) Terraform modules and deploy scripts are prepared and validated locally. Cloud deployment awaits credentials and cost approval.",
-    deliverables: ["GCP Cloud Run module (validated)", "Azure App Service module (validated)", "NovaRetail app built + tested", "Deploy scripts + runbooks", "Cloud deployment pending approval"],
+    description: "Jigsaw is live on GCP Cloud Run (verified). Azure App Service F1 (customer-c) Terraform and deploy script are prepared and validated; deployment awaits Azure access.",
+    deliverables: ["GCP Cloud Run deployed + verified", "Azure App Service module (validated)", "NovaRetail app built + tested", "Deploy scripts + runbooks", "Azure deployment pending access"],
   },
   {
     number: 8,
@@ -95,9 +96,9 @@ export const clouds = [
   {
     name: "Google Cloud Platform",
     region: "australia-southeast1",
-    pct: 30,
-    status: "in-progress" as WorkStatus,
-    note: "Jigsaw Cloud Run Terraform prepared and validated; image is Cloud Run-ready. Not yet deployed — awaits project selection and cost approval.",
+    pct: 70,
+    status: "deployed" as WorkStatus,
+    note: "Jigsaw live on Cloud Run (free-tier posture). Pages and auth sign-up (DB write) verified over HTTPS.",
   },
 ];
 
@@ -109,14 +110,14 @@ export const customers = [
     scenario: "On-premises → GCP Cloud Run",
     sourceCloud: "On-Premises / local Docker",
     targetCloud: "GCP Cloud Run · australia-southeast1",
-    status: "prepared",
+    status: "deployed",
     assetCount: 3,
     dataStatus: "demo-data" as WorkStatus,
-    summary: "Jigsaw workplace portal (Node/TanStack) is built with a Cloud Run-ready container image. GCP Cloud Run Terraform is validated locally; deployment awaits project selection and cost approval.",
+    summary: "Jigsaw workplace portal (Node/TanStack) is live on GCP Cloud Run. Pages and account sign-up (embedded-DB write) verified over HTTPS. Demo data only; PGlite storage is not durable across cold starts.",
     assets: [
       { name: "Jigsaw app", spec: "Node 24 · TanStack Start · nitro node-server", ip: "container :8080", role: "Web + staff portal" },
-      { name: "Container image", spec: "Cloud Run-compatible Dockerfile", ip: "Artifact Registry (planned)", role: "Deployable artifact" },
-      { name: "Cloud Run service", spec: "scale-to-zero · 512Mi · 1 instance cap", ip: "australia-southeast1", role: "Serverless target (IaC validated)" },
+      { name: "Container image", spec: "Cloud Run image + PGlite runtime assets", ip: "Artifact Registry cloudbridge", role: "Deployed artifact" },
+      { name: "Cloud Run service", spec: "scale-to-zero · 512Mi · 1 instance cap", ip: JIGSAW_DEMO_URL.replace("https://", ""), role: "Live serverless host" },
     ],
     network: "Public HTTPS via Cloud Run (allUsers invoker for demo). Embedded PGlite fallback for demo; managed PostgreSQL optional.",
   },
@@ -167,8 +168,8 @@ export const migrations = [
     customer: "ACME Technologies",
     from: "On-premises / local Docker",
     to: "GCP Cloud Run · australia-southeast1",
-    stage: "planning",
-    stagePercent: 45,
+    stage: "validation",
+    stagePercent: 90,
     services: 3,
     dataStatus: "demo-data" as WorkStatus,
   },
@@ -455,7 +456,7 @@ export const docGroups = [
   {
     title: "Customer Profiles",
     docs: [
-      { name: "ACME Technologies (Customer A)", path: "customers/customer-a/README.md", status: "tested-locally" as WorkStatus, blurb: "Jigsaw portal built with a Cloud Run-ready image. GCP Cloud Run target; IaC validated, deploy pending approval." },
+      { name: "ACME Technologies (Customer A)", path: "customers/customer-a/README.md", status: "deployed" as WorkStatus, blurb: "Jigsaw portal live on GCP Cloud Run; pages and sign-up verified. Embedded PGlite demo storage." },
       { name: "BluePeak Solutions (Customer B)", path: "customers/customer-b/README.md", status: "deployed" as WorkStatus, blurb: "Fictional portfolio demo deployed to EC2 with private S3 and HTTPS; health, upload, and list checks passed." },
       { name: "NovaRetail (Customer C)", path: "customers/customer-c/README.md", status: "tested-locally" as WorkStatus, blurb: "Retail API built, dockerized, and tested (8 tests + container smoke). Azure App Service F1 target; security assessment in Phase 5." },
     ],
@@ -465,7 +466,7 @@ export const docGroups = [
     docs: [
       { name: "On-Premises to AWS Runbook", path: "docs/migration-runbooks/onprem-to-aws.md", status: "planned" as WorkStatus, blurb: "ACME path: discover, plan, provision in ap-southeast-2, validate, hand off." },
       { name: "BluePeak EC2 + S3 Deployment", path: "customers/customer-b/README.md", status: "deployed" as WorkStatus, blurb: "EC2, Docker Compose, private S3, instance-role permissions, Caddy HTTPS, and smoke-test steps for the demo." },
-      { name: "Jigsaw → GCP Cloud Run", path: "docs/migration-runbooks/customer-a-gcp-cloudrun.md", status: "implemented" as WorkStatus, blurb: "Cloud Run deployment runbook: APIs, Artifact Registry, plan-first deploy script, validation, rollback. IaC validated; deploy pending approval." },
+      { name: "Jigsaw → GCP Cloud Run", path: "docs/migration-runbooks/customer-a-gcp-cloudrun.md", status: "deployed" as WorkStatus, blurb: "Deployed and live-verified on Cloud Run: pages 200, auth sign-up (DB write) 200. Runbook covers APIs, registry, plan-first deploy, validation, rollback." },
       { name: "NovaRetail → Azure App Service", path: "docs/migration-runbooks/customer-c-azure-appservice.md", status: "implemented" as WorkStatus, blurb: "App Service F1 runbook: public ghcr.io image, plan-first deploy script, health validation, rollback. IaC validated; deploy pending approval." },
       { name: "Data Migration Procedures", path: "docs/migration-runbooks/data-migration.md", status: "planned" as WorkStatus, blurb: "PostgreSQL and object-storage transfer checks." },
       { name: "Rollback Procedures", path: "docs/migration-runbooks/rollback.md", status: "planned" as WorkStatus, blurb: "How a wave is reversed if validation fails." },

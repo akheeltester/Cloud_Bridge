@@ -54,7 +54,7 @@ CloudBridge is built across five engineering layers:
 
 | Customer | Industry | Scenario | Cloud Target |
 |---|---|---|---|
-| ACME Technologies (customer-a) | Technology | On-premises → Cloud migration | GCP Cloud Run (Phase 7) |
+| ACME Technologies (customer-a) | Technology | On-premises → Cloud migration | GCP Cloud Run (deployed) |
 | BluePeak Solutions (customer-b) | Professional Services | Cloud-to-cloud migration | AWS ap-southeast-2 (deployed) |
 | NovaRetail (customer-c) | Retail | Security assessment + monitoring | Azure (Phase 7) |
 

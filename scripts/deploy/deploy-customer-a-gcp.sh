@@ -57,6 +57,10 @@ cd "$TF_DIR"
 [[ -f terraform.tfvars ]] || cp terraform.tfvars.example terraform.tfvars
 # Inject the resolved project/region/tag without committing secrets.
 terraform init -input=false
+# The repo is pre-created above so the image push works; adopt it into state
+# if present (idempotent — import fails harmlessly when already tracked).
+terraform import google_artifact_registry_repository.jigsaw \
+  "projects/${PROJECT_ID}/locations/${REGION}/repositories/${REPOSITORY_ID}" >/dev/null 2>&1 || true
 terraform plan -input=false \
   -var "project_id=$PROJECT_ID" \
   -var "region=$REGION" \
