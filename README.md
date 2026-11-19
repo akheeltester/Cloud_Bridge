@@ -56,11 +56,11 @@ CloudBridge is built across five engineering layers:
 |---|---|---|---|
 | ACME Technologies (customer-a) | Technology | On-premises → Cloud migration | GCP Cloud Run (deployed) |
 | BluePeak Solutions (customer-b) | Professional Services | Cloud-to-cloud migration | AWS ap-southeast-2 (deployed) |
-| NovaRetail (customer-c) | Retail | Security assessment + monitoring | Azure (Phase 7) |
+| NovaRetail (customer-c) | Retail | Security assessment + monitoring | GCP Compute Engine (deployed) |
 
 All environments are isolated and use fictional data. See `customers/` for environment profiles.
 
-> The customer-to-cloud mapping above reflects the current multi-cloud goal (one workload per cloud). The original engagement profiles in `customers/*/README.md` describe the initial scenario design and are being reconciled with this mapping in Phase 7.
+> The customer-to-cloud mapping above reflects the current multi-cloud goal. Azure was deferred (signup requires a payment card); its App Service F1 IaC remains validated in `terraform/azure/` for a future engagement. The original engagement profiles in `customers/*/README.md` describe the initial scenario design.
 
 ---
 

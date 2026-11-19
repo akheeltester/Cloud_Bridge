@@ -29,9 +29,11 @@ retail API has been implemented and dockerized in this directory (see below).
 
 ## Application Implementation (Phase 7)
 
-A self-contained FastAPI retail API now lives in this directory, ready for Azure
-App Service (F1 Free). It uses embedded SQLite so it runs as a single free-tier
-container with no external database dependency. All data is fictional.
+A self-contained FastAPI retail API lives in this directory, deployed on a
+free-tier GCP Compute Engine VM (e2-micro, us-central1). It uses embedded
+SQLite so it runs as a single container with no external database dependency.
+All data is fictional. An Azure App Service F1 variant remains prepared but is
+deferred (Azure signup requires a payment card).
 
 | Path | Purpose |
 |---|---|
@@ -50,7 +52,19 @@ docker compose up -d --build
 curl -fsS http://127.0.0.1:8082/api/health
 ```
 
-Azure deployment (plan-first, explicit approval): see
+### Live deployment (GCP Compute Engine)
+
+- URL: http://35.209.137.226 (ephemeral IP; changes if the VM is recreated)
+- Host: e2-micro VM `cloudbridge-novaretail`, us-central1-a, Container-Optimized
+  OS, free-tier grant. Approved cost: public IPv4 ~$3.60/month from credits.
+- Verified externally: `/api/health` healthy, `/api/products` 200,
+  `POST /api/orders` created an order, storefront 200. SQLite persists on the
+  VM's stateful disk.
+- IaC: `terraform/gcp/environments/customer-c`; deploy script:
+  `scripts/deploy/deploy-customer-c-gcp.sh`; runbook:
+  `docs/migration-runbooks/customer-c-gcp-vm.md`.
+
+Azure deployment (deferred, plan-first): see
 `docs/migration-runbooks/customer-c-azure-appservice.md` and
 `scripts/deploy/deploy-customer-c-azure.sh`. IaC:
 `terraform/azure/environments/customer-c`.

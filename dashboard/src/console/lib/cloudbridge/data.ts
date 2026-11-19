@@ -11,6 +11,7 @@ export type Severity = "critical" | "high" | "medium" | "low" | "info";
 export const GITHUB = "https://github.com/akheeltester/Cloud_Bridge";
 export const LIVE_DEMO_URL = "https://cloudbridge-bluepeak.duckdns.org";
 export const JIGSAW_DEMO_URL = "https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app";
+export const NOVARETAIL_DEMO_URL = "http://35.209.137.226";
 
 export const phases = [
   {
@@ -66,8 +67,8 @@ export const phases = [
     number: 7,
     name: "Multi-Cloud Expansion",
     status: "in-progress" as WorkStatus,
-    description: "Jigsaw is live on GCP Cloud Run (verified). Azure App Service F1 (customer-c) Terraform and deploy script are prepared and validated; deployment awaits Azure access.",
-    deliverables: ["GCP Cloud Run deployed + verified", "Azure App Service module (validated)", "NovaRetail app built + tested", "Deploy scripts + runbooks", "Azure deployment pending access"],
+    description: "Jigsaw is live on GCP Cloud Run and NovaRetail on a free-tier GCP VM — both verified. Azure deferred (signup requires a card); its App Service F1 IaC stays validated for later.",
+    deliverables: ["GCP Cloud Run deployed + verified", "GCP free-tier VM deployed + verified", "NovaRetail app built + tested", "Deploy scripts + runbooks", "Azure IaC ready (deferred)"],
   },
   {
     number: 8,
@@ -89,16 +90,16 @@ export const clouds = [
   {
     name: "Microsoft Azure",
     region: "australiaeast",
-    pct: 30,
-    status: "in-progress" as WorkStatus,
-    note: "NovaRetail App Service F1 (Free) Terraform prepared and validated. Not yet deployed — awaits Azure access and cost approval.",
+    pct: 0,
+    status: "planned" as WorkStatus,
+    note: "Deferred: Azure signup requires a payment card. App Service F1 IaC remains validated; customer-c was deployed to a GCP free-tier VM instead.",
   },
   {
     name: "Google Cloud Platform",
-    region: "australia-southeast1",
-    pct: 70,
+    region: "australia-southeast1 + us-central1",
+    pct: 90,
     status: "deployed" as WorkStatus,
-    note: "Jigsaw live on Cloud Run (free-tier posture). Pages and auth sign-up (DB write) verified over HTTPS.",
+    note: "Two live workloads: Jigsaw on Cloud Run (Sydney) and NovaRetail on a free-tier e2-micro VM (us-central1). Both health- and DB-write-verified.",
   },
 ];
 
@@ -145,20 +146,20 @@ export const customers = [
     id: "customer-c",
     name: "NovaRetail",
     industry: "Retail",
-    scenario: "Security assessment + Azure deploy",
+    scenario: "Security assessment + GCP VM deploy",
     sourceCloud: "Local Docker simulation",
-    targetCloud: "Azure App Service F1 · australiaeast",
-    status: "prepared",
+    targetCloud: "GCP Compute Engine e2-micro · us-central1",
+    status: "deployed",
     assetCount: 4,
     dataStatus: "demo-data" as WorkStatus,
-    summary: "NovaRetail retail API (FastAPI + SQLite) is built, dockerized, and verified (8 unit tests + container smoke test). Azure App Service F1 Terraform is validated locally; deployment awaits Azure access and cost approval. Security assessment remains Phase 5 scope.",
+    summary: "NovaRetail retail API (FastAPI + SQLite) is live on a free-tier GCP VM. Health, catalogue, and order creation (DB write) verified externally. SQLite persists on the VM disk. Security assessment remains Phase 5 scope.",
     assets: [
-      { name: "Retail API", spec: "FastAPI · /api/health, products, orders", ip: "container :8000", role: "E-commerce backend" },
-      { name: "Database", spec: "Embedded SQLite (fictional seed)", ip: "in-container", role: "Catalogue + orders" },
-      { name: "Storefront", spec: "Static web/index.html", ip: "/", role: "Demo UI" },
-      { name: "App Service", spec: "Linux F1 Free · health probe /api/health", ip: "australiaeast", role: "Hosting target (IaC validated)" },
+      { name: "Retail API", spec: "FastAPI · /api/health, products, orders", ip: "container :8000 → host :80", role: "E-commerce backend" },
+      { name: "Database", spec: "SQLite on stateful VM disk", ip: "/var/lib/cloudbridge-novaretail", role: "Catalogue + orders (persistent)" },
+      { name: "VM", spec: "e2-micro · Container-Optimized OS · free grant", ip: NOVARETAIL_DEMO_URL.replace("http://", ""), role: "Live compute host" },
+      { name: "Image registry", spec: "Artifact Registry cloudbridge-us (us-central1)", ip: "VM service-account pull", role: "Deployed artifact" },
     ],
-    network: "Public HTTPS via azurewebsites.net. Public ghcr.io image avoids paid ACR. Security posture review planned for Phase 5.",
+    network: "Public HTTP via VPC firewall + guest iptables (tcp:80). Approved cost: public IPv4 ~$3.60/mo; VM + 30GB disk free.",
   },
 ];
 
@@ -187,9 +188,9 @@ export const migrations = [
     id: "mig-customer-c",
     customer: "NovaRetail",
     from: "Local Docker simulation",
-    to: "Azure App Service F1 · australiaeast",
-    stage: "planning",
-    stagePercent: 45,
+    to: "GCP Compute Engine e2-micro · us-central1",
+    stage: "validation",
+    stagePercent: 90,
     services: 4,
     dataStatus: "demo-data" as WorkStatus,
   },
@@ -410,7 +411,8 @@ export const catalogs = [
       { name: "aws/modules/identity", desc: "IAM roles, policies, instance profiles", lang: "HCL", status: "planned" as WorkStatus },
       { name: "aws/modules/logging", desc: "CloudTrail, CloudWatch Logs, S3 log bucket", lang: "HCL", status: "planned" as WorkStatus },
       { name: "azure/modules/appservice", desc: "App Service F1 plan + Linux container web app (validated)", lang: "HCL", status: "tested-locally" as WorkStatus },
-      { name: "gcp/modules/cloudrun", desc: "Cloud Run v2 service, scale-to-zero, public IAM (validated)", lang: "HCL", status: "tested-locally" as WorkStatus },
+      { name: "gcp/modules/cloudrun", desc: "Cloud Run v2 service, scale-to-zero, public IAM (deployed)", lang: "HCL", status: "deployed" as WorkStatus },
+      { name: "gcp/modules/compute-vm", desc: "e2-micro free-tier VM, COS, AR pull via SA, guest firewall (deployed)", lang: "HCL", status: "deployed" as WorkStatus },
     ],
   },
   {
@@ -458,7 +460,7 @@ export const docGroups = [
     docs: [
       { name: "ACME Technologies (Customer A)", path: "customers/customer-a/README.md", status: "deployed" as WorkStatus, blurb: "Jigsaw portal live on GCP Cloud Run; pages and sign-up verified. Embedded PGlite demo storage." },
       { name: "BluePeak Solutions (Customer B)", path: "customers/customer-b/README.md", status: "deployed" as WorkStatus, blurb: "Fictional portfolio demo deployed to EC2 with private S3 and HTTPS; health, upload, and list checks passed." },
-      { name: "NovaRetail (Customer C)", path: "customers/customer-c/README.md", status: "tested-locally" as WorkStatus, blurb: "Retail API built, dockerized, and tested (8 tests + container smoke). Azure App Service F1 target; security assessment in Phase 5." },
+      { name: "NovaRetail (Customer C)", path: "customers/customer-c/README.md", status: "deployed" as WorkStatus, blurb: "Retail API live on a free-tier GCP VM; health and order write verified. Security assessment in Phase 5." },
     ],
   },
   {
@@ -467,7 +469,8 @@ export const docGroups = [
       { name: "On-Premises to AWS Runbook", path: "docs/migration-runbooks/onprem-to-aws.md", status: "planned" as WorkStatus, blurb: "ACME path: discover, plan, provision in ap-southeast-2, validate, hand off." },
       { name: "BluePeak EC2 + S3 Deployment", path: "customers/customer-b/README.md", status: "deployed" as WorkStatus, blurb: "EC2, Docker Compose, private S3, instance-role permissions, Caddy HTTPS, and smoke-test steps for the demo." },
       { name: "Jigsaw → GCP Cloud Run", path: "docs/migration-runbooks/customer-a-gcp-cloudrun.md", status: "deployed" as WorkStatus, blurb: "Deployed and live-verified on Cloud Run: pages 200, auth sign-up (DB write) 200. Runbook covers APIs, registry, plan-first deploy, validation, rollback." },
-      { name: "NovaRetail → Azure App Service", path: "docs/migration-runbooks/customer-c-azure-appservice.md", status: "implemented" as WorkStatus, blurb: "App Service F1 runbook: public ghcr.io image, plan-first deploy script, health validation, rollback. IaC validated; deploy pending approval." },
+      { name: "NovaRetail → Azure App Service", path: "docs/migration-runbooks/customer-c-azure-appservice.md", status: "planned" as WorkStatus, blurb: "App Service F1 runbook (deferred — Azure needs a card). IaC validated; kept for a future Azure engagement." },
+      { name: "NovaRetail → GCP Compute Engine VM", path: "docs/migration-runbooks/customer-c-gcp-vm.md", status: "deployed" as WorkStatus, blurb: "Deployed and live-verified on a free-tier e2-micro VM: health, catalogue, and order write checked externally. Cost table + COS pitfalls documented." },
       { name: "Data Migration Procedures", path: "docs/migration-runbooks/data-migration.md", status: "planned" as WorkStatus, blurb: "PostgreSQL and object-storage transfer checks." },
       { name: "Rollback Procedures", path: "docs/migration-runbooks/rollback.md", status: "planned" as WorkStatus, blurb: "How a wave is reversed if validation fails." },
     ],

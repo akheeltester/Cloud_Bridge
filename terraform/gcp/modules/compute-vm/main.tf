@@ -27,6 +27,18 @@ resource "google_project_iam_member" "ar_reader" {
   member  = "serviceAccount:${google_service_account.vm.email}"
 }
 
+resource "google_project_iam_member" "log_writer" {
+  project = var.project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.vm.email}"
+}
+
+resource "google_project_iam_member" "metric_writer" {
+  project = var.project_id
+  role    = "roles/monitoring.metricWriter"
+  member  = "serviceAccount:${google_service_account.vm.email}"
+}
+
 resource "google_compute_instance" "this" {
   project      = var.project_id
   name         = var.instance_name
@@ -53,18 +65,30 @@ resource "google_compute_instance" "this" {
   }
 
   service_account {
-    email  = google_service_account.vm.email
-    scopes = ["devstorage.read_only", "logging.write", "monitoring.write"]
+    email = google_service_account.vm.email
+    scopes = [
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring.write",
+    ]
   }
 
   metadata = {
     startup-script = <<-EOT
       #!/bin/bash
       set -euo pipefail
-      # Container-Optimized OS: configure the AR credential helper, then run
-      # the app with a restart policy. /var/lib is stateful across reboots.
-      docker-credential-gcr configure-docker --registries=${var.registry_host} || true
-      mkdir -p /var/lib/${var.instance_name}
+      # Container-Optimized OS: root FS is read-only — put the docker credential
+      # config on the writable stateful partition or AR auth fails.
+      export DOCKER_CONFIG=/var/lib/${var.instance_name}/docker-config
+      mkdir -p "$DOCKER_CONFIG" /var/lib/${var.instance_name}
+      # The container runs as a non-root user; the bind-mounted data dir must
+      # be writable by it (host dirs are root-owned by default).
+      chmod 0777 /var/lib/${var.instance_name}
+      # COS guest firewall defaults to INPUT DROP (only SSH/lo/icmp). Open the
+      # app port in the guest chain too — the VPC firewall alone is not enough.
+      iptables -C INPUT -p tcp --dport ${var.host_port} -j ACCEPT 2>/dev/null || \
+        iptables -I INPUT -p tcp --dport ${var.host_port} -j ACCEPT
+      docker-credential-gcr configure-docker --registries=${var.registry_host}
       docker rm -f ${var.instance_name} >/dev/null 2>&1 || true
       docker run -d --name ${var.instance_name} --restart always \
         -p ${var.host_port}:${var.container_port} \

@@ -5,9 +5,10 @@ Service (Linux, F1 Free plan) in `australiaeast`. The container image is
 published to a PUBLIC ghcr.io package so no paid Azure Container Registry is
 needed.
 
-> Status: prepared and validated locally (`terraform validate` passed). Actual
-> deployment requires an Azure subscription, `az login`, and explicit cost
-> approval.
+> Status: DEFERRED (Azure signup requires a payment card, which is unavailable).
+> IaC prepared and validated locally (`terraform validate` passed); kept for a
+> future Azure engagement. NovaRetail was deployed to a free-tier GCP VM instead
+> — see `customer-c-gcp-vm.md`.
 
 ## Prerequisites
 

@@ -4,8 +4,12 @@ Phase 7 multi-cloud expansion (Azure replaced: no card available for Azure
 signup). Deploys the NovaRetail retail API to a free-tier-eligible Compute
 Engine VM in `us-central1`.
 
-> Status: prepared and validated locally. Deployment requires explicit approval
-> of the public-IPv4 cost (~$3.60/month — see below).
+> Status: DEPLOYED and live-verified (2026-11-19).
+> Live URL: http://35.209.137.226 (ephemeral IP — changes if the VM is recreated)
+> Project: iconic-being-431804-c2 · Zone: us-central1-a · e2-micro free grant
+> Verified externally: /api/health healthy (api+database), /api/products 200,
+> POST /api/orders created an order (DB write), storefront 200.
+> Approved cost: public IPv4 ~$3.60/month (from credits); VM+disk are free.
 
 ## Cost breakdown (verified against cloud.google.com/vpc/network-pricing)
 
@@ -62,6 +66,23 @@ ephemeral IP, which is released on destroy).
   `docker rm -f` + `docker run` via a new instance revision or manual restart).
 - No TLS: plain HTTP on port 80 (no domain). For HTTPS, add a domain + Caddy or
   a Cloudflare tunnel later.
+
+## Pitfalls encountered (fixed in this repo)
+
+- **Invalid scope aliases**: the Compute API rejects short scope names
+  (`devstorage.read_only`); use full `https://www.googleapis.com/auth/...` URLs.
+- **COS read-only root FS**: `docker-credential-gcr configure-docker` fails
+  writing `/root/.docker`; set `DOCKER_CONFIG` to a path under `/var/lib`
+  (stateful, writable) or the AR pull is unauthenticated and denied.
+- **Non-root container + bind mount**: the host data dir is root-owned; the
+  container's non-root user cannot create the SQLite file (restart loop with
+  "unable to open database file"). The startup script chmods the data dir.
+- **COS guest firewall**: INPUT policy DROP (SSH/lo/icmp only). The VPC firewall
+  rule alone is not enough — the startup script also inserts an iptables ACCEPT
+  for the app port. Symptom: container healthy on localhost, external
+  connections refused.
+- **Boot timing**: first boot + image pull takes ~4 minutes; poll health before
+  declaring failure.
 
 ## Rollback / stop-cost
 
