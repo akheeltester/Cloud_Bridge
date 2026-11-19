@@ -38,3 +38,9 @@ variable "image_tag" {
   type        = string
   default     = "latest"
 }
+
+variable "tls_domain" {
+  description = "Public domain for Caddy automatic HTTPS (DuckDNS). Empty = plain HTTP."
+  type        = string
+  default     = "cloudbridge-novaretail.duckdns.org"
+}

@@ -3,123 +3,168 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#10233f">
-  <title>BluePeak Solutions | CloudBridge Simulation</title>
+  <meta name="theme-color" content="#0f172a">
+  <title>BluePeak Solutions · Service Portal</title>
   <style>
     :root {
+      --bg: #f4f6fb; --surface: #ffffff; --border: #e3e8f0; --border-strong: #cbd5e1;
+      --text: #0f172a; --muted: #64748b; --faint: #94a3b8;
+      --primary: #1d4ed8; --primary-hover: #1e40af; --primary-soft: #eff6ff;
+      --green: #059669; --green-soft: #ecfdf5; --amber: #d97706; --amber-soft: #fffbeb;
+      --red: #dc2626; --red-soft: #fef2f2;
+      --navy: #0f172a; --navy-2: #1e293b;
+      --radius: 12px; --shadow: 0 1px 2px rgb(15 23 42 / .05), 0 4px 16px rgb(15 23 42 / .06);
       color-scheme: light;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: #172b45;
-      background: #f3f6fa;
-      font-synthesis: none;
-      text-rendering: optimizeLegibility;
-      --navy: #10233f;
-      --blue: #1769aa;
-      --muted: #64748b;
-      --border: #dce4ee;
-      --surface: #fff;
     }
-
     * { box-sizing: border-box; }
-    body { margin: 0; min-width: 320px; }
+    body { margin: 0; min-width: 320px; background: var(--bg); color: var(--text);
+      font: 14px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased; }
     button, input { font: inherit; }
     button { cursor: pointer; }
-    .topbar { background: var(--navy); color: #fff; }
-    .topbar-inner, main { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
-    .topbar-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .brand-mark { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 11px; background: #1d75b9; font-weight: 800; }
-    .brand-name { margin: 0; font-size: 17px; letter-spacing: .01em; }
-    .brand-subtitle { margin: 3px 0 0; color: #b6c8dc; font-size: 12px; }
-    .simulation-label { border: 1px solid #d5a744; border-radius: 999px; padding: 7px 11px; color: #ffe4a3; font-size: 12px; font-weight: 700; letter-spacing: .04em; }
-    main { padding: 30px 0 48px; }
-    .hero { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 24px; }
-    .eyebrow { margin: 0 0 7px; color: var(--blue); font-size: 12px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
-    h1 { margin: 0; color: var(--navy); font-size: clamp(26px, 4vw, 36px); letter-spacing: -.035em; }
-    .hero-copy { margin: 8px 0 0; color: var(--muted); line-height: 1.5; }
-    .button { border: 1px solid var(--border); border-radius: 8px; padding: 9px 13px; background: #fff; color: var(--navy); font-weight: 650; }
-    .button:hover { border-color: #9fb3ca; background: #f8fafc; }
-    .button:focus-visible, input:focus-visible { outline: 3px solid #8cc8f4; outline-offset: 2px; }
-    .button-primary { border-color: var(--blue); background: var(--blue); color: #fff; }
-    .button-primary:hover { border-color: #0e568f; background: #0e568f; }
-    .button:disabled { cursor: wait; opacity: .6; }
-    .card { border: 1px solid var(--border); border-radius: 12px; background: var(--surface); box-shadow: 0 2px 8px rgb(16 35 63 / 4%); }
-    .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 17px 19px; border-bottom: 1px solid var(--border); }
-    .section-heading h2 { margin: 0; color: var(--navy); font-size: 16px; }
-    .section-hint { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
-    .health-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 20px; }
+
+    /* ── Top navigation ── */
+    .topnav { background: linear-gradient(180deg, var(--navy), var(--navy-2)); color: #fff;
+      border-bottom: 1px solid rgb(255 255 255 / .06); position: sticky; top: 0; z-index: 40; }
+    .topnav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 60px;
+      display: flex; align-items: center; gap: 16px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; letter-spacing: -.01em; }
+    .logo-mark { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8); font-size: 13px; font-weight: 800; }
+    .logo small { display: block; font-size: 10.5px; font-weight: 500; color: #94a3b8; letter-spacing: .02em; }
+    .nav-links { display: flex; gap: 4px; margin-left: 12px; }
+    .nav-links a { color: #cbd5e1; text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 8px; }
+    .nav-links a.active, .nav-links a:hover { background: rgb(255 255 255 / .08); color: #fff; }
+    .topnav-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .env-badge { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; color: #fbbf24;
+      border: 1px solid rgb(251 191 36 / .4); background: rgb(251 191 36 / .08);
+      padding: 4px 10px; border-radius: 999px; text-transform: uppercase; }
+
+    /* ── Layout ── */
+    main { max-width: 1200px; margin: 0 auto; padding: 28px 24px 48px; }
+    .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+    .page-head h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -.02em; }
+    .page-head p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .head-actions { display: flex; align-items: center; gap: 10px; }
+    .last-updated { color: var(--faint); font-size: 12px; }
+
+    .btn { display: inline-flex; align-items: center; gap: 7px; border-radius: 9px; border: 1px solid var(--border-strong);
+      background: var(--surface); color: var(--text); font-weight: 600; font-size: 13px; padding: 8px 14px;
+      transition: background .15s, border-color .15s; }
+    .btn:hover { background: #f8fafc; border-color: var(--faint); }
+    .btn-primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+    .btn:focus-visible, input:focus-visible { outline: 3px solid rgb(59 130 246 / .35); outline-offset: 1px; }
+    .btn:disabled { opacity: .55; cursor: wait; }
+
+    /* ── Health / KPI cards ── */
+    .health-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 22px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
     .health-card { padding: 16px 18px; }
-    .health-name { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
-    .health-value { display: flex; align-items: center; gap: 8px; margin-top: 11px; color: var(--navy); font-size: 15px; font-weight: 700; }
-    .health-dot { width: 9px; height: 9px; border-radius: 50%; background: #94a3b8; }
-    .health-value[data-state="healthy"] .health-dot { background: #16a36a; }
-    .health-value[data-state="degraded"] .health-dot { background: #d78a11; }
-    .health-value[data-state="unavailable"] .health-dot { background: #dc4c4c; }
-    .health-detail { margin: 6px 0 0 17px; color: var(--muted); font-size: 12px; }
-    .data-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .health-name { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+    .health-value { display: flex; align-items: center; gap: 8px; margin-top: 9px; font-size: 16px; font-weight: 700; }
+    .health-dot { width: 9px; height: 9px; border-radius: 50%; background: #94a3b8; flex: 0 0 auto; }
+    .health-value[data-state="healthy"] .health-dot { background: #10b981; box-shadow: 0 0 0 3px rgb(16 185 129 / .15); }
+    .health-value[data-state="degraded"] .health-dot { background: #f59e0b; box-shadow: 0 0 0 3px rgb(245 158 11 / .15); }
+    .health-value[data-state="unavailable"] .health-dot { background: #ef4444; box-shadow: 0 0 0 3px rgb(239 68 68 / .15); }
+    .health-detail { margin: 5px 0 0 17px; color: var(--faint); font-size: 12px; }
+
+    /* ── Panels & tables ── */
+    .data-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px; }
+    .panel { overflow: hidden; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px 18px; border-bottom: 1px solid var(--border); }
+    .panel-head h2 { margin: 0; font-size: 14.5px; font-weight: 700; }
+    .panel-head .hint { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; text-align: left; }
-    th, td { padding: 12px 18px; border-bottom: 1px solid #edf1f5; font-size: 13px; white-space: nowrap; }
-    th { color: var(--muted); font-size: 11px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+    th { font-size: 10.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted);
+      padding: 10px 18px; border-bottom: 1px solid var(--border); background: #fafbfd; white-space: nowrap; }
+    td { padding: 11px 18px; border-bottom: 1px solid #eef1f6; font-size: 13px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    tbody tr:hover { background: #f8faff; }
     tbody tr:last-child td { border-bottom: 0; }
     .empty-cell { color: var(--muted); white-space: normal; }
-    .upload-body { padding: 18px 19px; }
-    .upload-form { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .file-input { max-width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 8px; background: #f8fafc; color: #334155; }
-    .upload-help, .upload-status { margin: 10px 0 0; color: var(--muted); font-size: 12px; }
-    .upload-status[data-kind="error"] { color: #b42318; }
-    .upload-status[data-kind="success"] { color: #087443; }
-    progress { width: 100%; height: 8px; margin-top: 12px; accent-color: var(--blue); }
-    .object-list { display: grid; gap: 0; margin: 15px 0 0; padding: 0; list-style: none; }
-    .object-item { display: flex; justify-content: space-between; gap: 14px; padding: 11px 0; border-top: 1px solid #edf1f5; font-size: 13px; }
-    .object-key { min-width: 0; overflow-wrap: anywhere; color: var(--navy); font-weight: 600; }
-    .object-meta { flex: 0 0 auto; color: var(--muted); }
-    .info-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding: 17px 19px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--muted); }
+    .status-pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; text-transform: capitalize; }
+    .status-pill[data-s="completed"], .status-pill[data-s="fulfilled"], .status-pill[data-s="paid"] { background: var(--green-soft); color: var(--green); }
+    .status-pill[data-s="pending"], .status-pill[data-s="processing"] { background: var(--amber-soft); color: var(--amber); }
+    .status-pill[data-s="cancelled"], .status-pill[data-s="failed"] { background: var(--red-soft); color: var(--red); }
+    .status-pill[data-s="other"] { background: var(--primary-soft); color: var(--primary); }
+
+    /* ── Uploads ── */
+    .upload-body { padding: 18px; }
+    .dropzone { border: 1.5px dashed var(--border-strong); border-radius: 10px; background: #fafbfd;
+      padding: 22px; text-align: center; transition: border-color .15s, background .15s; }
+    .dropzone.drag { border-color: var(--primary); background: var(--primary-soft); }
+    .dropzone-title { font-weight: 650; font-size: 13.5px; }
+    .dropzone-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+    .upload-form { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+    .file-input { max-width: 100%; padding: 7px; border: 1px solid var(--border); border-radius: 8px; background: #fff; color: #334155; font-size: 12.5px; }
+    .upload-help, .upload-status { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
+    .upload-status[data-kind="error"] { color: var(--red); font-weight: 600; }
+    .upload-status[data-kind="success"] { color: var(--green); font-weight: 600; }
+    progress { width: 100%; height: 8px; margin-top: 12px; accent-color: var(--primary); }
+    .object-list { display: grid; gap: 0; margin: 14px 0 0; padding: 0; list-style: none; }
+    .object-item { display: flex; justify-content: space-between; gap: 14px; padding: 10px 2px; border-top: 1px solid #eef1f6; font-size: 13px; }
+    .object-key { min-width: 0; overflow-wrap: anywhere; font-weight: 600; }
+    .object-key::before { content: "📄 "; }
+    .object-meta { flex: 0 0 auto; color: var(--faint); font-size: 12px; }
+
+    /* ── Environment info ── */
+    .info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; padding: 16px 18px; }
     .info-item { padding: 4px 14px; border-left: 1px solid var(--border); }
     .info-item:first-child { padding-left: 0; border-left: 0; }
-    .info-label { display: block; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
-    .info-value { display: block; margin-top: 6px; color: var(--navy); font-size: 13px; font-weight: 650; }
-    footer { padding: 18px 0 0; color: var(--muted); font-size: 11px; text-align: center; }
-    @media (max-width: 760px) {
-      .data-grid { grid-template-columns: 1fr; }
-      .info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
-      .info-item:nth-child(3) { padding-left: 0; border-left: 0; }
-    }
-    @media (max-width: 520px) {
-      .topbar-inner, main { width: min(100% - 28px, 1180px); }
-      .topbar-inner { min-height: 68px; }
-      .simulation-label { padding: 6px 8px; font-size: 10px; }
-      .hero { align-items: start; flex-direction: column; }
-      .health-grid { grid-template-columns: 1fr; gap: 9px; }
-      .health-card { padding: 13px 15px; }
-      .section-heading, .upload-body { padding-right: 14px; padding-left: 14px; }
-      th, td { padding-right: 12px; padding-left: 12px; }
-    }
+    .info-label { display: block; color: var(--muted); font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .info-value { display: block; margin-top: 6px; font-size: 13px; font-weight: 650; }
+
+    footer { max-width: 1200px; margin: 0 auto; padding: 18px 24px 30px; color: var(--faint); font-size: 11.5px; text-align: center; }
+
+    /* ── Toasts ── */
+    .toasts { position: fixed; right: 20px; bottom: 20px; display: grid; gap: 10px; z-index: 80; }
+    .toast { background: var(--navy); color: #f1f5f9; font-size: 13px; font-weight: 500; padding: 12px 16px;
+      border-radius: 10px; box-shadow: 0 8px 30px rgb(15 23 42 / .35); display: flex; gap: 9px; align-items: center;
+      animation: slide-in .2s ease-out; max-width: 360px; }
+    .toast.ok::before { content: "✓"; color: #34d399; font-weight: 800; }
+    .toast.err::before { content: "✕"; color: #f87171; font-weight: 800; }
+    @keyframes slide-in { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+    @media (max-width: 900px) { .data-grid { grid-template-columns: 1fr; } .nav-links { display: none; } }
+    @media (max-width: 760px) { .health-grid { grid-template-columns: 1fr; gap: 10px; }
+      .info-grid { grid-template-columns: repeat(2, 1fr); row-gap: 16px; }
+      .info-item:nth-child(3) { padding-left: 0; border-left: 0; } }
+    @media (max-width: 520px) { main { padding: 20px 14px 40px; } .topnav-inner { padding: 0 14px; }
+      .env-badge { padding: 4px 7px; font-size: 9.5px; } .page-head { align-items: start; flex-direction: column; } }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="brand-mark" aria-hidden="true">B</div>
-        <div>
-          <p class="brand-name">BluePeak Solutions</p>
-          <p class="brand-subtitle">CloudBridge migration lab</p>
-        </div>
+  <nav class="topnav">
+    <div class="topnav-inner">
+      <div class="logo">
+        <div class="logo-mark" aria-hidden="true">B</div>
+        <div>BluePeak Solutions<small>Service Portal · CloudBridge</small></div>
       </div>
-      <span class="simulation-label">SIMULATION · NOT PRODUCTION</span>
+      <div class="nav-links">
+        <a class="active" href="#">Overview</a>
+        <a href="#records">Records</a>
+        <a href="#documents">Documents</a>
+      </div>
+      <div class="topnav-right">
+        <span class="env-badge">Simulation · Not production</span>
+      </div>
     </div>
-  </header>
+  </nav>
 
   <main>
-    <section class="hero" aria-labelledby="page-title">
+    <div class="page-head">
       <div>
-        <p class="eyebrow">Customer B · AWS to Azure</p>
-        <h1 id="page-title">Application overview</h1>
-        <p class="hero-copy">Local source-workload simulation and service health.</p>
+        <h1>Application overview</h1>
+        <p>Service health, business records and private document storage · Customer B workload on AWS</p>
       </div>
-      <button class="button" id="refresh-button" type="button">Refresh dashboard</button>
-    </section>
+      <div class="head-actions">
+        <span class="last-updated" id="last-updated"></span>
+        <button class="btn" id="refresh-button" type="button">↻ Refresh</button>
+      </div>
+    </div>
 
     <section aria-label="Service health">
       <div class="health-grid">
@@ -147,12 +192,12 @@
       </div>
     </section>
 
-    <div class="data-grid">
-      <section class="card" aria-labelledby="products-heading">
-        <div class="section-heading">
+    <div class="data-grid" id="records">
+      <section class="card panel" aria-labelledby="products-heading">
+        <div class="panel-head">
           <div>
             <h2 id="products-heading">Products</h2>
-            <p class="section-hint" id="products-summary">Loading product records</p>
+            <p class="hint" id="products-summary">Loading product records</p>
           </div>
         </div>
         <div class="table-wrap">
@@ -163,11 +208,11 @@
         </div>
       </section>
 
-      <section class="card" aria-labelledby="orders-heading">
-        <div class="section-heading">
+      <section class="card panel" aria-labelledby="orders-heading">
+        <div class="panel-head">
           <div>
             <h2 id="orders-heading">Orders</h2>
-            <p class="section-hint" id="orders-summary">Loading order records</p>
+            <p class="hint" id="orders-summary">Loading order records</p>
           </div>
         </div>
         <div class="table-wrap">
@@ -179,20 +224,22 @@
       </section>
     </div>
 
-    <section class="card" aria-labelledby="uploads-heading">
-      <div class="section-heading">
+    <section class="card panel" id="documents" aria-labelledby="uploads-heading">
+      <div class="panel-head">
         <div>
-          <h2 id="uploads-heading">Private file uploads</h2>
-          <p class="section-hint">Files are stored in private object storage.</p>
+          <h2 id="uploads-heading">Private documents</h2>
+          <p class="hint">Files are stored in private object storage with randomized keys — no public access.</p>
         </div>
       </div>
       <div class="upload-body">
-        <form class="upload-form" id="upload-form">
-          <label for="upload-file">Choose a file</label>
-          <input class="file-input" id="upload-file" name="file" type="file" accept=".pdf,.png,.jpg,.jpeg,.txt,.csv,application/pdf,image/png,image/jpeg,text/plain,text/csv">
-          <button class="button button-primary" id="upload-button" type="submit">Upload file</button>
-        </form>
-        <p class="upload-help">PDF, PNG, JPEG, TXT, or CSV · maximum 10 MiB. The server validates file type and size.</p>
+        <div class="dropzone" id="dropzone">
+          <div class="dropzone-title">Drag &amp; drop a document here</div>
+          <div class="dropzone-sub">PDF, PNG, JPEG, TXT or CSV · maximum 10 MiB · server-side validation enforced</div>
+          <form class="upload-form" id="upload-form">
+            <input class="file-input" id="upload-file" name="file" type="file" accept=".pdf,.png,.jpg,.jpeg,.txt,.csv,application/pdf,image/png,image/jpeg,text/plain,text/csv" aria-label="Choose a file">
+            <button class="btn btn-primary" id="upload-button" type="submit">Upload document</button>
+          </form>
+        </div>
         <progress id="upload-progress" max="100" value="0" hidden aria-label="Upload progress"></progress>
         <p class="upload-status" id="upload-status" role="status" aria-live="polite">Choose a supported file to upload.</p>
         <ul class="object-list" id="object-list" aria-label="Uploaded files">
@@ -201,18 +248,20 @@
       </div>
     </section>
 
-    <section class="card" aria-labelledby="info-heading" style="margin-top: 20px;">
-      <div class="section-heading"><h2 id="info-heading">Environment information</h2></div>
+    <section class="card panel" aria-labelledby="info-heading" style="margin-top: 16px;">
+      <div class="panel-head"><h2 id="info-heading">Environment information</h2></div>
       <div class="info-grid">
         <div class="info-item"><span class="info-label">Customer</span><span class="info-value">BluePeak Solutions</span></div>
-        <div class="info-item"><span class="info-label">Migration</span><span class="info-value">AWS → Azure</span></div>
-        <div class="info-item"><span class="info-label">Environment</span><span class="info-value">BluePeak lab</span></div>
-        <div class="info-item"><span class="info-label">Deployment status</span><span class="info-value">Demo only — not production</span></div>
+        <div class="info-item"><span class="info-label">Hosting</span><span class="info-value">AWS EC2 + S3 · ap-southeast-2</span></div>
+        <div class="info-item"><span class="info-label">Ingress</span><span class="info-value">Caddy · automatic HTTPS</span></div>
+        <div class="info-item"><span class="info-label">Deployment status</span><span class="info-value">Portfolio demo — fictional data</span></div>
       </div>
     </section>
 
-    <footer>* Price is shown as stored in the simulation; a currency is not specified. No real customer data is used.</footer>
+    <footer>* Price is shown as stored in the simulation; a currency is not specified. BluePeak Solutions is a fictional customer — no real customer data is used.</footer>
   </main>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
 
   <script>
     "use strict";
@@ -226,6 +275,14 @@
       [".png", "image/png"],
       [".txt", "text/plain"],
     ]);
+
+    function toast(msg, kind) {
+      const el = document.createElement("div");
+      el.className = "toast " + (kind || "ok");
+      el.textContent = msg;
+      document.getElementById("toasts").append(el);
+      setTimeout(() => el.remove(), 4200);
+    }
 
     function setHealth(id, state, detail) {
       const element = document.getElementById(id);
@@ -254,6 +311,18 @@
       const cell = document.createElement("td");
       cell.textContent = value == null ? "—" : String(value);
       if (className) cell.className = className;
+      return cell;
+    }
+
+    function statusCell(status) {
+      const cell = document.createElement("td");
+      const pill = document.createElement("span");
+      const s = String(status || "unknown").toLowerCase();
+      const known = ["completed", "fulfilled", "paid", "pending", "processing", "cancelled", "failed"];
+      pill.className = "status-pill";
+      pill.dataset.s = known.includes(s) ? s : "other";
+      pill.textContent = s;
+      cell.append(pill);
       return cell;
     }
 
@@ -307,14 +376,14 @@
         for (const product of result.items) {
           const row = document.createElement("tr");
           row.append(
-            makeCell(product.id),
+            makeCell(product.id, "mono"),
             makeCell(product.name),
-            makeCell(product.sku),
+            makeCell(product.sku, "mono"),
             makeCell(product.price),
           );
           body.append(row);
         }
-        summary.textContent = `${result.count} product${result.count === 1 ? "" : "s"}`;
+        summary.textContent = `${result.count} product${result.count === 1 ? "" : "s"} on record`;
       } catch (error) {
         setEmptyRow(body, error.message || "Unable to load products.");
         summary.textContent = "Products unavailable";
@@ -331,14 +400,14 @@
         for (const order of result.items) {
           const row = document.createElement("tr");
           row.append(
-            makeCell(order.id),
+            makeCell(order.id, "mono"),
             makeCell(order.product_name || "Unknown product"),
             makeCell(order.quantity),
-            makeCell(order.status),
+            statusCell(order.status),
           );
           body.append(row);
         }
-        summary.textContent = `${result.count} order${result.count === 1 ? "" : "s"}`;
+        summary.textContent = `${result.count} order${result.count === 1 ? "" : "s"} on record`;
       } catch (error) {
         setEmptyRow(body, error.message || "Unable to load orders.");
         summary.textContent = "Orders unavailable";
@@ -380,7 +449,9 @@
     }
 
     function refreshDashboard() {
-      return Promise.all([loadHealth(), loadProducts(), loadOrders(), loadUploads()]);
+      return Promise.all([loadHealth(), loadProducts(), loadOrders(), loadUploads()]).then(() => {
+        document.getElementById("last-updated").textContent = "Updated " + new Date().toLocaleTimeString();
+      });
     }
 
     function validateSelectedFile(file) {
@@ -394,17 +465,14 @@
       return "";
     }
 
-    document.getElementById("upload-form").addEventListener("submit", (event) => {
-      event.preventDefault();
-      const fileInput = document.getElementById("upload-file");
-      const file = fileInput.files[0];
-      const validationMessage = validateSelectedFile(file);
+    function uploadFile(file) {
       const statusElement = document.getElementById("upload-status");
       const button = document.getElementById("upload-button");
       const progress = document.getElementById("upload-progress");
+      const validationMessage = validateSelectedFile(file);
       statusElement.dataset.kind = validationMessage ? "error" : "";
       statusElement.textContent = validationMessage;
-      if (validationMessage) return;
+      if (validationMessage) { toast(validationMessage, "err"); return; }
 
       const formData = new FormData();
       formData.append("file", file);
@@ -434,11 +502,13 @@
         if (request.status >= 200 && request.status < 300) {
           statusElement.dataset.kind = "success";
           statusElement.textContent = "Upload complete.";
-          fileInput.value = "";
+          document.getElementById("upload-file").value = "";
+          toast("Document uploaded to private storage", "ok");
           loadUploads();
         } else {
           statusElement.dataset.kind = "error";
           statusElement.textContent = payload.detail || `Upload failed with status ${request.status}.`;
+          toast(statusElement.textContent, "err");
         }
       });
       request.addEventListener("error", () => {
@@ -446,12 +516,30 @@
         progress.hidden = true;
         statusElement.dataset.kind = "error";
         statusElement.textContent = "Upload failed because the application could not be reached.";
+        toast(statusElement.textContent, "err");
       });
       request.send(formData);
+    }
+
+    document.getElementById("upload-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      uploadFile(document.getElementById("upload-file").files[0]);
+    });
+
+    /* Drag & drop */
+    const dropzone = document.getElementById("dropzone");
+    ["dragenter", "dragover"].forEach((evt) =>
+      dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.add("drag"); }));
+    ["dragleave", "drop"].forEach((evt) =>
+      dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.remove("drag"); }));
+    dropzone.addEventListener("drop", (e) => {
+      const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (file) uploadFile(file);
     });
 
     document.getElementById("refresh-button").addEventListener("click", refreshDashboard);
     refreshDashboard();
+    setInterval(refreshDashboard, 30000);
   </script>
 </body>
 </html>

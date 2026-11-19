@@ -58,6 +58,21 @@ ephemeral IP, which is released on destroy).
      -d '{"product_id":1,"quantity":1}'
    ```
 
+## TLS (Caddy sidecar)
+
+The module supports automatic HTTPS via a Caddy sidecar container
+(`tls_domain` variable, default `cloudbridge-novaretail.duckdns.org`):
+
+- App container becomes internal-only on the `cloudbridge` docker network.
+- Caddy binds 80/443, reverse-proxies to the app, and obtains/renews Let's
+  Encrypt certificates automatically (stored in `/var/lib/caddy-data`).
+- Requirement: the domain's DNS A record must point at the VM's public IP.
+  Until then Caddy logs NXDOMAIN ACME errors and retries (up to 30 days) —
+  the certificate issues itself within ~1 minute once DNS resolves.
+- DuckDNS update: `https://www.duckdns.org/update?domains=cloudbridge-novaretail&token=<TOKEN>&ip=<VM_IP>`
+- While DNS is pending the app is NOT reachable via the bare IP (Caddy only
+  serves the configured domain).
+
 ## Operations
 
 - SSH: `gcloud compute ssh cloudbridge-novaretail --zone us-central1-a --project iconic-being-431804-c2`

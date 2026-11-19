@@ -53,6 +53,7 @@ module "novaretail" {
   registry_host   = "${var.region}-docker.pkg.dev"
   container_port  = 8000
   host_port       = 80
+  tls_domain      = var.tls_domain
 
   depends_on = [google_artifact_registry_repository.nova]
 }

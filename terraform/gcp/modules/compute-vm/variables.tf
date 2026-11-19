@@ -68,7 +68,13 @@ variable "container_port" {
 }
 
 variable "host_port" {
-  description = "Public port mapped to the container (firewall opens this)."
+  description = "Public port mapped to the container when TLS is disabled."
   type        = number
   default     = 80
+}
+
+variable "tls_domain" {
+  description = "Public domain for Caddy automatic HTTPS. Empty = plain HTTP on host_port."
+  type        = string
+  default     = ""
 }

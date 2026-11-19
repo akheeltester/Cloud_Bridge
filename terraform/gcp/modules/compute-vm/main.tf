@@ -4,6 +4,8 @@
 # (~$0.005/hr ≈ $3.60/month) — it is NOT part of the free VM grant.
 # OS: Container-Optimized OS (docker preinstalled, pulls from Artifact Registry
 # using the VM service account).
+# Optional TLS: when tls_domain is set, Caddy runs as a sidecar container with
+# automatic Let's Encrypt HTTPS and reverse-proxies to the app container.
 
 terraform {
   required_version = ">= 1.9.0"
@@ -85,16 +87,42 @@ resource "google_compute_instance" "this" {
       # be writable by it (host dirs are root-owned by default).
       chmod 0777 /var/lib/${var.instance_name}
       # COS guest firewall defaults to INPUT DROP (only SSH/lo/icmp). Open the
-      # app port in the guest chain too — the VPC firewall alone is not enough.
-      iptables -C INPUT -p tcp --dport ${var.host_port} -j ACCEPT 2>/dev/null || \
-        iptables -I INPUT -p tcp --dport ${var.host_port} -j ACCEPT
+      # app ports in the guest chain too — the VPC firewall alone is not enough.
+      iptables -C INPUT -p tcp --dport 80 -j ACCEPT 2>/dev/null || \
+        iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+      %{if var.tls_domain != ""}
+      iptables -C INPUT -p tcp --dport 443 -j ACCEPT 2>/dev/null || \
+        iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+      %{endif}
       docker-credential-gcr configure-docker --registries=${var.registry_host}
-      docker rm -f ${var.instance_name} >/dev/null 2>&1 || true
+      docker network create cloudbridge >/dev/null 2>&1 || true
+      docker rm -f ${var.instance_name} caddy >/dev/null 2>&1 || true
+      %{if var.tls_domain != ""}
+      # TLS mode: app is internal-only; Caddy terminates HTTPS on 80/443.
+      cat > /var/lib/${var.instance_name}/Caddyfile <<'CADDYEOF'
+      ${var.tls_domain} {
+        reverse_proxy ${var.instance_name}:${var.container_port}
+      }
+      CADDYEOF
+      docker run -d --name ${var.instance_name} --restart always \
+        --network cloudbridge \
+        -e NOVA_DB_PATH=/app/data/nova.db \
+        -v /var/lib/${var.instance_name}:/app/data \
+        ${var.container_image}
+      mkdir -p /var/lib/caddy-data
+      docker run -d --name caddy --restart always \
+        --network cloudbridge \
+        -p 80:80 -p 443:443 \
+        -v /var/lib/${var.instance_name}/Caddyfile:/etc/caddy/Caddyfile:ro \
+        -v /var/lib/caddy-data:/data \
+        caddy:2
+      %{else}
       docker run -d --name ${var.instance_name} --restart always \
         -p ${var.host_port}:${var.container_port} \
         -e NOVA_DB_PATH=/app/data/nova.db \
         -v /var/lib/${var.instance_name}:/app/data \
         ${var.container_image}
+      %{endif}
     EOT
   }
 
@@ -114,6 +142,6 @@ resource "google_compute_firewall" "http" {
 
   allow {
     protocol = "tcp"
-    ports    = [tostring(var.host_port)]
+    ports    = var.tls_domain != "" ? ["80", "443"] : [tostring(var.host_port)]
   }
 }
