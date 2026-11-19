@@ -19,7 +19,7 @@ export function MigrationPage() {
       <PageIntro
         index="04  ·  Migration"
         title="Migration roadmap & execution"
-        lede="BluePeak's fictional portfolio scenario has reached validation: the app is deployed on EC2, stores uploads in S3, and passed public HTTPS and API smoke checks. This is not a production customer-data migration."
+        lede="BluePeak's fictional customer scenario has reached validation: the app is deployed on EC2, stores uploads in S3, and passed public HTTPS and API smoke checks. This is not a production customer-data migration."
       />
 
       {visible.length === 0 ? (

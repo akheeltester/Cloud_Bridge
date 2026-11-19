@@ -26,7 +26,7 @@ export function CustomersPage() {
       <PageIntro
         index="03  ·  Customers"
         title="Customer environments"
-        lede="Three fictional engagements. Every name, address, and asset on this page is simulated for the portfolio."
+        lede="Three fictional engagements. Every name, address, and asset on this page is simulated for this demonstration."
       />
       {visible.length === 0 ? (
         <EmptyNote query={query} />

@@ -32,7 +32,7 @@ export function InfrastructurePage() {
               EC2 + Docker Compose + private S3 · ap-southeast-2 · HTTPS, health, upload, and list checks passed
             </p>
             <p className="mt-1 text-xs text-faint">
-              Fictional portfolio scenario; no real customer data. Terraform did not provision this demo.
+              Fictional customer scenario; no real customer data. Terraform did not provision this demo.
             </p>
           </div>
           <a

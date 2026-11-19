@@ -25,7 +25,7 @@ export const phases = [
     number: 1,
     name: "Engineering Foundation",
     status: "implemented" as WorkStatus,
-    description: "Git repo, documentation, CI/CD, and portfolio dashboard.",
+    description: "Git repo, documentation, CI/CD, and the operations dashboard.",
     deliverables: ["GitHub repository", "README + docs", "CI workflows", "Dashboard (this)", "GitHub Pages"],
   },
   {
@@ -39,7 +39,7 @@ export const phases = [
     number: 3,
     name: "AWS Infrastructure",
     status: "deployed" as WorkStatus,
-    description: "A portfolio demo is running on EC2 in ap-southeast-2 with a private S3 bucket and HTTPS. The production-style Terraform landing zone is still planned.",
+    description: "A live demo is running on EC2 in ap-southeast-2 with a private S3 bucket and HTTPS. The production-style Terraform landing zone is still planned.",
     deliverables: ["EC2 demo deployment", "Private S3 uploads", "Instance-role access", "Caddy HTTPS endpoint", "Terraform landing zone planned"],
   },
   {
@@ -72,7 +72,7 @@ export const phases = [
   },
   {
     number: 8,
-    name: "Portfolio Completion",
+    name: "Dashboard & Documentation",
     status: "in-progress" as WorkStatus,
     description: "GitHub Pages dashboard and public AWS demo are available; roadmap clarity, evidence, and final documentation are being refined.",
     deliverables: ["GitHub Pages dashboard", "Public AWS demo", "Deployment evidence", "Final report planned"],
@@ -132,7 +132,7 @@ export const customers = [
     status: "validation",
     assetCount: 5,
     dataStatus: "demo-data" as WorkStatus,
-    summary: "Fictional portfolio scenario deployed to EC2 with private S3 uploads. HTTPS, API health, object upload, and listing were verified; no real customer data was migrated.",
+    summary: "Fictional customer scenario deployed to EC2 with private S3 uploads. HTTPS, API health, object upload, and listing were verified; no real customer data was migrated.",
     assets: [
       { name: "EC2 instance", spec: "Amazon Linux 2023 · ap-southeast-2", ip: "AWS public endpoint", role: "Demo host" },
       { name: "Web + API", spec: "Nginx · FastAPI · Docker Compose", ip: LIVE_DEMO_URL.replace("https://", ""), role: "Public HTTPS application" },
@@ -583,7 +583,7 @@ export const docGroups = [
   {
     title: "Architecture",
     docs: [
-      { name: "Platform Overview", path: "docs/architecture/overview.md", status: "implemented" as WorkStatus, blurb: "What CloudBridge is: migration, infrastructure engineering, and cloud security in one portfolio program." },
+      { name: "Platform Overview", path: "docs/architecture/overview.md", status: "implemented" as WorkStatus, blurb: "What CloudBridge is: migration, infrastructure engineering, and cloud security in one engineering program." },
       { name: "AWS Network Design", path: "docs/architecture/aws-network.md", status: "implemented" as WorkStatus, blurb: "VPC 10.10.0.0/16 in ap-southeast-2 with two public and two private subnets. Design only." },
       { name: "Local Lab Topology", path: "docs/architecture/local-lab.md", status: "implemented" as WorkStatus, blurb: "VirtualBox host-only networks 192.168.56.0/24 and 192.168.57.0/24, plus Docker stand-ins." },
       { name: "Migration Workflow", path: "docs/architecture/migration-workflow.md", status: "implemented" as WorkStatus, blurb: "Ten-stage process from onboarding through rollback. Full implementation is Phase 4." },
@@ -594,7 +594,7 @@ export const docGroups = [
     title: "Customer Profiles",
     docs: [
       { name: "ACME Technologies (Customer A)", path: "customers/customer-a/README.md", status: "deployed" as WorkStatus, blurb: "Jigsaw portal live on GCP Cloud Run; pages and sign-up verified. Embedded PGlite demo storage." },
-      { name: "BluePeak Solutions (Customer B)", path: "customers/customer-b/README.md", status: "deployed" as WorkStatus, blurb: "Fictional portfolio demo deployed to EC2 with private S3 and HTTPS; health, upload, and list checks passed." },
+      { name: "BluePeak Solutions (Customer B)", path: "customers/customer-b/README.md", status: "deployed" as WorkStatus, blurb: "Fictional customer demo deployed to EC2 with private S3 and HTTPS; health, upload, and list checks passed." },
       { name: "NovaRetail (Customer C)", path: "customers/customer-c/README.md", status: "deployed" as WorkStatus, blurb: "Retail API live on a free-tier GCP VM; health and order write verified. Security assessment in Phase 5." },
     ],
   },

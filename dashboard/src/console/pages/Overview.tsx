@@ -38,7 +38,7 @@ export function OverviewPage() {
     <div>
       <PageIntro
         index="Overview"
-        title="CloudBridge — multi-cloud engineering portfolio"
+        title="CloudBridge — multi-cloud engineering lab"
         lede="Three fictional companies, three real cloud deployments, one control plane. This dashboard tracks the roadmap, the live estate, and the security posture — every status below reflects verified work, not projections."
       />
 
@@ -61,7 +61,7 @@ export function OverviewPage() {
               CloudBridge simulates a cloud consultancy running three customer engagements end-to-end:
               containerize a workload, provision it with Terraform, ship it through CI/CD, scan it with
               Checkov/Trivy/Prowler, remediate what matters, and monitor it from a single dashboard.
-              As a portfolio it demonstrates the full lifecycle a real team follows — and every pattern
+              It demonstrates the full lifecycle a real team follows — and every pattern
               here (plan-first IaC, free-tier hosting, automatic HTTPS, secret-scanned CI, evidence-based
               security reporting) is directly reusable for deploying and managing your own cloud assets.
             </p>

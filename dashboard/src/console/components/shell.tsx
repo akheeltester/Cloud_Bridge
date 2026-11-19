@@ -190,7 +190,7 @@ export function Shell({ children }: { children: ReactNode }) {
             <span className="truncate text-sm font-semibold">CloudBridge</span>
           </Link>
           <div className="order-last w-full lg:order-none lg:mx-auto lg:max-w-xl lg:flex-1">{searchBox}</div>
-          <span className="ml-auto hidden text-xs text-muted md:inline">Portfolio project</span>
+          <span className="ml-auto hidden text-xs text-muted md:inline">Multi-cloud project</span>
           <a
             href={LIVE_DEMO_URL}
             target="_blank"
@@ -239,7 +239,7 @@ export function Shell({ children }: { children: ReactNode }) {
             <div className="mb-4 flex gap-3 border border-line bg-warn-soft px-3 py-2 text-sm text-ink">
               <span className="w-1 shrink-0 bg-warn" aria-hidden="true" />
               <p className="max-w-4xl leading-relaxed">
-                <span className="font-semibold">Portfolio demonstration. </span>
+                <span className="font-semibold">Demonstration environment. </span>
                 Three fictional customers run as real deployments on AWS and GCP (HTTPS, health-checked).
                 Security findings are genuine Checkov/Trivy/Prowler scan output; SOC alerts remain examples
                 until Phase 6. No real customer data is used, and status labels distinguish deployed work
