@@ -24,6 +24,7 @@ CloudBridge implements a structured 10-stage migration workflow modelled on real
 **Objective:** Understand the customer environment, constraints, and objectives.
 
 Deliverables:
+
 - Customer profile document
 - Scope of migration agreement
 - Access requirements (read-only to source systems)
@@ -38,6 +39,7 @@ Artifacts: `customers/{customer-id}/onboarding/`
 **Objective:** Enumerate all assets in the source environment.
 
 Activities:
+
 - Run discovery scripts against source hosts
 - Identify operating systems, versions, patch levels
 - Enumerate running services and open ports
@@ -57,6 +59,7 @@ Artifacts: `migration/discovery/{customer-id}/`
 Output format: JSON + CSV (stored in PostgreSQL for querying)
 
 Fields per asset:
+
 - Asset ID, hostname, IP address
 - OS family, version, kernel
 - CPU, RAM, disk
@@ -74,6 +77,7 @@ Artifacts: `migration/inventory/{customer-id}/`
 **Objective:** Identify dependencies between services to prevent migration breakage.
 
 Activities:
+
 - Map application → database connections
 - Map application → external service dependencies
 - Map authentication dependencies (LDAP, AD)
@@ -89,6 +93,7 @@ Output: Dependency graph (JSON + diagram)
 **Objective:** Evaluate whether the environment is ready to migrate and identify blockers.
 
 Assessment dimensions:
+
 - Operating system compatibility with target cloud
 - Application cloud-readiness (12-factor compliance indicators)
 - Database engine compatibility
@@ -107,6 +112,7 @@ Artifacts: `migration/assessment/{customer-id}/readiness-report.md`
 **Objective:** Design the cloud target state.
 
 Decisions:
+
 - Compute: EC2 instance type sizing
 - Database: RDS vs self-managed, engine version
 - Storage: EBS, EFS, S3
@@ -122,6 +128,7 @@ Output: Target architecture document + Terraform plan
 **Objective:** Produce a sequenced, reversible migration plan.
 
 Plan components:
+
 - Migration sequence (which services move first)
 - Maintenance window requirements
 - Data migration method (rsync, pg_dump, AWS DMS simulation)
@@ -138,6 +145,7 @@ Artifacts: `migration/plans/{customer-id}/migration-plan.md`
 **Objective:** Execute the migration according to the plan.
 
 Activities:
+
 - Provision target infrastructure (Terraform apply — requires approval)
 - Configure instances (Ansible)
 - Transfer application code
@@ -154,6 +162,7 @@ This stage requires explicit approval before any cloud resource creation.
 **Objective:** Confirm the migrated workload operates correctly on the target.
 
 Validation checks:
+
 - Application health endpoints respond
 - Database connectivity confirmed
 - Data integrity check (row counts, checksums)
@@ -170,11 +179,13 @@ Artifacts: `migration/validation/{customer-id}/validation-report.md`
 **Objective:** Document rollback capability and produce the final migration report.
 
 Rollback procedure:
+
 - DNS revert to source
 - Source infrastructure kept running until validation passes
 - Data rollback procedure documented per service
 
 Final report includes:
+
 - Migration timeline
 - Issues encountered and resolutions
 - Post-migration architecture diagram
@@ -186,7 +197,7 @@ Artifacts: `migration/reports/{customer-id}/final-report.md`
 
 ## Artefact Directory Structure
 
-```
+```text
 migration/
 ├── discovery/
 │   ├── customer-a/

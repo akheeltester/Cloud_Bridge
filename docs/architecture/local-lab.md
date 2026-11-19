@@ -104,7 +104,7 @@ The local lab simulates customer on-premises infrastructure using VirtualBox. Th
 
 VirtualBox is installed but the kernel module is not currently loaded:
 
-```
+```text
 WARNING: The character device /dev/vboxdrv does not exist.
 Please install the virtualbox-dkms package and the appropriate headers.
 ```

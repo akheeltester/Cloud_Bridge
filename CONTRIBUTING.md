@@ -38,7 +38,7 @@ Read `SECURITY.md` before submitting anything. If you find credentials, secrets,
 
 Use this format:
 
-```
+```text
 [PHASE-X] short description of change
 
 Optional longer explanation if needed.

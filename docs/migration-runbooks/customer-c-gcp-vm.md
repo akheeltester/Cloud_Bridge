@@ -5,7 +5,7 @@ signup). Deploys the NovaRetail retail API to a free-tier-eligible Compute
 Engine VM in `us-central1`.
 
 > Status: DEPLOYED and live-verified (2026-11-19).
-> Live URL: https://novatrail.duckdns.org (static IP 35.209.137.226; Let's Encrypt cert via Caddy)
+> Live URL: <https://novatrail.duckdns.org> (static IP 35.209.137.226; Let's Encrypt cert via Caddy)
 > Project: iconic-being-431804-c2 · Zone: us-central1-a · e2-micro free grant
 > Verified externally: /api/health healthy (api+database), /api/products 200,
 > POST /api/orders created an order (DB write), storefront 200.
@@ -42,15 +42,20 @@ ephemeral IP, which is released on destroy).
 ## Steps
 
 1. Plan (no resources created):
+
    ```sh
    PROJECT_ID=iconic-being-431804-c2 ./scripts/deploy/deploy-customer-c-gcp.sh
    ```
+
 2. Review the plan and the IPv4 cost note. Apply only with explicit approval:
+
    ```sh
    PROJECT_ID=iconic-being-431804-c2 ./scripts/deploy/deploy-customer-c-gcp.sh --apply
    ```
+
 3. The script waits for `/api/health` (VM boot + image pull takes 2-4 minutes).
 4. Validate:
+
    ```sh
    curl -fsS http://<IP>/api/health
    curl -fsS http://<IP>/api/products

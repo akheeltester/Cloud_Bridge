@@ -41,6 +41,7 @@ the Azure deployment is deferred. Revisit when Azure is activated.
 notes below), 8 LOW (HEALTHCHECK — fixed; CSEK — accepted; Azure — deferred).
 
 Additional notes not auto-fixed:
+
 - GCP-0036 (OS Login): instance uses metadata SSH keys via `gcloud compute ssh`;
   enabling OS Login org-wide is a project-level decision, tracked for Phase 6.
 - GCP-0073 (default firewall rules): the project's `default` network auto-rules

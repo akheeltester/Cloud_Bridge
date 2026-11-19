@@ -168,4 +168,9 @@ jobs:
             **/*.md
             !node_modules/**
             !dashboard/node_modules/**
+            !customers/customer-a/node_modules/**
+            !customers/customer-a/.grok/**
+            !customers/customer-a/AGENTS.md
+            !.aider*
+            !.kiro/**
           config: .markdownlint.json

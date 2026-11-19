@@ -4,7 +4,7 @@
 
 CloudBridge simulates the complete lifecycle of a cloud consulting engagement:
 
-```
+```text
 Customer Onboarding
       ↓
 Infrastructure Discovery
@@ -35,6 +35,7 @@ Each stage produces documented, reproducible artefacts that demonstrate real eng
 Simulates customer environments before migration using VirtualBox.
 
 **Components:**
+
 - Ubuntu Server 22.04 LTS — application server
 - Ubuntu Server 22.04 LTS — database server (PostgreSQL)
 - Ubuntu Desktop — employee workstation simulation
@@ -52,6 +53,7 @@ Simulates customer environments before migration using VirtualBox.
 Designs and provisions cloud infrastructure using Terraform.
 
 **AWS (Primary — Phase 3):**
+
 - VPC with public/private subnet design across 2 AZs
 - Internet Gateway, route tables, NACLs
 - Security Groups (default-deny, explicit allow)
@@ -71,6 +73,7 @@ Designs and provisions cloud infrastructure using Terraform.
 A reusable workflow for discovering, planning, and executing migrations.
 
 **Stages:**
+
 1. Customer onboarding and scoping
 2. Infrastructure discovery and inventory
 3. Dependency mapping
@@ -83,6 +86,7 @@ A reusable workflow for discovering, planning, and executing migrations.
 10. Completion reporting
 
 **Supported scenarios:**
+
 - On-premises → AWS
 - AWS → Azure
 - GCP → AWS
@@ -94,12 +98,14 @@ A reusable workflow for discovering, planning, and executing migrations.
 ### Layer 4 — Cloud Security & SOC
 
 **Cloud Security Posture Management:**
+
 - Prowler — AWS configuration assessment
 - Checkov — Terraform IaC scanning
 - Trivy — container and configuration scanning
 - IAM policy analysis
 
 **Security Operations:**
+
 - Wazuh — SIEM, endpoint monitoring, log aggregation
 - Splunk Free — security dashboards and alerting (hardware-permitting)
 - Detection rules, alert classification, incident investigation
@@ -116,6 +122,7 @@ Public-facing read-only dashboard deployed to GitHub Pages.
 **Stack:** React + Vite + TypeScript + Tailwind CSS + Lucide Icons
 
 **Pages:**
+
 - Overview — platform status, migration summary, security posture
 - Cloud Infrastructure — AWS/Azure/GCP architecture diagrams
 - Customer Environments — profiles, inventories, migration status

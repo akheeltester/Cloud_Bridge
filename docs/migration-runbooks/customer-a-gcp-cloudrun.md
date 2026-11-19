@@ -5,7 +5,7 @@ Cloud Run in `australia-southeast1`. Free-tier posture: scale-to-zero, one
 instance cap, 512Mi memory, request-based CPU billing.
 
 > Status: DEPLOYED and live-verified (2026-11-19).
-> Live URL: https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app
+> Live URL: <https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app>
 > Project: iconic-being-431804-c2 · Region: australia-southeast1
 > Verified: `/`, `/login`, `/portal` HTTP 200; auth sign-up HTTP 200 (real
 > embedded-DB write). Free-tier posture: scale-to-zero, 1 instance, 512Mi.
@@ -30,25 +30,33 @@ instance cap, 512Mi memory, request-based CPU billing.
 ## Steps
 
 1. Select the project and confirm billing is enabled:
+
    ```sh
    gcloud config set project PROJECT_ID
    gcloud billing projects describe PROJECT_ID   # billingEnabled: true
    ```
+
 2. Plan (no resources created):
+
    ```sh
    PROJECT_ID=PROJECT_ID ./scripts/deploy/deploy-customer-a-gcp.sh
    ```
+
    The script enables the Run + Artifact Registry APIs, creates the repo,
    builds and pushes the Jigsaw image, then runs `terraform plan`.
 3. Review the plan. Apply only with explicit approval:
+
    ```sh
    PROJECT_ID=PROJECT_ID ./scripts/deploy/deploy-customer-a-gcp.sh --apply
    ```
+
 4. Validate:
+
    ```sh
    curl -fsS https://<service-url>/api/...   # app routes
    curl -fsS -o /dev/null -w '%{http_code}\n' https://<service-url>/
    ```
+
    The script prints the service URL and runs an HTTP smoke check.
 
 ## Notes
@@ -82,4 +90,5 @@ instance cap, 512Mi memory, request-based CPU billing.
 cd terraform/gcp/environments/customer-a
 terraform destroy   # explicit approval required
 ```
+
 Or roll the Cloud Run traffic to a previous revision in the console.

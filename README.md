@@ -1,6 +1,6 @@
 # CloudBridge
 
-**Multi-Cloud Migration, Infrastructure Engineering & Cloud Security Platform**
+Multi-Cloud Migration, Infrastructure Engineering & Cloud Security Platform
 
 A practical end-to-end lab simulating the operations of a cloud consulting and managed security engineering company — from customer onboarding through infrastructure migration, cloud security assessment, and SOC monitoring.
 
@@ -29,7 +29,7 @@ A practical end-to-end lab simulating the operations of a cloud consulting and m
 
 CloudBridge is built across five engineering layers:
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │  Layer 5 — Portfolio Dashboard (React + GitHub Pages)        │
 ├─────────────────────────────────────────────────────────────┤
@@ -66,7 +66,7 @@ All environments are isolated and use fictional data. See `customers/` for envir
 
 ## Repository Structure
 
-```
+```text
 cloudbridge/
 ├── .github/workflows/      # CI/CD — Terraform validation, security scans, dashboard deploy
 ├── .kiro/steering/         # Kiro IDE agent instructions

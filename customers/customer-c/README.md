@@ -57,7 +57,7 @@ curl -fsS http://127.0.0.1:8082/api/health
 - Storefront brand: **NovaTrail** — trail-running outfitter, black & white
   enterprise console (logo/favicon from `NovaTrail-logo.zip`, trail-gear
   catalogue: shoes, hydration vests, poles, apparel, GPS watch, nutrition).
-- URL: https://novatrail.duckdns.org (static IP 35.209.137.226; Caddy + Let's Encrypt, HTTP→HTTPS redirect)
+- URL: <https://novatrail.duckdns.org> (static IP 35.209.137.226; Caddy + Let's Encrypt, HTTP→HTTPS redirect)
 - Host: e2-micro VM `cloudbridge-novaretail`, us-central1-a, Container-Optimized
   OS, free-tier grant. Approved cost: public IPv4 ~$3.60/month from credits.
 - Verified externally: `/api/health` healthy, `/api/products` 200,
@@ -150,7 +150,7 @@ No migration. Security engagement only.
 
 ## Directory Structure
 
-```
+```text
 customers/customer-c/
 ├── README.md                    # This file
 ├── app/                         # FastAPI retail API (Phase 7)

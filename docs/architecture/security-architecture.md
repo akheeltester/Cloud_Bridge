@@ -24,6 +24,7 @@ CloudBridge implements security engineering across two domains:
 Prowler assesses AWS configurations against CIS Benchmark and AWS Foundational Security Best Practices.
 
 Key checks:
+
 - IAM: root account MFA, access key age, unused credentials, overly permissive policies
 - Network: security groups with 0.0.0.0/0 ingress, publicly accessible instances
 - Storage: S3 public access, encryption at rest, versioning, logging
@@ -37,6 +38,7 @@ Output: JSON findings → normalised to CloudBridge finding schema
 Checkov runs on every pull request against all `terraform/` files.
 
 Suppression policy:
+
 - Suppressions require a comment explaining the business justification
 - No blanket suppressions
 
@@ -73,7 +75,7 @@ All security findings (regardless of tool) are normalised to:
 
 ## Security Operations Centre (SOC)
 
-### Tools
+### SOC tooling
 
 | Tool | Purpose | Deployment | Status |
 |---|---|---|---|
@@ -86,11 +88,13 @@ All security findings (regardless of tool) are normalised to:
 Wazuh is deployed locally (not in cloud) to avoid cost.
 
 Architecture:
+
 - Wazuh Manager: dedicated Ubuntu Server VM
 - Wazuh Agents: deployed on all customer lab VMs
 - Wazuh Dashboard: local browser access
 
 Log sources:
+
 - Authentication logs (`/var/log/auth.log`)
 - System logs (`/var/log/syslog`)
 - Application logs (configurable per customer)
@@ -108,7 +112,7 @@ Log sources:
 
 ### Incident Response Workflow
 
-```
+```text
 Alert triggered
       ↓
 Alert classification (Critical/High/Medium/Low)
@@ -143,6 +147,7 @@ No attack simulations are performed against external systems, cloud provider inf
 All Terraform configurations must pass Checkov before merge.
 
 Required controls:
+
 - S3 buckets: no public ACL, versioning enabled, logging enabled
 - Security Groups: no ingress 0.0.0.0/0 on sensitive ports (22, 3306, 5432)
 - IAM policies: no wildcard actions without documented justification

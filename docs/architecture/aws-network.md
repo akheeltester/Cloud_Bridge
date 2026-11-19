@@ -15,7 +15,7 @@ Each customer environment gets its own VPC to provide logical isolation.
 
 ### Standard VPC Layout (per customer)
 
-```
+```text
 VPC: 10.X.0.0/16
 │
 ├── Public Subnet A  — 10.X.1.0/24  (ap-southeast-2a)
@@ -54,20 +54,24 @@ Example: `cloudbridge-acme-web-lab-sg`
 ### Baseline Rules
 
 **Web / Load Balancer SG:**
+
 - Inbound: TCP 443 from 0.0.0.0/0 (HTTPS)
 - Inbound: TCP 80 from 0.0.0.0/0 (HTTP — redirect to HTTPS)
 - Outbound: All to application SG
 
 **Application SG:**
+
 - Inbound: from web SG only
 - Outbound: TCP 5432 to database SG (PostgreSQL)
 - Outbound: TCP 443 to 0.0.0.0/0 (AWS API calls)
 
 **Database SG:**
+
 - Inbound: TCP 5432 from application SG only
 - No direct internet access
 
 **Management / Bastion SG (if used):**
+
 - Inbound: TCP 22 from known IP only (never 0.0.0.0/0)
 
 ---
@@ -77,6 +81,7 @@ Example: `cloudbridge-acme-web-lab-sg`
 NACLs provide a stateless secondary layer. Applied at subnet level.
 
 Default configuration:
+
 - Public subnets: allow inbound 443/80, ephemeral outbound (1024-65535)
 - Private subnets: allow inbound from VPC CIDR, deny all external inbound
 
@@ -86,7 +91,7 @@ Default configuration:
 
 ### Tagging Convention (mandatory on all resources)
 
-```
+```text
 Project     = CloudBridge
 Environment = lab | staging | prod
 Customer    = customer-a | customer-b | customer-c | shared
@@ -106,7 +111,7 @@ Example: `cloudbridge-ec2-appserver-role`
 
 ## Terraform Module Structure
 
-```
+```text
 terraform/aws/
 ├── modules/
 │   ├── networking/     # VPC, subnets, IGW, route tables, NACLs

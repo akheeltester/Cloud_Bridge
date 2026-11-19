@@ -17,10 +17,10 @@ Ubuntu source servers or the documented VirtualBox host-only network.
 
 The application is bound to localhost:
 
-- http://127.0.0.1:18080/
-- http://127.0.0.1:18080/health
-- http://127.0.0.1:18080/api/summary
-- http://127.0.0.1:18080/api/employees
+- <http://127.0.0.1:18080/>
+- <http://127.0.0.1:18080/health>
+- <http://127.0.0.1:18080/api/summary>
+- <http://127.0.0.1:18080/api/employees>
 
 PostgreSQL is not published on a host port.
 

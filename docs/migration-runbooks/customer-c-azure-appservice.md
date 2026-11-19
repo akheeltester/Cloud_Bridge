@@ -31,21 +31,28 @@ needed.
 ## Steps
 
 1. Confirm subscription and region availability:
+
    ```sh
    az account show
    az account set --subscription SUBSCRIPTION_ID
    ```
+
 2. Build + push the image, then plan (no resources created):
+
    ```sh
    SUBSCRIPTION_ID=SUBSCRIPTION_ID APP_NAME=cloudbridge-novaretail-xyz \
      ./scripts/deploy/deploy-customer-c-azure.sh
    ```
+
 3. Review the plan. Apply only with explicit approval:
+
    ```sh
    SUBSCRIPTION_ID=SUBSCRIPTION_ID APP_NAME=cloudbridge-novaretail-xyz \
      ./scripts/deploy/deploy-customer-c-azure.sh --apply
    ```
+
 4. Validate (F1 cold start can take ~30s):
+
    ```sh
    curl -fsS https://<app>.azurewebsites.net/api/health
    curl -fsS https://<app>.azurewebsites.net/api/products

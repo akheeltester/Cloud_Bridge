@@ -203,7 +203,7 @@ The scenario source diagram and verified local topology are documented in
 
 ## Directory Structure
 
-```
+```text
 customers/customer-b/
 ├── README.md                    # This file
 ├── onboarding/
