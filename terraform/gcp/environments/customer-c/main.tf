@@ -35,6 +35,15 @@ resource "google_artifact_registry_repository" "nova" {
   format        = "DOCKER"
 }
 
+# Reserved static IP (promoted from the original ephemeral IP; STANDARD tier).
+resource "google_compute_address" "nova" {
+  project      = var.project_id
+  name         = "novaretail-static-ip"
+  region       = var.region
+  address_type = "EXTERNAL"
+  network_tier = "STANDARD"
+}
+
 locals {
   image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.repository_id}/${var.image_name}:${var.image_tag}"
 }
@@ -54,6 +63,7 @@ module "novaretail" {
   container_port  = 8000
   host_port       = 80
   tls_domain      = var.tls_domain
+  public_ip       = google_compute_address.nova.address
 
   depends_on = [google_artifact_registry_repository.nova]
 }

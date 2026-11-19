@@ -78,3 +78,9 @@ variable "tls_domain" {
   type        = string
   default     = ""
 }
+
+variable "public_ip" {
+  description = "Reserved static external IP to attach (empty = ephemeral)."
+  type        = string
+  default     = ""
+}

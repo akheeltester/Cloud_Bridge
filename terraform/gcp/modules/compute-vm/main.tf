@@ -49,7 +49,11 @@ resource "google_compute_instance" "this" {
 
   tags = ["${var.instance_name}-http"]
 
+  # Required for in-place updates that need a stop/start (e.g. Shielded VM).
+  allow_stopping_for_update = true
+
   boot_disk {
+    auto_delete = false # Prowler: keep disk on instance deletion
     initialize_params {
       image = var.boot_image
       size  = var.disk_size_gb
@@ -57,11 +61,15 @@ resource "google_compute_instance" "this" {
     }
   }
 
+  # Prowler: protect against accidental teardown (disable before destroy).
+  deletion_protection = true
+
   network_interface {
     network = var.network
-    # Ephemeral public IPv4 (billed ~$3.60/mo; see cost note above).
-    # Standard tier: 200GB/mo free egress per region instead of Premium's 1GB.
+    # Static IP when provided (stable DNS target); STANDARD tier: 200GB/mo free
+    # egress. In-use IPv4 billed ~$3.60/mo (approved, from credits).
     access_config {
+      nat_ip       = var.public_ip != "" ? var.public_ip : null
       network_tier = "STANDARD"
     }
   }

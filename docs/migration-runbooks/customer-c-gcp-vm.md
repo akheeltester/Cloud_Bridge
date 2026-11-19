@@ -75,7 +75,9 @@ The module supports automatic HTTPS via a Caddy sidecar container
 
 ## Operations
 
-- SSH: `gcloud compute ssh cloudbridge-novaretail --zone us-central1-a --project iconic-being-431804-c2`
+- SSH (IAP only — internet-wide SSH/RDP rules removed):
+  `gcloud compute ssh cloudbridge-novaretail --zone us-central1-a --project iconic-being-431804-c2 --tunnel-through-iap`
+- IP is a reserved STATIC address (novaretail-static-ip) — stable across reboots.
 - Logs on the VM: `docker logs cloudbridge-novaretail`
 - Update the app: re-run the deploy script (rebuilds/pushes image, then
   `docker rm -f` + `docker run` via a new instance revision or manual restart).

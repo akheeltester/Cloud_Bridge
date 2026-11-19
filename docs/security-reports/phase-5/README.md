@@ -55,11 +55,10 @@ Additional notes not auto-fixed:
 | bluepeak app (python:3.12-slim) | 3 | 106 | 194 | 132 | 448 |
 | jigsaw (node:24-slim) | 1 | 43 | 112 | 88 | 251 |
 
-- All 3 CRITICALs in the Python images are `perl-base` CVEs (CVE-2026-13221,
-  CVE-2026-42496, CVE-2026-8376) with a fixed version available
-  (5.40.1-6+deb13u1). Remediation: rebuild from the refreshed
-  `python:3.12-slim` base and redeploy. Perl is not used by the apps —
-  base-layer exposure only.
+- All 3 CRITICALs in the Python images were `perl-base` CVEs (CVE-2026-13221,
+  CVE-2026-42496, CVE-2026-8376). REMEDIATED: both images rebuilt from the
+  refreshed `python:3.12-slim` base and redeployed (NovaRetail on the GCP VM,
+  BluePeak on EC2). Re-scan verified: 0 CRITICAL in both images.
 - Jigsaw CRITICAL CVE-2023-45853 (zlib1g) has no Debian fix yet — tracked,
   mitigated by the app not exposing zlib-decompression of untrusted input.
 - Most remaining findings are Debian base-layer packages without fixes yet;
@@ -70,12 +69,12 @@ Additional notes not auto-fixed:
 86 checks on project `iconic-being-431804-c2`: 19 PASS, 67 FAIL
 (2 critical, 4 high, 60 medium, 1 low). Output: `prowler-gcp/` (CSV + OCSF).
 
-### Critical — remediation planned (live change, approval-gated)
+### Critical — REMEDIATED (2026-11-19, verified)
 
-| Finding | Resource | Plan |
+| Finding | Resource | Resolution |
 |---|---|---|
-| SSH (22) open to the internet | `default-allow-ssh` firewall | Replace with IAP-only SSH (35.235.240.0/20) + operator IP; use `gcloud compute ssh --tunnel-through-iap` |
-| RDP (3389) open to the internet | `default-allow-rdp` firewall | Delete — no Windows workloads |
+| SSH (22) open to the internet | `default-allow-ssh` firewall | DELETED. SSH now via IAP only (`allow-ssh-iap`, 35.235.240.0/20); `gcloud compute ssh --tunnel-through-iap` verified working |
+| RDP (3389) open to the internet | `default-allow-rdp` firewall | DELETED — no Windows workloads |
 
 ### High
 
@@ -86,8 +85,11 @@ Additional notes not auto-fixed:
 
 ### Medium (grouped)
 
-- Block project-wide SSH keys — FIXED in IaC, apply pending.
-- Deletion protection / disk auto-delete — enable in the pending hardening apply.
+- Block project-wide SSH keys — FIXED and APPLIED to the live VM.
+- Shielded VM (secure boot/vTPM/integrity) — APPLIED.
+- Deletion protection enabled + boot disk auto-delete disabled — APPLIED.
+- VM public IP promoted to a reserved STATIC address (novaretail-static-ip,
+  STANDARD tier) so DNS survives stop/start; same ~$3.60/mo in-use charge.
 - 10× logging metric filters + alerting, logging sink — Phase 6 SOC scope.
 - Default network in use, no flow/DNS logs — lab trade-off; custom VPC is Phase 6.
 - Container Analysis / GCR scanning not enabled — paid per-image scanning;

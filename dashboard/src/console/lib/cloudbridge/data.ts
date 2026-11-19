@@ -236,8 +236,8 @@ export const findings = [
     severity: "medium" as Severity,
     customer: "customer-c",
     resourceType: "Compute Engine VM",
-    title: "Project-wide SSH keys not blocked (CKV_GCP_32) — fixed in IaC, apply pending",
-    status: "fixed-in-iac",
+    title: "Project-wide SSH keys not blocked (CKV_GCP_32) — fixed and applied",
+    status: "fixed",
     dataStatus: "implemented" as WorkStatus,
   },
   {
@@ -246,8 +246,8 @@ export const findings = [
     severity: "medium" as Severity,
     customer: "customer-c",
     resourceType: "Compute Engine VM",
-    title: "Shielded VM disabled (CKV_GCP_39) — secure boot/vTPM/integrity added in IaC",
-    status: "fixed-in-iac",
+    title: "Shielded VM disabled (CKV_GCP_39) — secure boot/vTPM/integrity enabled and applied",
+    status: "fixed",
     dataStatus: "implemented" as WorkStatus,
   },
   {
@@ -286,8 +286,8 @@ export const findings = [
     severity: "critical" as Severity,
     customer: "platform",
     resourceType: "VPC Firewall",
-    title: "GCP default-allow-ssh/rdp expose 22/3389 to the internet — IAP-only SSH + RDP removal planned",
-    status: "remediation-planned",
+    title: "GCP default-allow-ssh/rdp exposed 22/3389 to the internet — deleted; SSH now IAP-only (verified)",
+    status: "fixed",
     dataStatus: "implemented" as WorkStatus,
   },
   {
@@ -296,8 +296,8 @@ export const findings = [
     severity: "critical" as Severity,
     customer: "platform",
     resourceType: "Container images",
-    title: "3 perl-base CVEs in Python base images (fix available) — rebuild + redeploy planned",
-    status: "remediation-planned",
+    title: "3 perl-base CVEs in Python base images — rebuilt + redeployed both apps; re-scan shows 0 critical",
+    status: "fixed",
     dataStatus: "implemented" as WorkStatus,
   },
 ];
