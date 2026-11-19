@@ -1,0 +1,8 @@
+# Copy to terraform.tfvars (gitignored) and set your billing-enabled project.
+project_id    = "REPLACE_WITH_BILLING_ENABLED_PROJECT"
+region        = "us-central1"
+zone          = "us-central1-a"
+instance_name = "cloudbridge-novaretail"
+repository_id = "cloudbridge-us"
+image_name    = "novaretail"
+image_tag     = "latest"
