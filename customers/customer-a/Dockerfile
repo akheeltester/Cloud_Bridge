@@ -17,6 +17,13 @@ ENV NODE_ENV=production \
     PORT=8080
 
 COPY --from=build --chown=node:node /app/.output ./.output
+# nitro bundles PGlite into .output/server/_libs but drops its runtime assets;
+# restore them so the embedded-DB fallback boots (required when DATABASE_URL is unset).
+COPY --from=build --chown=node:node \
+  /app/node_modules/@electric-sql/pglite/dist/pglite.data \
+  /app/node_modules/@electric-sql/pglite/dist/pglite.wasm \
+  /app/node_modules/@electric-sql/pglite/dist/initdb.wasm \
+  ./.output/server/_libs/
 
 USER node
 EXPOSE 8080
