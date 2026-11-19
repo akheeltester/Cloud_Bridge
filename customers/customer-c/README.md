@@ -21,7 +21,39 @@
 
 NovaRetail already runs their e-commerce platform on AWS but has no formal security assessment or monitoring in place. They need a cloud security posture review and a basic SOC capability to detect and respond to incidents.
 
-**No migration** is required — this is a security and monitoring engagement.
+**No migration** is required for the original security engagement. For the
+Phase 7 multi-cloud goal, NovaRetail is also the Azure workload: a fictional
+retail API has been implemented and dockerized in this directory (see below).
+
+---
+
+## Application Implementation (Phase 7)
+
+A self-contained FastAPI retail API now lives in this directory, ready for Azure
+App Service (F1 Free). It uses embedded SQLite so it runs as a single free-tier
+container with no external database dependency. All data is fictional.
+
+| Path | Purpose |
+|---|---|
+| `app/main.py` | FastAPI app — `/api/health`, `/api/live`, `/api/products`, `/api/orders` |
+| `app/database.py` | SQLite schema + fictional catalogue seed, atomic order/stock logic |
+| `web/index.html` | Static storefront served at `/` |
+| `Dockerfile` | python:3.12-slim, non-root, port 8000 |
+| `docker-compose.yml` | Local run on `127.0.0.1:8082` |
+| `tests/test_app.py` | 8 unit tests (pass locally; container smoke test verified) |
+
+Run locally:
+
+```sh
+cd customers/customer-c
+docker compose up -d --build
+curl -fsS http://127.0.0.1:8082/api/health
+```
+
+Azure deployment (plan-first, explicit approval): see
+`docs/migration-runbooks/customer-c-azure-appservice.md` and
+`scripts/deploy/deploy-customer-c-azure.sh`. IaC:
+`terraform/azure/environments/customer-c`.
 
 ---
 
@@ -104,7 +136,12 @@ No migration. Security engagement only.
 ```
 customers/customer-c/
 ├── README.md                    # This file
-├── onboarding/
+├── app/                         # FastAPI retail API (Phase 7)
+├── web/                         # Static storefront
+├── tests/                       # Unit tests
+├── Dockerfile                   # Container image
+├── docker-compose.yml           # Local simulation
+├── requirements.txt
 ├── security-assessment/         # Prowler and Checkov outputs (Phase 5)
 ├── soc/                         # Wazuh and detection rules (Phase 6)
 └── reports/                     # Security reports

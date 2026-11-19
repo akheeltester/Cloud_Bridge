@@ -1,0 +1,14 @@
+services:
+  novaretail:
+    build: .
+    image: novaretail:local
+    ports:
+      - "127.0.0.1:8082:8000"
+    environment:
+      NOVA_DB_PATH: /app/data/nova.db
+    volumes:
+      - nova-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  nova-data:

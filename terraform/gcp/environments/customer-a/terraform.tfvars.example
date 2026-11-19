@@ -1,0 +1,8 @@
+# Copy to terraform.tfvars (gitignored) and set your billing-enabled project.
+project_id            = "REPLACE_WITH_BILLING_ENABLED_PROJECT"
+region                = "australia-southeast1"
+service_name          = "cloudbridge-jigsaw"
+repository_id         = "cloudbridge"
+image_name            = "jigsaw"
+image_tag             = "latest"
+allow_unauthenticated = true

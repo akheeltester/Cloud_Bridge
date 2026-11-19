@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NovaRetail — CloudBridge Demo</title>
+    <style>
+      :root { color-scheme: dark; }
+      body { font-family: system-ui, sans-serif; margin: 0; background: #0b1020; color: #e6e9f2; }
+      header { padding: 2rem; background: linear-gradient(135deg, #1b2a6b, #0b1020); }
+      h1 { margin: 0 0 .25rem; font-size: 1.6rem; }
+      .tag { color: #8ea2ff; font-size: .85rem; }
+      main { padding: 1.5rem 2rem; max-width: 900px; }
+      .card { background: #141a33; border: 1px solid #232a4d; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+      table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+      th, td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid #232a4d; }
+      .ok { color: #4ade80; } .bad { color: #f87171; }
+      button { background: #3b5bff; color: #fff; border: 0; border-radius: 8px; padding: .4rem .8rem; cursor: pointer; }
+      input { background: #0b1020; color: #e6e9f2; border: 1px solid #232a4d; border-radius: 8px; padding: .35rem .5rem; width: 5rem; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>NovaRetail</h1>
+      <div class="tag">Fictional retail demo · CloudBridge multi-cloud portfolio · Azure target</div>
+    </header>
+    <main>
+      <div class="card">
+        <strong>Service health:</strong> <span id="health">checking…</span>
+      </div>
+      <div class="card">
+        <h2>Catalogue</h2>
+        <table id="products"><thead><tr><th>ID</th><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="card">
+        <h2>Recent orders</h2>
+        <table id="orders"><thead><tr><th>ID</th><th>Product</th><th>Qty</th><th>Total</th></tr></thead><tbody></tbody></table>
+      </div>
+    </main>
+    <script>
+      async function load() {
+        try {
+          const h = await (await fetch('/api/health')).json();
+          const el = document.getElementById('health');
+          el.textContent = h.status + ' (api: ' + h.components.api + ', db: ' + h.components.database + ')';
+          el.className = h.status === 'healthy' ? 'ok' : 'bad';
+        } catch (e) { document.getElementById('health').textContent = 'unreachable'; }
+        const p = await (await fetch('/api/products')).json();
+        const pb = document.querySelector('#products tbody'); pb.innerHTML = '';
+        for (const item of p.products) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = '<td>' + item.id + '</td><td></td><td></td><td>$' + item.price.toFixed(2) + '</td><td>' + item.stock + '</td><td><button>Order</button></td>';
+          tr.children[1].textContent = item.name; tr.children[2].textContent = item.category;
+          tr.querySelector('button').onclick = async () => {
+            const q = prompt('Quantity for ' + item.name + '?', '1');
+            if (!q) return;
+            const res = await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product_id: item.id, quantity: parseInt(q, 10) }) });
+            if (!res.ok) { alert((await res.json()).detail || 'order failed'); }
+            load();
+          };
+          pb.appendChild(tr);
+        }
+        const o = await (await fetch('/api/orders')).json();
+        const ob = document.querySelector('#orders tbody'); ob.innerHTML = '';
+        for (const ord of o.orders) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = '<td>' + ord.id + '</td><td></td><td>' + ord.quantity + '</td><td>$' + ord.total.toFixed(2) + '</td>';
+          tr.children[1].textContent = ord.product; ob.appendChild(tr);
+        }
+      }
+      load();
+    </script>
+  </body>
+</html>

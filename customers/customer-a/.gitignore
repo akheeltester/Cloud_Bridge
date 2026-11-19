@@ -1,0 +1,12 @@
+# Local app-builder workspace state; not part of the deployable application.
+/.grok/
+/.project_id
+/.node_modules.lock
+/AGENTS.md
+/JigSaw.zip
+
+# Local framework and production build output.
+/.tanstack/
+/.vercel/
+/dist/
+/node_modules/

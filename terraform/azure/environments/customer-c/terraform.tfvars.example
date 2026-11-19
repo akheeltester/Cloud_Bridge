@@ -1,0 +1,7 @@
+# Copy to terraform.tfvars (gitignored) and set your subscription + unique app name.
+subscription_id     = "REPLACE_WITH_SUBSCRIPTION_ID"
+resource_group_name = "rg-cloudbridge-novaretail"
+location            = "australiaeast"
+app_name            = "cloudbridge-novaretail-REPLACE_UNIQUE"
+image               = "ghcr.io/akheeltester/novaretail:latest"
+docker_registry_url = "https://ghcr.io"

@@ -1,0 +1,17 @@
+.git
+.grok
+.project_id
+.node_modules.lock
+.tanstack
+.vercel
+node_modules
+dist
+coverage
+screenshots
+artifacts
+JigSaw.zip
+AGENTS.md
+.env
+.env.*
+!.env.example
+*.log
