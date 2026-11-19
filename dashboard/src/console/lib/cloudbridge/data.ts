@@ -152,7 +152,7 @@ export const customers = [
     status: "deployed",
     assetCount: 4,
     dataStatus: "demo-data" as WorkStatus,
-    summary: "NovaRetail retail API (FastAPI + SQLite) is live on a free-tier GCP VM. Health, catalogue, and order creation (DB write) verified externally. SQLite persists on the VM disk. Security assessment remains Phase 5 scope.",
+    summary: "NovaTrail trail-running storefront (black & white enterprise console, branded logo/favicon) is live on a free-tier GCP VM over HTTPS. Health, catalogue, and order creation verified. SQLite persists on the VM disk. Security assessment remains Phase 5 scope.",
     assets: [
       { name: "Retail API", spec: "FastAPI · /api/health, products, orders", ip: "container :8000 → host :80", role: "E-commerce backend" },
       { name: "Database", spec: "SQLite on stateful VM disk", ip: "/var/lib/cloudbridge-novaretail", role: "Catalogue + orders (persistent)" },

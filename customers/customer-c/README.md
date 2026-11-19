@@ -54,6 +54,9 @@ curl -fsS http://127.0.0.1:8082/api/health
 
 ### Live deployment (GCP Compute Engine)
 
+- Storefront brand: **NovaTrail** — trail-running outfitter, black & white
+  enterprise console (logo/favicon from `NovaTrail-logo.zip`, trail-gear
+  catalogue: shoes, hydration vests, poles, apparel, GPS watch, nutrition).
 - URL: https://novatrail.duckdns.org (static IP 35.209.137.226; Caddy + Let's Encrypt, HTTP→HTTPS redirect)
 - Host: e2-micro VM `cloudbridge-novaretail`, us-central1-a, Container-Optimized
   OS, free-tier grant. Approved cost: public IPv4 ~$3.60/month from credits.

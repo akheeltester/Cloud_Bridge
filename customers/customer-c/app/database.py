@@ -15,11 +15,14 @@ from pathlib import Path
 DB_PATH = os.environ.get("NOVA_DB_PATH", str(Path(__file__).resolve().parent.parent / "data" / "nova.db"))
 
 SEED_PRODUCTS = [
-    ("Nova Wireless Mouse", "peripherals", 24.99, 120),
-    ("Nova Mechanical Keyboard", "peripherals", 79.50, 60),
-    ("Nova 27\" Monitor", "displays", 189.00, 35),
-    ("Nova USB-C Hub", "accessories", 39.95, 200),
-    ("Nova Laptop Stand", "accessories", 29.00, 150),
+    ("Ridge GTX Trail Shoes", "footwear", 139.95, 84),
+    ("Summit 12L Hydration Vest", "hydration", 89.00, 46),
+    ("Carbon Z-Pole Set", "poles", 119.50, 32),
+    ("Stormshell Wind Jacket", "apparel", 74.95, 58),
+    ("GPS Trail Watch", "electronics", 249.00, 21),
+    ("Merino Trail Socks (2-pack)", "apparel", 18.50, 140),
+    ("Energy Gel Box (12)", "nutrition", 29.99, 200),
+    ("Headlamp 400lm", "accessories", 44.95, 75),
 ]
 
 
