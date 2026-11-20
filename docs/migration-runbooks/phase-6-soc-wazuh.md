@@ -36,7 +36,7 @@ router port-forwarding, nothing opened to the internet.
 ## Agent enrollment (reproducible)
 
 Enrollment requires a password (hardened 2026-11-20: `<use_password>yes</use_password>`
-+ `/var/ossec/etc/authd.pass` on the manager; passwordless attempts are rejected).
+and `/var/ossec/etc/authd.pass` on the manager; passwordless attempts are rejected).
 The password lives in the gitignored `scripts/soc/wazuh-api.env`
 (`WAZUH_ENROLLMENT_PASSWORD`). Group must exist first:
 
