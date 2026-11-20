@@ -1,0 +1,12 @@
+CloudBridge is a multi-cloud engineering lab I designed and built end-to-end: three customer workloads containerized, deployed across AWS and GCP with Terraform, secured through a real DevSecOps pipeline, and monitored from a single SOC dashboard.
+
+What I built and verified:
+- 3 live deployments: BluePeak on AWS EC2 + private S3 (Docker Compose: Nginx / FastAPI / PostgreSQL), Jigsaw on GCP Cloud Run (scale-to-zero), NovaTrail on a GCP Compute Engine VM - all with automatic HTTPS (Caddy + Let's Encrypt), health-checked and database-write verified.
+- Infrastructure as Code: reusable Terraform modules, plan-first workflow, free-tier posture - total running cost ~$3.60/month.
+- CI/CD on GitHub Actions: TruffleHog secret scanning -> Terraform validation -> Checkov IaC scans -> auto-deployed React dashboard on GitHub Pages.
+- Cloud security posture: Trivy, Checkov and Prowler scans with real remediation - image criticals 7->1, IaC findings 22->16, internet-wide SSH/RDP removed, Shielded VM + IAP-only SSH enforced.
+- SOC: Wazuh 4.14.6 SIEM with agents on both clouds over a private Tailscale mesh. I simulated an SSH brute-force attack and verified detection end-to-end (rule 5712, level 10) with PCI DSS / GDPR / NIST compliance tags; 1,000+ real alerts per day sync into the dashboard, sanitized for public display.
+- Hardening: rotated default credentials, enforced agent-enrollment passwords, zero static cloud keys (instance roles + service accounts only).
+
+Live dashboard + demos: https://akheeltester.github.io/Cloud_Bridge/
+Code: https://github.com/akheeltester/Cloud_Bridge
