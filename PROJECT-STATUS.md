@@ -6,11 +6,11 @@ Last updated: 2026-11-20 · All 8 roadmap phases implemented and verified.
 
 | Workload | Cloud | Endpoint | Access |
 |---|---|---|---|
-| BluePeak (customer-b) | AWS EC2 ap-southeast-2 + private S3 | https://cloudbridge-bluepeak.duckdns.org | SSH: `ssh -i ~/Desktop/C-Loud/<local-ssh-key> ec2-user@<ec2-public-ip>` |
-| Jigsaw (customer-a) | GCP Cloud Run australia-southeast1 | https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app | gcloud (project iconic-being-431804-c2) |
-| NovaTrail (customer-c) | GCP e2-micro VM us-central1-a (COS) | https://novatrail.duckdns.org | IAP-only: `gcloud compute ssh cloudbridge-novaretail --zone us-central1-a --project iconic-being-431804-c2 --tunnel-through-iap` |
-| Dashboard | GitHub Pages | https://akheeltester.github.io/Cloud_Bridge/ | repo akheeltester/Cloud_Bridge, auto-deploys on push |
-| Wazuh manager 4.14.6 | VirtualBox OVA, home LAN | https://<manager-lan-ip> (LAN) / <manager-tailscale-ip> (Tailscale) | SSH wazuh-user (password rotated — in scripts/soc/wazuh-api.env) |
+| BluePeak (customer-b) | AWS EC2 ap-southeast-2 + private S3 | <https://cloudbridge-bluepeak.duckdns.org> | SSH: `ssh -i ~/Desktop/C-Loud/<local-ssh-key> ec2-user@<ec2-public-ip>` |
+| Jigsaw (customer-a) | GCP Cloud Run australia-southeast1 | <https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app> | gcloud (project iconic-being-431804-c2) |
+| NovaTrail (customer-c) | GCP e2-micro VM us-central1-a (COS) | <https://novatrail.duckdns.org> | IAP-only: `gcloud compute ssh cloudbridge-novaretail --zone us-central1-a --project iconic-being-431804-c2 --tunnel-through-iap` |
+| Dashboard | GitHub Pages | <https://akheeltester.github.io/Cloud_Bridge/> | repo akheeltester/Cloud_Bridge, auto-deploys on push |
+| Wazuh manager 4.14.6 | VirtualBox OVA, home LAN | <https://<manager-lan-ip>> (LAN) / <manager-tailscale-ip> (Tailscale) | SSH wazuh-user (password rotated — in scripts/soc/wazuh-api.env) |
 
 gcloud lives at `~/google-cloud-sdk/bin` (off PATH). GCP billing: <billing-account-id>.
 Running cloud cost: ~$3.60/month (GCP static IPv4 only); everything else free-tier.
