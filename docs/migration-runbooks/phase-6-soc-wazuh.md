@@ -110,6 +110,6 @@ Done 2026-11-20:
 
 Remaining (before calling this production-style):
 
-3. Wazuh dashboard default login (the OVA default dashboard login) — rotate via the dashboard UI.
-4. AWS CloudTrail ingestion via the Wazuh AWS module (needs AWS CLI re-auth).
-5. Prowler AWS assessment (same blocker).
+1. Wazuh dashboard default login (the OVA default dashboard login) — rotate via the dashboard UI.
+2. AWS CloudTrail ingestion via the Wazuh AWS module (needs AWS CLI re-auth).
+3. Prowler AWS assessment (same blocker).
