@@ -30,13 +30,15 @@ router port-forwarding, nothing opened to the internet.
 |---|---|---|
 | Wazuh manager 4.14.6 | VirtualBox OVA, bridged <manager-lan-ip> | manager + indexer + dashboard, all active |
 | Tailscale | all 3 machines | free personal tailnet, hostnames wazuh-manager / bluepeak-aws / novatrail-gcp |
-| Agent 014 bluepeak-aws | EC2 Amazon Linux 2023 | native RPM; auth logs (journald), FIM, SCA (CIS AL2023), syscollector |
-| Agent 013 novatrail-gcp | GCP Container-Optimized OS | `wazuh/wazuh-agent:4.14.6` container, host network/pid, privileged; host FIM via `/:/host:ro`, docker-listener, SCA |
+| Agent 015 bluepeak-aws | EC2 Amazon Linux 2023 | native RPM; auth logs (journald), FIM, SCA (CIS AL2023), syscollector |
+| Agent 016 novatrail-gcp | GCP Container-Optimized OS | `wazuh/wazuh-agent:4.14.6` container, host network/pid, privileged; host FIM via `/:/host:ro`, docker-listener, SCA |
 
 ## Agent enrollment (reproducible)
 
-Manager accepts passwordless enrollment (`<use_password>no</use_password>` in
-ossec.conf — lab-only; see hardening below). Group must exist first:
+Enrollment requires a password (hardened 2026-11-20: `<use_password>yes</use_password>`
++ `/var/ossec/etc/authd.pass` on the manager; passwordless attempts are rejected).
+The password lives in the gitignored `scripts/soc/wazuh-api.env`
+(`WAZUH_ENROLLMENT_PASSWORD`). Group must exist first:
 
 ```bash
 # on the manager
@@ -50,7 +52,7 @@ sudo WAZUH_MANAGER=<manager-tailscale-ip> WAZUH_AGENT_NAME=bluepeak-aws \
   WAZUH_AGENT_GROUP=cloudbridge rpm -ivh wazuh-agent-4.14.6-1.x86_64.rpm
 sudo systemctl enable --now wazuh-agent
 # if a stale entry exists: manage_agents -r <id> on manager, then:
-sudo /var/ossec/bin/agent-auth -m <manager-tailscale-ip> -A bluepeak-aws -G cloudbridge
+sudo /var/ossec/bin/agent-auth -m <manager-tailscale-ip> -A bluepeak-aws -G cloudbridge -P "$ENROLL_PW"
 ```
 
 GCP COS (container — no package manager on COS):
@@ -60,6 +62,7 @@ sudo docker run -d --name wazuh-agent --restart unless-stopped \
   --hostname novatrail-gcp --network host --pid host --privileged \
   -e WAZUH_MANAGER_SERVER=<manager-tailscale-ip> \
   -e WAZUH_AGENT_NAME=novatrail-gcp -e WAZUH_AGENT_GROUP=cloudbridge \
+  -e WAZUH_REGISTRATION_PASSWORD="$ENROLL_PW" \
   -v /var/lib/cloudbridge-novaretail/wazuh/ossec.conf:/wazuh-config-mount/etc/ossec.conf:ro \
   -v /:/host:ro -v /var/run/docker.sock:/var/run/docker.sock \
   wazuh/wazuh-agent:4.14.6
@@ -96,12 +99,17 @@ indexer (9200, localhost-only on the manager, reached over SSH). Sanitization:
 source IPs masked to first two octets, raw log lines stripped, only the three
 CloudBridge agents included.
 
-## Hardening backlog (before calling this production-style)
+## Hardening backlog
 
-1. Change the OVA default SSH credentials (wazuh-user/wazuh) — still in use.
-2. Enable authd enrollment password (`<use_password>yes</use_password>` +
-   `/var/ossec/etc/authd.pass`), then re-enroll agents with it.
-3. Wazuh dashboard/API default passwords — the `wazuh-wui` API password was
-   rotated to a random value stored in the gitignored env file.
+Done 2026-11-20:
+
+1. ~~OVA default SSH credentials~~ — wazuh-user password rotated to a random
+   value (stored in the gitignored env file; also needed for VM console login).
+2. ~~Passwordless enrollment~~ — authd password enabled; both agents re-enrolled
+   with it (IDs 015/016); passwordless enrollment verified rejected.
+
+Remaining (before calling this production-style):
+
+3. Wazuh dashboard default login (the OVA default dashboard login) — rotate via the dashboard UI.
 4. AWS CloudTrail ingestion via the Wazuh AWS module (needs AWS CLI re-auth).
 5. Prowler AWS assessment (same blocker).

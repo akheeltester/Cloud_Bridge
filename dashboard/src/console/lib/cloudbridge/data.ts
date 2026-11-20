@@ -351,8 +351,8 @@ export const alerts = [
 
 export const wazuhItems = [
   { label: "Wazuh Manager 4.14.6", detail: "Local VirtualBox VM · linked via Tailscale mesh", status: "implemented" as WorkStatus },
-  { label: "Agent — bluepeak-aws (014)", detail: "Native RPM on EC2 · auth logs, FIM, SCA, syscollector", status: "implemented" as WorkStatus },
-  { label: "Agent — novatrail-gcp (013)", detail: "Container on COS · host FIM, Docker events, SCA", status: "implemented" as WorkStatus },
+  { label: "Agent — bluepeak-aws (015)", detail: "Native RPM on EC2 · auth logs, FIM, SCA, syscollector", status: "implemented" as WorkStatus },
+  { label: "Agent — novatrail-gcp (016)", detail: "Container on COS · host FIM, Docker events, SCA", status: "implemented" as WorkStatus },
   { label: "Detection verified", detail: "SSH brute force → rules 5710 (lvl 5) + 5712 (lvl 10)", status: "implemented" as WorkStatus },
   { label: "AWS CloudTrail ingestion", detail: "Wazuh AWS module — next iteration", status: "planned" as WorkStatus },
 ];
