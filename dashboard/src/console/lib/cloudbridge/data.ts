@@ -59,9 +59,9 @@ export const phases = [
   {
     number: 6,
     name: "SOC & Monitoring",
-    status: "planned" as WorkStatus,
-    description: "Wazuh SIEM, Splunk, detection rules, and incident response.",
-    deliverables: ["Wazuh lab", "Detection rules", "Incident playbooks"],
+    status: "implemented" as WorkStatus,
+    description: "Wazuh 4.14.6 SIEM on a local VM, linked to both clouds over a private Tailscale mesh. Agents active on BluePeak (AWS) and NovaTrail (GCP); SSH brute-force detection verified live (rules 5710/5712). Real alerts sync into this dashboard.",
+    deliverables: ["Wazuh manager + 2 cloud agents active", "Tailscale private transport", "Brute-force detection verified", "CIS benchmark scans (SCA)", "Real alert feed on SOC page", "Splunk deferred (hardware)"],
   },
   {
     number: 7,
@@ -350,10 +350,11 @@ export const alerts = [
 ];
 
 export const wazuhItems = [
-  { label: "Wazuh Manager VM", detail: "Ubuntu Server — local VirtualBox", status: "planned" as WorkStatus },
-  { label: "Agent — customer-a-appserver", detail: "Monitors auth.log, syslog, FIM", status: "planned" as WorkStatus },
-  { label: "Agent — customer-a-database", detail: "Monitors PG logs, auth.log", status: "planned" as WorkStatus },
-  { label: "AWS CloudTrail ingestion", detail: "Wazuh AWS module — Phase 6", status: "planned" as WorkStatus },
+  { label: "Wazuh Manager 4.14.6", detail: "Local VirtualBox VM · linked via Tailscale mesh", status: "implemented" as WorkStatus },
+  { label: "Agent — bluepeak-aws (014)", detail: "Native RPM on EC2 · auth logs, FIM, SCA, syscollector", status: "implemented" as WorkStatus },
+  { label: "Agent — novatrail-gcp (013)", detail: "Container on COS · host FIM, Docker events, SCA", status: "implemented" as WorkStatus },
+  { label: "Detection verified", detail: "SSH brute force → rules 5710 (lvl 5) + 5712 (lvl 10)", status: "implemented" as WorkStatus },
+  { label: "AWS CloudTrail ingestion", detail: "Wazuh AWS module — next iteration", status: "planned" as WorkStatus },
 ];
 
 export const splunkViews = [
@@ -365,12 +366,12 @@ export const splunkViews = [
 ];
 
 export const detectionRules = [
-  { category: "Authentication", rules: "Brute force, failed SSH, privilege escalation", phase: "Phase 6" },
-  { category: "Network", rules: "Port scans, unexpected outbound connections", phase: "Phase 6" },
-  { category: "File Integrity", rules: "Changes to critical system files (FIM)", phase: "Phase 6" },
-  { category: "Cloud (AWS)", rules: "CloudTrail anomalies, API abuse patterns", phase: "Phase 6" },
-  { category: "Application", rules: "SQL injection patterns, unusual query volumes", phase: "Phase 6" },
-  { category: "Incident Response", rules: "Playbooks for common attack scenarios", phase: "Phase 6" },
+  { category: "Authentication", rules: "Brute force, failed SSH, privilege escalation", phase: "Verified live · rules 5710/5712/5402" },
+  { category: "File Integrity", rules: "Changes to critical system files (FIM)", phase: "Active on both agents" },
+  { category: "Compliance (SCA)", rules: "CIS Amazon Linux 2023 benchmark scans", phase: "Running on both agents" },
+  { category: "Containers", rules: "Docker event monitoring on NovaTrail", phase: "Active · docker-listener" },
+  { category: "Cloud (AWS)", rules: "CloudTrail anomalies, API abuse patterns", phase: "Next iteration" },
+  { category: "Incident Response", rules: "Playbooks for common attack scenarios", phase: "Runbook documented" },
 ];
 
 export const awsModules = [
@@ -488,7 +489,9 @@ export const cloudActions = [
   { cloud: "GCP", date: "Nov 19", action: "Prowler posture scan", detail: "86 checks · 67 findings · both criticals remediated and verified; report in docs/security-reports/phase-5" },
   { cloud: "AWS", date: "Nov 13", action: "BluePeak deployed to EC2 + S3", detail: "Docker Compose stack, private S3 uploads via instance role (no static keys), Caddy HTTPS on DuckDNS" },
   { cloud: "AWS", date: "Nov 19", action: "Enterprise UI + patched image", detail: "New portal UI rolled out over SSH; app image rebuilt from refreshed base — 0 critical CVEs on re-scan" },
-  { cloud: "AWS", date: "Next", action: "Prowler AWS + CloudTrail → SOC", detail: "Awaiting CLI re-auth; CloudTrail ingestion planned for Phase 6" },
+  { cloud: "AWS", date: "Next", action: "Prowler AWS + CloudTrail → SOC", detail: "Awaiting CLI re-auth; CloudTrail ingestion planned for next iteration" },
+  { cloud: "GCP", date: "Nov 20", action: "Wazuh agent enrolled (013)", detail: "Container agent on COS: host FIM, Docker events, CIS scans; Tailscale transport to home manager" },
+  { cloud: "AWS", date: "Nov 20", action: "Wazuh agent enrolled (014)", detail: "Native RPM agent on EC2: auth logs, FIM, SCA; SSH brute-force test fired rules 5710 + 5712 (level 10)" },
 ];
 
 export const toolchain = [
@@ -500,7 +503,7 @@ export const toolchain = [
   { tool: "Docker", role: "Workload packaging", how: "All three apps containerized: non-root users, explicit ports, HEALTHCHECK instructions, multi-stage build for Jigsaw.", evidence: "3 images built, scanned, deployed", status: "implemented" as WorkStatus },
   { tool: "Caddy", role: "Automatic HTTPS", how: "TLS termination + Let's Encrypt on both AWS (EC2) and GCP (sidecar container), with HTTP→HTTPS redirect and auto-renewal.", evidence: "2 public HTTPS endpoints, certs auto-renew", status: "implemented" as WorkStatus },
   { tool: "GitHub Actions", role: "CI/CD", how: "ci.yml gates every change (secrets → Terraform → Checkov → lint); deploy-dashboard.yml publishes this dashboard to GitHub Pages on merge.", evidence: "2 active workflows", status: "implemented" as WorkStatus },
-  { tool: "Wazuh", role: "SOC / SIEM (Phase 6)", how: "Manager already running in VirtualBox; agents enroll on the cloud VMs next, feeding alerts into this dashboard's SOC page.", evidence: "Server ready · agent rollout scheduled", status: "planned" as WorkStatus },
+  { tool: "Wazuh", role: "SOC / SIEM", how: "Manager 4.14.6 on a local VM, agents on both cloud workloads, private Tailscale transport. SSH brute-force detection verified live; real alerts sync to the SOC page via scripts/soc/sync-wazuh-soc.py.", evidence: "2 agents active · 846 alerts/24h · rules 5710/5712 fired", status: "implemented" as WorkStatus },
 ];
 
 export const scanStats = {
@@ -518,7 +521,7 @@ export const milestones = [
   { date: "Nov 19", title: "GCP Cloud Run (Jigsaw)", detail: "Serverless deployment, free-tier posture, auth verified", phase: "7", done: true },
   { date: "Nov 19", title: "GCP VM + HTTPS (NovaTrail)", detail: "Free-tier e2-micro, Caddy + Let's Encrypt, enterprise rebrand", phase: "7", done: true },
   { date: "Nov 19", title: "Security scans + remediation", detail: "Checkov / Trivy / Prowler; criticals fixed and re-verified", phase: "5", done: true },
-  { date: "Nov 20", title: "SOC & monitoring", detail: "Wazuh agents on cloud VMs, detection rules, live alerts", phase: "6", done: false },
+  { date: "Nov 20", title: "SOC & monitoring", detail: "Wazuh agents active on both clouds via Tailscale; brute-force detection verified; real alerts on dashboard", phase: "6", done: true },
 ];
 
 export function phaseProgress(status: WorkStatus): number {

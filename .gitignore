@@ -20,6 +20,7 @@ override.tf.json
 crash.log
 tfplan
 *.tfplan
+scripts/soc/wazuh-api.env
 
 # NovaRetail local SQLite data (fictional, regenerated on seed)
 customers/customer-c/data/

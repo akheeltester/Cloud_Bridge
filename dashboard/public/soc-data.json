@@ -1,0 +1,2783 @@
+{
+ "generated_at": "2026-11-20T04:39:49.853242+00:00",
+ "window": "last 24 hours",
+ "manager": {
+  "name": "wazuh-server",
+  "version": "Wazuh v4.14.6",
+  "transport": "Tailscale mesh (private)"
+ },
+ "agents": [
+  {
+   "id": "000",
+   "name": "wazuh-server",
+   "status": "active",
+   "version": "Wazuh v4.14.6",
+   "group": "default"
+  },
+  {
+   "id": "013",
+   "name": "novatrail-gcp",
+   "status": "active",
+   "version": "Wazuh v4.14.6",
+   "group": "cloudbridge"
+  },
+  {
+   "id": "014",
+   "name": "bluepeak-aws",
+   "status": "active",
+   "version": "Wazuh v4.14.6",
+   "group": "cloudbridge"
+  }
+ ],
+ "summary": {
+  "total_alerts_24h": 846,
+  "sampled": 200,
+  "by_level": {
+   "low": 179,
+   "medium": 20,
+   "high": 1
+  },
+  "by_agent": {
+   "wazuh-server": 147,
+   "novatrail-gcp": 41,
+   "bluepeak-aws": 12
+  },
+  "top_rules": [
+   {
+    "rule_id": "5502",
+    "description": "PAM: Login session closed.",
+    "level": 3,
+    "count": 47
+   },
+   {
+    "rule_id": "5501",
+    "description": "PAM: Login session opened.",
+    "level": 3,
+    "count": 45
+   },
+   {
+    "rule_id": "5402",
+    "description": "Successful sudo to ROOT executed.",
+    "level": 3,
+    "count": 27
+   },
+   {
+    "rule_id": "5715",
+    "description": "sshd: authentication success.",
+    "level": 3,
+    "count": 18
+   },
+   {
+    "rule_id": "5710",
+    "description": "sshd: Attempt to login using a non-existent user",
+    "level": 5,
+    "count": 9
+   },
+   {
+    "rule_id": "19009",
+    "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure sticky bit is set on all world-writable directories.",
+    "level": 3,
+    "count": 4
+   }
+  ]
+ },
+ "alerts": [
+  {
+   "timestamp": "2026-11-20T04:39:36.642+0000",
+   "agent": "wazuh-server",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure sticky bit is set on all world-writable directories.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:38:04.077+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:38:04.077+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:38:04.077+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:38:04.077+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:38:04.077+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:38:04.077+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:38:04.077+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:38:04.077+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:38:04.077+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:37:52.075+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:37:52.075+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:37:52.075+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:37:52.075+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:37:52.075+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:37:52.074+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:37:31.646+0000",
+   "agent": "wazuh-server",
+   "rule_id": "19004",
+   "level": 7,
+   "severity": "medium",
+   "description": "SCA summary: CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Score less than 50% (43)",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:37:24.313+0000",
+   "agent": "wazuh-server",
+   "rule_id": "19015",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure sudo is installed.: Status changed from 'not applicable' to passed",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:37:23.199+0000",
+   "agent": "wazuh-server",
+   "rule_id": "19010",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure message of the day is configured properly.: Status changed from failed to passed",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:36:52.950+0000",
+   "agent": "wazuh-server",
+   "rule_id": "502",
+   "level": 3,
+   "severity": "low",
+   "description": "Wazuh server started.",
+   "groups": [],
+   "srcip": null,
+   "location": "wazuh-monitord"
+  },
+  {
+   "timestamp": "2026-11-20T04:36:48.004+0000",
+   "agent": "wazuh-server",
+   "rule_id": "80730",
+   "level": 3,
+   "severity": "low",
+   "description": "Auditd: SELinux permission check.",
+   "groups": [],
+   "srcip": null,
+   "location": "/var/log/audit/audit.log"
+  },
+  {
+   "timestamp": "2026-11-20T04:36:46.052+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:36:46.052+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:36:46.004+0000",
+   "agent": "wazuh-server",
+   "rule_id": "80730",
+   "level": 3,
+   "severity": "low",
+   "description": "Auditd: SELinux permission check.",
+   "groups": [],
+   "srcip": null,
+   "location": "/var/log/audit/audit.log"
+  },
+  {
+   "timestamp": "2026-11-20T04:36:46.004+0000",
+   "agent": "wazuh-server",
+   "rule_id": "80730",
+   "level": 3,
+   "severity": "low",
+   "description": "Auditd: SELinux permission check.",
+   "groups": [],
+   "srcip": null,
+   "location": "/var/log/audit/audit.log"
+  },
+  {
+   "timestamp": "2026-11-20T04:36:46.004+0000",
+   "agent": "wazuh-server",
+   "rule_id": "80730",
+   "level": 3,
+   "severity": "low",
+   "description": "Auditd: SELinux permission check.",
+   "groups": [],
+   "srcip": null,
+   "location": "/var/log/audit/audit.log"
+  },
+  {
+   "timestamp": "2026-11-20T04:36:44.047+0000",
+   "agent": "wazuh-server",
+   "rule_id": "533",
+   "level": 7,
+   "severity": "medium",
+   "description": "Listened ports status (netstat) changed (new port opened or closed).",
+   "groups": [],
+   "srcip": null,
+   "location": "netstat listening ports"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:47.437+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:47.437+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:47.437+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:47.437+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:47.437+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:47.437+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:35.429+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:35.429+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:35.429+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:35.429+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:35.429+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:35.429+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:35.429+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:33.428+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:33.428+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:23.426+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:23.426+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:23.426+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:23.426+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:23.426+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:23.426+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:17.425+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:17.425+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:17.425+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:17.425+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:17.424+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:17.424+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:17.424+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:17.424+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:15.424+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:07.422+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:07.422+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:07.422+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:07.422+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:07.422+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:07.422+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:07.422+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:07.422+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:35:07.421+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:57.407+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:57.407+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:57.407+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:57.407+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:57.407+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:57.407+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:57.407+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:57.407+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:57.407+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:43.402+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:43.402+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:43.402+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:43.402+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:43.402+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:43.402+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:43.402+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:43.402+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:43.402+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:33.398+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:33.398+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:33.398+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:33.398+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:33.398+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:33.398+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:19.396+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:19.396+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:19.396+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:19.396+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:19.396+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:19.396+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:19.395+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:19.395+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:19.395+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:17.394+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:17.394+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:34:17.394+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:33:40.347+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure sticky bit is set on all world-writable directories.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:43.122+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:43.122+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:41.119+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:41.119+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:41.119+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:41.118+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:41.118+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:41.118+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:41.118+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:23.108+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:23.108+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:23.108+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:23.108+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:23.108+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:23.108+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:23.108+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:23.108+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:23.108+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:21.406+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "5710",
+   "level": 5,
+   "severity": "medium",
+   "description": "sshd: Attempt to login using a non-existent user",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_failed",
+    "invalid_login"
+   ],
+   "srcip": "117.243.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:19.393+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "5710",
+   "level": 5,
+   "severity": "medium",
+   "description": "sshd: Attempt to login using a non-existent user",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_failed",
+    "invalid_login"
+   ],
+   "srcip": "117.243.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:15.399+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "5712",
+   "level": 10,
+   "severity": "high",
+   "description": "sshd: brute force trying to get access to the system. Non existent user.",
+   "groups": [
+    "syslog",
+    "sshd"
+   ],
+   "srcip": "117.243.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:13.399+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "5710",
+   "level": 5,
+   "severity": "medium",
+   "description": "sshd: Attempt to login using a non-existent user",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_failed",
+    "invalid_login"
+   ],
+   "srcip": "117.243.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:30:04.122+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure sticky bit is set on all world-writable directories.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:49.090+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:25.082+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:25.082+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:25.082+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:25.082+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:25.082+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:25.082+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:25.082+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:25.082+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:25.082+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:29:02.426+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19003",
+   "level": 5,
+   "severity": "medium",
+   "description": "SCA summary: CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Score less than 80% (52)",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:57.396+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "5710",
+   "level": 5,
+   "severity": "medium",
+   "description": "sshd: Attempt to login using a non-existent user",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_failed",
+    "invalid_login"
+   ],
+   "srcip": "117.243.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:55.390+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "5710",
+   "level": 5,
+   "severity": "medium",
+   "description": "sshd: Attempt to login using a non-existent user",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_failed",
+    "invalid_login"
+   ],
+   "srcip": "117.243.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:53.386+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "5710",
+   "level": 5,
+   "severity": "medium",
+   "description": "sshd: Attempt to login using a non-existent user",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_failed",
+    "invalid_login"
+   ],
+   "srcip": "117.243.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:49.391+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "5710",
+   "level": 5,
+   "severity": "medium",
+   "description": "sshd: Attempt to login using a non-existent user",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_failed",
+    "invalid_login"
+   ],
+   "srcip": "117.243.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:47.385+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "5710",
+   "level": 5,
+   "severity": "medium",
+   "description": "sshd: Attempt to login using a non-existent user",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_failed",
+    "invalid_login"
+   ],
+   "srcip": "117.243.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:45.293+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "19004",
+   "level": 7,
+   "severity": "medium",
+   "description": "SCA summary: CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Score less than 50% (41)",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:43.536+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "5710",
+   "level": 5,
+   "severity": "medium",
+   "description": "sshd: Attempt to login using a non-existent user",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_failed",
+    "invalid_login"
+   ],
+   "srcip": "117.243.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:41.065+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:41.065+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:41.065+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5715",
+   "level": 3,
+   "severity": "low",
+   "description": "sshd: authentication success.",
+   "groups": [
+    "syslog",
+    "sshd",
+    "authentication_success"
+   ],
+   "srcip": "192.168.x.x",
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:41.065+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5501",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session opened.",
+   "groups": [
+    "syslog",
+    "authentication_success"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:41.065+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5502",
+   "level": 3,
+   "severity": "low",
+   "description": "PAM: Login session closed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:41.065+0000",
+   "agent": "wazuh-server",
+   "rule_id": "5402",
+   "level": 3,
+   "severity": "low",
+   "description": "Successful sudo to ROOT executed.",
+   "groups": [
+    "syslog"
+   ],
+   "srcip": null,
+   "location": "journald"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:38.018+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19003",
+   "level": 5,
+   "severity": "medium",
+   "description": "SCA summary: CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Score less than 80% (52)",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:34.439+0000",
+   "agent": "bluepeak-aws",
+   "rule_id": "19004",
+   "level": 7,
+   "severity": "medium",
+   "description": "SCA summary: CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Score less than 50% (41)",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:30.969+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure root is the only UID 0 account.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:30.479+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure password fields are not empty.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:30.471+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19007",
+   "level": 7,
+   "severity": "medium",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure accounts in /etc/passwd use shadowed passwords.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:30.285+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure sticky bit is set on all world-writable directories.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:30.273+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure permissions on /etc/gshadow- are configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:30.260+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure permissions on /etc/shadow- are configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:30.260+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure permissions on /etc/gshadow are configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:30.004+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure permissions on /etc/shadow are configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.994+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure permissions on /etc/group- are configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.816+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure permissions on /etc/group are configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.799+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure permissions on /etc/passwd are configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.799+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure permissions on /etc/passwd- are configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.572+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure permissions on /etc/passwd are configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.560+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure default group for the root account is GID 0.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.542+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure default group for the root account is GID 0.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.319+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19007",
+   "level": 7,
+   "severity": "medium",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure inactive password lock is 30 days or less.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.307+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure password expiration warning days is 7 or more.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.306+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19007",
+   "level": 7,
+   "severity": "medium",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure password expiration is 365 days or less.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.306+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19007",
+   "level": 7,
+   "severity": "medium",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure minimum days between password changes is 7 or more.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.045+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19007",
+   "level": 7,
+   "severity": "medium",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure password hashing algorithm is SHA-512.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:29.002+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure password reuse is limited.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.998+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure lockout for failed password attempts is configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.750+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure password creation requirements are configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.713+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure access to the su command is restricted.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.713+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure authselect includes with-faillock.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.694+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure sudo authentication timeout is configured correctly.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.570+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure re-authentication for privilege escalation is not disabled globally.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.564+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure users must provide password for escalation.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.553+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure sudo log file exists.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.536+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19008",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure sudo is installed.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.536+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure sudo commands use pty.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.284+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure SSH Idle Timeout Interval is configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:28.267+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure SSH LoginGraceTime is set to one minute or less.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:27.998+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure SSH MaxSessions is set to 10 or less.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:27.998+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure SSH MaxStartups is configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:27.980+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure SSH MaxAuthTries is set to 4 or less.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  },
+  {
+   "timestamp": "2026-11-20T04:28:27.964+0000",
+   "agent": "novatrail-gcp",
+   "rule_id": "19009",
+   "level": 3,
+   "severity": "low",
+   "description": "CIS Benchmark for Amazon Linux 2023 Benchmark v1.0.0.: Ensure SSH warning banner is configured.",
+   "groups": [
+    "sca"
+   ],
+   "srcip": null,
+   "location": "sca"
+  }
+ ]
+}
