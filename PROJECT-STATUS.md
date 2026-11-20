@@ -17,7 +17,7 @@ Running cloud cost: ~$3.60/month (GCP static IPv4 only); everything else free-ti
 
 ## SOC state (Phase 6)
 
-- Tailscale mesh: wazuh-manager / bluepeak-aws (<bluepeak-tailscale-ip>) / novatrail-gcp (<novatrail-tailscale-ip>), account <tailscale-account>.
+- Tailscale mesh: wazuh-manager / bluepeak-aws (<bluepeak-tailscale-ip>) / novatrail-gcp (<novatrail-tailscale-ip>), account <<tailscale-account>>.
 - Agents: 015 bluepeak-aws (native RPM on EC2), 016 novatrail-gcp (container on COS). Both Active at last check.
 - Enrollment password ENFORCED (use_password=yes); passwordless attempts rejected.
 - Detection verified: simulated SSH brute force → rules 5710 (lvl 5) + 5712 (lvl 10), PCI/GDPR/NIST tags.
