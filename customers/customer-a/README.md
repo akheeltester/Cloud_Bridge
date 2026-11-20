@@ -1,4 +1,4 @@
-/# Jigsaw
+# Jigsaw
 
 Jigsaw is a workplace-systems company site and employee portal.
 
@@ -21,7 +21,7 @@ The app listens on port 8080. Sign-in is email and password, or Google / X. Dire
 Jigsaw is deployed on GCP Cloud Run (project `iconic-being-431804-c2`,
 region `australia-southeast1`, free-tier posture):
 
-- URL: https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app
+- URL: <https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app>
 - Verified: `/`, `/login`, `/portal` return 200; account sign-up succeeds
   (embedded-DB write). Data is demo-only and not durable across cold starts.
 - IaC: `terraform/gcp/environments/customer-a`; deploy script:
