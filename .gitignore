@@ -148,3 +148,4 @@ temp/
 *.tmp
 *.temp
 .aider*
+PROJECT-STATUS.local.md

@@ -6,7 +6,7 @@ Last updated: 2026-11-20 · All 8 roadmap phases implemented and verified.
 
 | Workload | Cloud | Endpoint | Access |
 |---|---|---|---|
-| BluePeak (customer-b) | AWS EC2 ap-southeast-2 + private S3 | <https://cloudbridge-bluepeak.duckdns.org> | SSH: `ssh -i ~/Desktop/C-Loud/<local-ssh-key> ec2-user@<ec2-public-ip>` |
+| BluePeak (customer-b) | AWS EC2 ap-southeast-2 + private S3 | <https://cloudbridge-bluepeak.duckdns.org> | SSH: key-based (key kept locally, never committed) |
 | Jigsaw (customer-a) | GCP Cloud Run australia-southeast1 | <https://cloudbridge-jigsaw-j2qhkxzfka-ts.a.run.app> | gcloud (project iconic-being-431804-c2) |
 | NovaTrail (customer-c) | GCP e2-micro VM us-central1-a (COS) | <https://novatrail.duckdns.org> | IAP-only: `gcloud compute ssh cloudbridge-novaretail --zone us-central1-a --project iconic-being-431804-c2 --tunnel-through-iap` |
 | Dashboard | GitHub Pages | <https://akheeltester.github.io/Cloud_Bridge/> | repo akheeltester/Cloud_Bridge, auto-deploys on push |
@@ -53,10 +53,3 @@ Running cloud cost: ~$3.60/month (GCP static IPv4 only); everything else free-ti
 4. Custom detection rules + incident-response playbooks.
 5. Azure App Service deployment (IaC validated in terraform/azure; blocked — no card).
 6. Automated SOC sync (cron) instead of manual runs.
-
-## Key commits (2026-11-19/20)
-
-c3a99ad Jigsaw PGlite fix → 5186c6e NovaTrail VM IaC → ee7a799 NovaTrail rebrand →
-86859b7 dashboard portfolio upgrade → 6287cac remove "portfolio" keyword →
-aa4d166 Phase 6 SOC live → 3e2ee97 hardening (SSH + enrollment password) →
-e7f14d1 architecture diagram (cloudbridge-architecture.html/.png).
