@@ -1,0 +1,33 @@
+I gave three fictional companies a real multi-cloud infrastructure — then attacked it to prove the security works.
+
+The project is called CloudBridge.
+
+The idea: simulate what a cloud consultancy actually does, end to end. Onboard a customer, containerize their app, provision infrastructure with Terraform, ship it through CI/CD, scan everything, fix what matters, and monitor it all from one dashboard.
+
+No slides. Real deployments.
+
+What's live today:
+
+☁️ 3 workloads across 2 clouds — AWS EC2 + S3, GCP Cloud Run, GCP Compute Engine — all HTTPS, all health-checked
+🔧 Terraform everywhere, plan-first, free-tier posture (~$3.60/month total)
+🔁 GitHub Actions CI/CD: secret scanning → IaC validation → security scans → auto-deployed dashboard
+🛡️ Real security results: container criticals 7→1, IaC findings 22→16, internet-wide SSH/RDP removed
+🚨 A working SOC: Wazuh agents on both clouds over a private Tailscale mesh
+
+The best part?
+
+I simulated an SSH brute-force attack against one of my own deployments — and watched the SIEM catch it: rule 5712, severity 10, with PCI DSS / GDPR / NIST compliance tags attached automatically.
+
+Over 1,000 real alerts in the first 24 hours. All visible on the public dashboard, sanitized for display.
+
+Every claim on that dashboard is backed by scan output, deployment logs, or a live endpoint you can click.
+
+That's the standard I wanted to hold myself to: not "I learned X" — but "I built X, broke it, fixed it, and can show you."
+
+Explore it yourself:
+🔗 Dashboard + live demos: https://akheeltester.github.io/Cloud_Bridge/
+💻 Code: https://github.com/akheeltester/Cloud_Bridge
+
+Built with: Terraform · Docker · GitHub Actions · Checkov · Trivy · Prowler · Wazuh · Tailscale · Caddy
+
+#CloudEngineering #DevSecOps #AWS #GCP #Terraform #CyberSecurity #SOC #Wazuh #InfrastructureAsCode #LearningByBuilding
